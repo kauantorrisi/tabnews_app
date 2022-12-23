@@ -1,7 +1,7 @@
-import 'package:tabnews_app/features/tabnews/domain/entities/tab_entity.dart';
+import 'package:tabnews_app/features/tabnews/data/models/tab_model.dart';
 
-final List<TabEntity> tListTabEntities = [
-  TabEntity(
+final List<TabModel> tListTabModels = [
+  TabModel(
     id: 'id',
     ownerId: 'ownerId',
     parentId: 'parentId',
@@ -17,7 +17,7 @@ final List<TabEntity> tListTabEntities = [
     ownerUsername: 'ownerUsername',
     childrenDeepCount: 1,
   ),
-  TabEntity(
+  TabModel(
     id: 'id',
     ownerId: 'ownerId',
     parentId: 'parentId',
