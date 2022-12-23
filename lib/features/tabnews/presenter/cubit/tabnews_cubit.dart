@@ -9,19 +9,35 @@ import 'package:tabnews_app/features/tabnews/domain/usecases/get_all_tabs_usecas
 part 'tabnews_state.dart';
 
 class TabnewsCubit extends Cubit<TabnewsState> {
-  final GetAllTabsUsecase usecase;
+  final GetAllTabsUsecase getAllTabsUsecase;
 
-  TabnewsCubit(this.usecase) : super(TabnewsInitial());
+  TabnewsCubit(this.getAllTabsUsecase) : super(TabnewsInitial());
 
-  List<TabEntity> tabsList = [];
+  List<TabEntity> revelantTabsList = [];
+  List<TabEntity> recentTabsList = [];
+  bool isInRevelantPage = true;
 
   Future<void> getRevelantTabs() async {
     emit(TabNewsLoading());
-    final results =
-        await usecase(const Params(page: 1, perPage: 30, strategy: 'relevant'));
-    results.forEach((tabList) {
-      tabsList.addAll(tabList);
-    });
+    final results = await getAllTabsUsecase(
+        const Params(page: 1, perPage: 30, strategy: 'relevant'));
+    if (revelantTabsList.isEmpty) {
+      results.forEach((tabList) {
+        revelantTabsList.addAll(tabList);
+      });
+    }
+    results.fold((l) => emit(TabNewsError()), (r) => emit(TabNewsSuccessful()));
+  }
+
+  Future<void> getRecentTabs() async {
+    emit(TabNewsLoading());
+    final results = await getAllTabsUsecase(
+        const Params(page: 1, perPage: 30, strategy: 'new'));
+    if (recentTabsList.isEmpty) {
+      results.forEach((tabList) {
+        recentTabsList.addAll(tabList);
+      });
+    }
     results.fold((l) => emit(TabNewsError()), (r) => emit(TabNewsSuccessful()));
   }
 }
