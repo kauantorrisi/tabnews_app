@@ -23,7 +23,7 @@ class TabnewsCubit extends Cubit<TabnewsState> {
 
   List<TabEntity> relevantTabsList = [];
   List<TabEntity> recentTabsList = [];
-  late TabEntity tabEntity;
+  late TabEntity pressedTab;
   bool isInRelevantPage = true;
 
   Future<void> getRelevantTabs() async {
@@ -50,7 +50,7 @@ class TabnewsCubit extends Cubit<TabnewsState> {
     results.fold((l) => emit(TabNewsError()), (r) => emit(TabNewsSuccessful()));
   }
 
-  Future<TabEntity> getTab({required int index}) async {
+  Future<void> getTab({required int index}) async {
     emit(TabNewsLoading());
     if (isInRelevantPage == true) {
       final result = await getTabUsecase(GetTabParams(
@@ -58,7 +58,7 @@ class TabnewsCubit extends Cubit<TabnewsState> {
           slug: relevantTabsList[index].slug));
       result.fold((l) => emit(TabNewsError()), (tab) {
         emit(TabNewsSuccessful());
-        tabEntity = tab;
+        pressedTab = tab;
       });
     } else {
       final result = await getTabUsecase(GetTabParams(
@@ -66,9 +66,8 @@ class TabnewsCubit extends Cubit<TabnewsState> {
           slug: recentTabsList[index].slug));
       result.fold((l) => emit(TabNewsError()), (tab) {
         emit(TabNewsSuccessful());
-        tabEntity = tab;
+        pressedTab = tab;
       });
     }
-    return tabEntity;
   }
 }
