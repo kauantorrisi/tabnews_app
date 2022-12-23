@@ -6,24 +6,24 @@ import 'package:tabnews_app/core/usecases/usecase.dart';
 import 'package:tabnews_app/features/tabnews/domain/entities/tab_entity.dart';
 import 'package:tabnews_app/features/tabnews/domain/repositories/i_tabnews_repository.dart';
 
-class GetAllTabsUsecase implements Usecase<List<TabEntity>, Params> {
+class GetAllTabsUsecase implements Usecase<List<TabEntity>, GetAllTabsParams> {
   final ITabNewsRepository repository;
 
   GetAllTabsUsecase(this.repository);
 
   @override
-  Future<Either<Failure, List<TabEntity>>> call(Params params) async {
+  Future<Either<Failure, List<TabEntity>>> call(GetAllTabsParams params) async {
     return await repository.getAllTabs(
         params.page, params.perPage, params.strategy);
   }
 }
 
-class Params extends Equatable {
+class GetAllTabsParams extends Equatable {
   final int page;
   final int perPage;
   final String strategy;
 
-  const Params(
+  const GetAllTabsParams(
       {required this.page, required this.perPage, required this.strategy});
 
   @override

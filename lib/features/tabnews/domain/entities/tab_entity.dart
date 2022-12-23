@@ -7,6 +7,7 @@ class TabEntity extends Equatable {
     required this.parentId,
     required this.slug,
     required this.title,
+    required this.body,
     required this.status,
     required this.sourceUrl,
     required this.createdAt,
@@ -23,6 +24,7 @@ class TabEntity extends Equatable {
   final dynamic parentId;
   final String slug;
   final String title;
+  final String? body;
   final String status;
   final dynamic sourceUrl;
   final DateTime createdAt;
@@ -40,6 +42,7 @@ class TabEntity extends Equatable {
         parentId,
         slug,
         title,
+        body,
         status,
         sourceUrl,
         createdAt,

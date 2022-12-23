@@ -23,8 +23,8 @@ void main() {
       () async {
     final GetAllTabsUsecase usecase = Modular.get<GetAllTabsUsecase>();
 
-    final result =
-        await usecase(const Params(page: 1, perPage: 10, strategy: 'relevant'));
+    final result = await usecase(
+        const GetAllTabsParams(page: 1, perPage: 10, strategy: 'relevant'));
 
     expect(result, isA<Right<Failure, List<TabEntity>>>());
   });

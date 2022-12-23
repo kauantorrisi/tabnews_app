@@ -24,8 +24,8 @@ void main() {
     when(() => mockTabNewsRepository.getAllTabs(any(), any(), any()))
         .thenAnswer((_) async => Right(tListTabEntities));
 
-    final result =
-        await usecase(const Params(page: 1, perPage: 1, strategy: 'strategy'));
+    final result = await usecase(
+        const GetAllTabsParams(page: 1, perPage: 1, strategy: 'strategy'));
 
     expect(result, isA<Right>());
     expect(result, equals(Right(tListTabEntities)));

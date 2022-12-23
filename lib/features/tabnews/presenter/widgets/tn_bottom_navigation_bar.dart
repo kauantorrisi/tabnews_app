@@ -10,13 +10,13 @@ class TNBottomNavigationBar extends StatelessWidget {
     super.key,
     required this.onPressedInRelevantButton,
     required this.onPressedInRecentButton,
-    this.colorRevelantIcon,
+    this.colorRelevantIcon,
     this.colorRecentIcon,
   });
 
   final Function()? onPressedInRelevantButton;
   final Function()? onPressedInRecentButton;
-  final Color? colorRevelantIcon;
+  final Color? colorRelevantIcon;
   final Color? colorRecentIcon;
 
   final TabnewsCubit cubit = Modular.get<TabnewsCubit>();
@@ -40,7 +40,7 @@ class TNBottomNavigationBar extends StatelessWidget {
                 icon: Icon(
                   Icons.bar_chart_rounded,
                   size: 35,
-                  color: colorRevelantIcon,
+                  color: colorRelevantIcon,
                 ),
               ),
               const Spacer(flex: 4),

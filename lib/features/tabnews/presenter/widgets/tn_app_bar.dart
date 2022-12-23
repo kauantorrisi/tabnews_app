@@ -17,7 +17,7 @@ class _TNAppBarState extends State<TNAppBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 60.h,
+      height: 50.h,
       decoration: BoxDecoration(color: AppColors.darkGrey),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),

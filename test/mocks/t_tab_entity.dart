@@ -6,6 +6,7 @@ final TabEntity tTabEntity = TabEntity(
   parentId: 'parentId',
   slug: 'slug',
   title: 'title',
+  body: null,
   status: 'status',
   sourceUrl: 'sourceUrl',
   createdAt: DateTime(2022, 12, 22),

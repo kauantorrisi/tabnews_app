@@ -11,19 +11,19 @@ import 'package:tabnews_app/features/tabnews/presenter/widgets/tn_bottom_navigat
 import 'package:tabnews_app/features/tabnews/presenter/widgets/tn_user_fab.dart';
 import 'package:tabnews_app/libraries/common/design/app_colors.dart';
 
-class RevelantTabsPage extends StatefulWidget {
-  const RevelantTabsPage({super.key});
+class TabsPage extends StatefulWidget {
+  const TabsPage({super.key});
 
   @override
-  State<RevelantTabsPage> createState() => _RevelantTabsPageState();
+  State<TabsPage> createState() => _TabsPageState();
 }
 
-class _RevelantTabsPageState extends State<RevelantTabsPage> {
+class _TabsPageState extends State<TabsPage> {
   final cubit = Modular.get<TabnewsCubit>();
 
   @override
   void initState() {
-    cubit.getRevelantTabs();
+    cubit.getRelevantTabs();
     super.initState();
   }
 
@@ -34,15 +34,15 @@ class _RevelantTabsPageState extends State<RevelantTabsPage> {
         bloc: cubit,
         builder: (context, state) {
           if (state == TabNewsLoading()) {
-            return _screenBody(cubit.revelantTabsList, state);
+            return _screenBody(cubit.relevantTabsList, state);
           } else if (state == TabNewsError()) {
             return const Center(child: Text('INTERNAL ERROR'));
-          } else if (state == TabNewsSuccessful() &&
-              cubit.isInRevelantPage == true) {
-            return _screenBody(cubit.revelantTabsList, state);
-          } else if (state == TabNewsSuccessful() &&
-              cubit.isInRevelantPage == false) {
-            return _screenBody(cubit.recentTabsList, state);
+          } else if (state == TabNewsSuccessful()) {
+            late Widget screen;
+            cubit.isInRelevantPage == true
+                ? screen = _screenBody(cubit.relevantTabsList, state)
+                : screen = _screenBody(cubit.recentTabsList, state);
+            return screen;
           } else {
             return Container();
           }
@@ -71,17 +71,17 @@ class _RevelantTabsPageState extends State<RevelantTabsPage> {
                 ),
                 bottomNavigationBar: TNBottomNavigationBar(
                   onPressedInRelevantButton: () {
-                    cubit.isInRevelantPage = true;
-                    cubit.getRevelantTabs();
+                    cubit.isInRelevantPage = true;
+                    cubit.getRelevantTabs();
                   },
-                  colorRevelantIcon: cubit.isInRevelantPage == true
+                  colorRelevantIcon: cubit.isInRelevantPage == true
                       ? AppColors.blue
                       : AppColors.white,
                   onPressedInRecentButton: () {
-                    cubit.isInRevelantPage = false;
+                    cubit.isInRelevantPage = false;
                     cubit.getRecentTabs();
                   },
-                  colorRecentIcon: cubit.isInRevelantPage == false
+                  colorRecentIcon: cubit.isInRelevantPage == false
                       ? AppColors.blue
                       : AppColors.white,
                 ),
@@ -98,42 +98,51 @@ class _RevelantTabsPageState extends State<RevelantTabsPage> {
                       itemBuilder: (context, index) {
                         return Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            decoration: const BoxDecoration(),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Center(
-                                  child: Text(
-                                    '${index + 1}. ${tabsList[index].title}',
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                      color: AppColors.white,
+                          child: GestureDetector(
+                            onTap: () async {
+                              await cubit.getTab(index: index);
+                              Modular.to.pushNamed(
+                                '/pressed-tab-page',
+                                arguments: cubit,
+                              );
+                            },
+                            child: Container(
+                              decoration: const BoxDecoration(),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Center(
+                                    child: Text(
+                                      '${index + 1}. ${tabsList[index].title}',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        color: AppColors.white,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                      overflow: TextOverflow.clip,
                                     ),
-                                    textAlign: TextAlign.center,
-                                    overflow: TextOverflow.clip,
                                   ),
-                                ),
-                                RichText(
-                                  text: TextSpan(
-                                    text:
-                                        '${tabsList[index].tabcoins} tabcoins • ',
-                                    style:
-                                        TextStyle(color: AppColors.lightGrey),
-                                    children: [
-                                      TextSpan(
-                                        text:
-                                            '${tabsList[index].childrenDeepCount} comentários • ',
-                                      ),
-                                      TextSpan(
-                                        text: tabsList[index].ownerUsername,
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              ],
+                                  RichText(
+                                    text: TextSpan(
+                                      text:
+                                          '${tabsList[index].tabcoins} tabcoins • ',
+                                      style:
+                                          TextStyle(color: AppColors.lightGrey),
+                                      children: [
+                                        TextSpan(
+                                          text:
+                                              '${tabsList[index].childrenDeepCount} comentários • ',
+                                        ),
+                                        TextSpan(
+                                          text: tabsList[index].ownerUsername,
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         );
@@ -150,17 +159,17 @@ class _RevelantTabsPageState extends State<RevelantTabsPage> {
               ),
               bottomNavigationBar: TNBottomNavigationBar(
                 onPressedInRelevantButton: () {
-                  cubit.isInRevelantPage = true;
-                  cubit.getRevelantTabs();
+                  cubit.isInRelevantPage = true;
+                  cubit.getRelevantTabs();
                 },
-                colorRevelantIcon: cubit.isInRevelantPage == true
+                colorRelevantIcon: cubit.isInRelevantPage == true
                     ? AppColors.blue
                     : AppColors.white,
                 onPressedInRecentButton: () {
-                  cubit.isInRevelantPage = false;
+                  cubit.isInRelevantPage = false;
                   cubit.getRecentTabs();
                 },
-                colorRecentIcon: cubit.isInRevelantPage == false
+                colorRecentIcon: cubit.isInRelevantPage == false
                     ? AppColors.blue
                     : AppColors.white,
               ),

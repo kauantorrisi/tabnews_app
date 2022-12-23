@@ -23,4 +23,30 @@ class TabNewsRepository implements ITabNewsRepository {
       rethrow;
     }
   }
+
+  @override
+  Future<Either<Failure, TabEntity>> getTab(
+      String ownerUsername, String slug) async {
+    try {
+      final response = await datasource.getTab(ownerUsername, slug);
+      return Right(response);
+    } on ServerException {
+      return Left(ServerFailure());
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<TabEntity>>> getTabComments(
+      String ownerUsername, String slug) async {
+    try {
+      final response = await datasource.getTabComments(ownerUsername, slug);
+      return Right(response);
+    } on ServerException {
+      return Left(ServerFailure());
+    } catch (e) {
+      rethrow;
+    }
+  }
 }
