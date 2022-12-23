@@ -25,9 +25,9 @@ class TabEntity extends Equatable {
   final String title;
   final String status;
   final dynamic sourceUrl;
-  final String createdAt;
-  final String updatedAt;
-  final String publishedAt;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final DateTime publishedAt;
   final dynamic deletedAt;
   final int tabcoins;
   final String ownerUsername;
