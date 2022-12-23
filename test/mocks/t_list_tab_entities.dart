@@ -1,0 +1,36 @@
+import 'package:tabnews_app/features/tabnews/domain/entities/tab_entity.dart';
+
+final List<TabEntity> tListTabEntities = [
+  const TabEntity(
+    id: 'id',
+    ownerId: 'ownerId',
+    parentId: 'parentId',
+    slug: 'slug',
+    title: 'title',
+    status: 'status',
+    sourceUrl: 'sourceUrl',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    publishedAt: 'publishedAt',
+    deletedAt: 'deletedAt',
+    tabcoins: 1,
+    ownerUsername: 'ownerUsername',
+    childrenDeepCount: 1,
+  ),
+  const TabEntity(
+    id: 'id',
+    ownerId: 'ownerId',
+    parentId: 'parentId',
+    slug: 'slug',
+    title: 'title',
+    status: 'status',
+    sourceUrl: 'sourceUrl',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    publishedAt: 'publishedAt',
+    deletedAt: 'deletedAt',
+    tabcoins: 1,
+    ownerUsername: 'ownerUsername',
+    childrenDeepCount: 1,
+  ),
+];
