@@ -16,6 +16,8 @@ dependencies:
   flutter_bloc: any
   flutter_modular: any
   flutter_screenutil: any
+  flutter_markdown: any
+  url_launcher: ^6.1.7
 
 dev_dependencies:
   flutter_test:

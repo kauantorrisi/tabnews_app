@@ -1,4 +1,3 @@
-import 'package:dartz/dartz_unsafe.dart';
 import 'package:dio/dio.dart';
 
 import 'package:tabnews_app/core/errors/app_exceptions.dart';
