@@ -45,8 +45,9 @@ class TabNewsDatasource implements ITabNewsDatasource {
   Future<List<TabModel>> getTabComments(
       String ownerUsername, String slug) async {
     List<TabModel> tabsList = [];
-    Response results = await dio.get('');
-    List<dynamic> response = results.data;
+    Response results = await dio.get(
+        'https://www.tabnews.com.br/api/v1/contents/$ownerUsername/$slug/children');
+    List<TabModel> response = results.data;
     if (results.statusCode == 200) {
       for (var tab in response) {
         tabsList.add(tab);

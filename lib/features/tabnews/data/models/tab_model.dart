@@ -19,6 +19,7 @@ class TabModel extends TabEntity {
     required super.tabcoins,
     required super.ownerUsername,
     required super.childrenDeepCount,
+    required super.children,
   });
 
   factory TabModel.fromRawJson(String str) =>
@@ -42,6 +43,7 @@ class TabModel extends TabEntity {
         tabcoins: json["tabcoins"],
         ownerUsername: json["owner_username"],
         childrenDeepCount: json["children_deep_count"],
+        children: json["children"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -60,6 +62,7 @@ class TabModel extends TabEntity {
         "tabcoins": tabcoins,
         "owner_username": ownerUsername,
         "children_deep_count": childrenDeepCount,
+        "children": children,
       };
 
   @override
@@ -78,5 +81,6 @@ class TabModel extends TabEntity {
         tabcoins,
         ownerUsername,
         childrenDeepCount,
+        children,
       ];
 }

@@ -2,6 +2,7 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:tabnews_app/core/usecases/usecase.dart';
 
 import 'package:tabnews_app/features/tabnews/domain/entities/tab_entity.dart';
 import 'package:tabnews_app/features/tabnews/domain/usecases/get_all_tabs_usecase.dart';
@@ -23,6 +24,7 @@ class TabnewsCubit extends Cubit<TabnewsState> {
 
   List<TabEntity> relevantTabsList = [];
   List<TabEntity> recentTabsList = [];
+  // List<TabEntity> tabCommentsList = [];
   late TabEntity pressedTab;
   bool isInRelevantPage = true;
 
@@ -69,5 +71,15 @@ class TabnewsCubit extends Cubit<TabnewsState> {
         pressedTab = tab;
       });
     }
+  }
+
+  Future<void> getTabComments(String ownerUsername, String slug) async {
+    emit(TabNewsLoading());
+    final results = await getTabCommentsUsecase(
+        GetTabCommentsParams(ownerUsername: ownerUsername, slug: slug));
+    results.forEach((comment) {
+      pressedTab.children?.add(comment);
+    });
+    results.fold((l) => emit(TabNewsError()), (r) => emit(TabNewsSuccessful()));
   }
 }

@@ -11,4 +11,6 @@ abstract class ITabNewsRepository {
 
   Future<Either<Failure, List<TabEntity>>> getTabComments(
       String ownerUsername, String slug);
+
+  // TODO UP-VOTE AND DOWN-VOTE GET REQUEST
 }

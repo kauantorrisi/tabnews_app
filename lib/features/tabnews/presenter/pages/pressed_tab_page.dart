@@ -8,21 +8,10 @@ import 'package:tabnews_app/features/tabnews/presenter/cubit/tabnews_cubit.dart'
 import 'package:tabnews_app/libraries/common/design/app_colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class PressedTabPage extends StatefulWidget {
+class PressedTabPage extends StatelessWidget {
   const PressedTabPage({super.key, required this.cubit});
 
   final TabnewsCubit cubit;
-
-  @override
-  State<PressedTabPage> createState() => _PressedTabPageState();
-}
-
-class _PressedTabPageState extends State<PressedTabPage> {
-  @override
-  void initState() {
-    widget.cubit;
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,14 +23,16 @@ class _PressedTabPageState extends State<PressedTabPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _tNAppBar(
-              Text(
-                widget.cubit.pressedTab.title,
-                style: TextStyle(
-                  color: AppColors.white,
-                  fontSize: 20,
-                  overflow: TextOverflow.ellipsis,
+              SizedBox(
+                width: 200.w,
+                child: Text(
+                  cubit.pressedTab.title,
+                  style: TextStyle(
+                    color: AppColors.white,
+                    fontSize: 20,
+                  ),
+                  overflow: TextOverflow.clip,
                 ),
-                overflow: TextOverflow.ellipsis,
               ),
             ),
             _ownerOfTab(),
@@ -61,7 +52,14 @@ class _PressedTabPageState extends State<PressedTabPage> {
       child: Row(
         children: [
           IconButton(
-            onPressed: () => Modular.to.pop(),
+            onPressed: () {
+              Modular.to.pop();
+              if (cubit.isInRelevantPage == true) {
+                cubit.getRelevantTabs();
+              } else {
+                cubit.getRecentTabs();
+              }
+            },
             icon: Icon(
               Icons.arrow_back,
               size: 30,
@@ -94,7 +92,7 @@ class _PressedTabPageState extends State<PressedTabPage> {
         ),
         child: Center(
           child: Text(
-            widget.cubit.pressedTab.ownerUsername,
+            cubit.pressedTab.ownerUsername,
             style: TextStyle(
               color: AppColors.black,
               fontSize: 16,
@@ -109,7 +107,7 @@ class _PressedTabPageState extends State<PressedTabPage> {
     return Expanded(
       child: Markdown(
         selectable: true,
-        data: widget.cubit.pressedTab.body.toString(),
+        data: cubit.pressedTab.body.toString(),
         onTapLink: (text, href, title) {
           if (href != null) {
             launchUrl(Uri.parse(href.toString()));
@@ -132,10 +130,57 @@ class _PressedTabPageState extends State<PressedTabPage> {
   Widget _commentsOfTab() {
     return Expanded(
       child: ListView.builder(
-        itemCount: widget.cubit.pressedTab.childrenDeepCount,
+        itemCount: cubit.pressedTab.children!.length,
         itemBuilder: (context, index) {
           return Column(
-            children: [],
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  color: AppColors.black,
+                  border: Border.all(
+                    color: AppColors.white,
+                    width: 1,
+                  ),
+                ),
+                padding: const EdgeInsets.all(10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Center(
+                      child: Text(
+                        '${index + 1}. ${cubit.pressedTab.children![index].title}',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.white,
+                        ),
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.clip,
+                      ),
+                    ),
+                    RichText(
+                      text: TextSpan(
+                        text:
+                            '${cubit.pressedTab.children![index].tabcoins} tabcoins • ',
+                        style: TextStyle(color: AppColors.lightGrey),
+                        children: [
+                          TextSpan(
+                            text:
+                                '${cubit.pressedTab.children![index].childrenDeepCount} comentários • ',
+                          ),
+                          TextSpan(
+                            text:
+                                cubit.pressedTab.children![index].ownerUsername,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           );
         },
       ),
@@ -149,13 +194,13 @@ class _PressedTabPageState extends State<PressedTabPage> {
         IconButton(
           onPressed: () {},
           icon: Icon(
-            Icons.arrow_drop_up_rounded,
+            Icons.keyboard_arrow_up,
             color: AppColors.green,
             size: 30,
           ),
         ),
         Text(
-          widget.cubit.pressedTab.tabcoins.toString(),
+          cubit.pressedTab.tabcoins.toString(),
           style: TextStyle(
             color: AppColors.white,
             fontSize: 16,
@@ -164,7 +209,7 @@ class _PressedTabPageState extends State<PressedTabPage> {
         IconButton(
           onPressed: () {},
           icon: Icon(
-            Icons.arrow_drop_down_rounded,
+            Icons.keyboard_arrow_down,
             color: AppColors.red,
             size: 30,
           ),
@@ -172,7 +217,7 @@ class _PressedTabPageState extends State<PressedTabPage> {
         const Spacer(flex: 2),
         Icon(Icons.chat_bubble_outline, color: AppColors.white),
         Text(
-          widget.cubit.pressedTab.childrenDeepCount.toString(),
+          cubit.pressedTab.childrenDeepCount.toString(),
           style: TextStyle(
             color: AppColors.white,
             fontSize: 16,

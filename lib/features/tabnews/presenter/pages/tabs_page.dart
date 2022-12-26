@@ -144,7 +144,15 @@ class _TabsPageState extends State<TabsPage> {
           );
         },
         child: Container(
-          decoration: const BoxDecoration(),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            color: AppColors.black,
+            border: Border.all(
+              color: AppColors.white,
+              width: 1,
+            ),
+          ),
+          padding: const EdgeInsets.all(10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -175,7 +183,7 @@ class _TabsPageState extends State<TabsPage> {
                     ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),

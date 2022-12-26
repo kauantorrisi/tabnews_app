@@ -17,6 +17,7 @@ class TabEntity extends Equatable {
     required this.tabcoins,
     required this.ownerUsername,
     required this.childrenDeepCount,
+    required this.children,
   });
 
   final String id;
@@ -34,6 +35,7 @@ class TabEntity extends Equatable {
   final int tabcoins;
   final String ownerUsername;
   final int childrenDeepCount;
+  final List<dynamic>? children;
 
   @override
   List<Object?> get props => [
@@ -52,5 +54,6 @@ class TabEntity extends Equatable {
         tabcoins,
         ownerUsername,
         childrenDeepCount,
+        children,
       ];
 }
