@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_markdown/flutter_markdown.dart';
+
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -22,22 +22,10 @@ class PressedTabPage extends StatelessWidget {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _tNAppBar(
-              SizedBox(
-                width: 200.w,
-                child: Text(
-                  cubit.pressedTab.title,
-                  style: TextStyle(
-                    color: AppColors.white,
-                    fontSize: 20,
-                  ),
-                  overflow: TextOverflow.clip,
-                ),
-              ),
-            ),
+            _tNAppBar(),
             _ownerOfTab(),
             _bodyOfTab(),
-            // _commentsOfTab(),
+            _commentsOfTab(),
             _bottomStatusBar(),
           ],
         ),
@@ -45,19 +33,19 @@ class PressedTabPage extends StatelessWidget {
     );
   }
 
-  Widget _tNAppBar(Widget text) {
+  Widget _tNAppBar() {
     return Container(
       height: 50.h,
       decoration: BoxDecoration(color: AppColors.darkGrey),
       child: Row(
         children: [
           IconButton(
-            onPressed: () {
+            onPressed: () async {
               Modular.to.pop();
               if (cubit.isInRelevantPage == true) {
-                cubit.getRelevantTabs();
+                await cubit.getRelevantTabs();
               } else {
-                cubit.getRecentTabs();
+                await cubit.getRecentTabs();
               }
             },
             icon: Icon(
@@ -67,7 +55,18 @@ class PressedTabPage extends StatelessWidget {
             ),
           ),
           const Spacer(flex: 5),
-          text,
+          SizedBox(
+            width: 250.w,
+            child: Text(
+              cubit.pressedTab.title ?? '',
+              style: TextStyle(
+                color: AppColors.white,
+                fontSize: 16,
+              ),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
           const Spacer(flex: 5),
           IconButton(
             onPressed: () {},
@@ -105,24 +104,45 @@ class PressedTabPage extends StatelessWidget {
 
   Widget _bodyOfTab() {
     return Expanded(
-      child: Markdown(
-        selectable: true,
-        data: cubit.pressedTab.body.toString(),
-        onTapLink: (text, href, title) {
-          if (href != null) {
-            launchUrl(Uri.parse(href.toString()));
-          }
-        },
-        styleSheet: MarkdownStyleSheet(
-          a: TextStyle(color: AppColors.blue, fontSize: 16),
-          h1: TextStyle(color: AppColors.white, fontSize: 28),
-          h2: TextStyle(color: AppColors.white, fontSize: 26),
-          h3: TextStyle(color: AppColors.white, fontSize: 24),
-          h4: TextStyle(color: AppColors.white, fontSize: 22),
-          h5: TextStyle(color: AppColors.white, fontSize: 20),
-          h6: TextStyle(color: AppColors.white, fontSize: 18),
-          p: TextStyle(color: AppColors.white, fontSize: 16),
-        ),
+      child: Column(
+        children: [
+          Expanded(
+            child: Markdown(
+              selectable: true,
+              data: cubit.pressedTab.body!,
+              onTapLink: (text, href, title) {
+                if (href != null) {
+                  launchUrl(Uri.parse(href.toString()));
+                }
+              },
+              styleSheet: MarkdownStyleSheet(
+                h1: TextStyle(color: AppColors.white, fontSize: 28),
+                h2: TextStyle(color: AppColors.white, fontSize: 26),
+                h3: TextStyle(color: AppColors.white, fontSize: 24),
+                h4: TextStyle(color: AppColors.white, fontSize: 22),
+                h5: TextStyle(color: AppColors.white, fontSize: 20),
+                h6: TextStyle(color: AppColors.white, fontSize: 18),
+                a: TextStyle(color: AppColors.blue, fontSize: 16),
+                p: TextStyle(color: AppColors.white, fontSize: 16),
+                listBullet: TextStyle(color: AppColors.white, fontSize: 16),
+                code: TextStyle(
+                  color: AppColors.white.withAlpha(230),
+                  fontSize: 16,
+                  backgroundColor: AppColors.darkGrey,
+                ),
+                // TODO textScaleFactor adjust with the user choices in settings ,
+                blockquoteDecoration: BoxDecoration(
+                  color: AppColors.darkGrey,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                codeblockDecoration: BoxDecoration(
+                  color: AppColors.darkGrey,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -130,58 +150,10 @@ class PressedTabPage extends StatelessWidget {
   Widget _commentsOfTab() {
     return Expanded(
       child: ListView.builder(
-        itemCount: cubit.pressedTab.children!.length,
+        itemCount: cubit.pressedTab.childrenDeepCount,
         itemBuilder: (context, index) {
-          return Column(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  color: AppColors.black,
-                  border: Border.all(
-                    color: AppColors.white,
-                    width: 1,
-                  ),
-                ),
-                padding: const EdgeInsets.all(10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Center(
-                      child: Text(
-                        '${index + 1}. ${cubit.pressedTab.children![index].title}',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.white,
-                        ),
-                        textAlign: TextAlign.center,
-                        overflow: TextOverflow.clip,
-                      ),
-                    ),
-                    RichText(
-                      text: TextSpan(
-                        text:
-                            '${cubit.pressedTab.children![index].tabcoins} tabcoins • ',
-                        style: TextStyle(color: AppColors.lightGrey),
-                        children: [
-                          TextSpan(
-                            text:
-                                '${cubit.pressedTab.children![index].childrenDeepCount} comentários • ',
-                          ),
-                          TextSpan(
-                            text:
-                                cubit.pressedTab.children![index].ownerUsername,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          );
+          return Center(
+              child: Text(cubit.pressedTab.children![index]?.body ?? ''));
         },
       ),
     );

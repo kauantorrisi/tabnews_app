@@ -1,5 +1,9 @@
 import 'package:equatable/equatable.dart';
 
+// TODO SEPARAR TABENTITY / TABMODEL E CHILDTABENTITY / CHILDTABMODEL
+// O CHILDTABENTITY / CHILDTABMODEL TEM OS PARAMETROS BODY E CHILDREN E ESSE MODEL PRECISA SER ->
+// PASSADO NA PRESSEDTABPAGE.
+
 class TabEntity extends Equatable {
   const TabEntity({
     required this.id,
@@ -16,26 +20,26 @@ class TabEntity extends Equatable {
     required this.deletedAt,
     required this.tabcoins,
     required this.ownerUsername,
-    required this.childrenDeepCount,
     required this.children,
+    required this.childrenDeepCount,
   });
 
   final String id;
   final String ownerId;
   final dynamic parentId;
   final String slug;
-  final String title;
-  final String? body;
+  final dynamic title;
+  final dynamic body;
   final String status;
   final dynamic sourceUrl;
   final DateTime createdAt;
   final DateTime updatedAt;
   final DateTime publishedAt;
-  final dynamic deletedAt;
+  final DateTime? deletedAt;
   final int tabcoins;
   final String ownerUsername;
+  final List<TabEntity?>? children;
   final int childrenDeepCount;
-  final List<dynamic>? children;
 
   @override
   List<Object?> get props => [
@@ -53,7 +57,7 @@ class TabEntity extends Equatable {
         deletedAt,
         tabcoins,
         ownerUsername,
-        childrenDeepCount,
         children,
+        childrenDeepCount,
       ];
 }

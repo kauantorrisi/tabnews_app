@@ -21,7 +21,7 @@ class TabNewsDatasource implements ITabNewsDatasource {
     List<dynamic> response = result.data;
     if (result.statusCode == 200) {
       for (var tab in response) {
-        tabsList.add(TabModel.fromJson(tab));
+        tabsList.add(TabModel.fromMap(tab));
       }
       return tabsList;
     } else {
@@ -34,7 +34,7 @@ class TabNewsDatasource implements ITabNewsDatasource {
     Response result = await dio
         .get('https://www.tabnews.com.br/api/v1/contents/$ownerUsername/$slug');
     if (result.statusCode == 200) {
-      TabModel tabModel = TabModel.fromJson(result.data);
+      TabModel tabModel = TabModel.fromMap(result.data);
       return tabModel;
     } else {
       throw ServerException();
@@ -47,10 +47,10 @@ class TabNewsDatasource implements ITabNewsDatasource {
     List<TabModel> tabsList = [];
     Response results = await dio.get(
         'https://www.tabnews.com.br/api/v1/contents/$ownerUsername/$slug/children');
-    List<TabModel> response = results.data;
+    List<dynamic> response = results.data;
     if (results.statusCode == 200) {
-      for (var tab in response) {
-        tabsList.add(tab);
+      for (var content in response) {
+        tabsList.add(TabModel.fromMap(content));
       }
     } else {
       throw ServerException();
