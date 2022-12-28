@@ -2,7 +2,6 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:tabnews_app/core/usecases/usecase.dart';
 
 import 'package:tabnews_app/features/tabnews/domain/entities/tab_entity.dart';
 import 'package:tabnews_app/features/tabnews/domain/usecases/get_all_tabs_usecase.dart';
@@ -73,12 +72,13 @@ class TabnewsCubit extends Cubit<TabnewsState> {
     }
   }
 
-  Future<void> getTabComments(String ownerUsername, String slug) async {
+  Future<void> getTabComments(
+      {required String ownerUsername, required String slug}) async {
     emit(TabNewsLoading());
     final results = await getTabCommentsUsecase(
         GetTabCommentsParams(ownerUsername: ownerUsername, slug: slug));
-    results.forEach((comment) {
-      pressedTab.children?.add(comment);
+    results.forEach((content) {
+      pressedTab.children?.addAll(content);
     });
     results.fold((l) => emit(TabNewsError()), (r) => emit(TabNewsSuccessful()));
   }

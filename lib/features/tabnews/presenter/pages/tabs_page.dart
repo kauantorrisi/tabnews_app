@@ -89,22 +89,7 @@ class _TabsPageState extends State<TabsPage> {
             icon: Icons.person,
             onPressed: () {},
           ),
-          bottomNavigationBar: TNBottomNavigationBar(
-            onPressedInRelevantButton: () {
-              cubit.isInRelevantPage = true;
-              cubit.getRelevantTabs();
-            },
-            colorRelevantIcon: cubit.isInRelevantPage == true
-                ? AppColors.blue
-                : AppColors.white,
-            onPressedInRecentButton: () {
-              cubit.isInRelevantPage = false;
-              cubit.getRecentTabs();
-            },
-            colorRecentIcon: cubit.isInRelevantPage == false
-                ? AppColors.blue
-                : AppColors.white,
-          ),
+          bottomNavigationBar: _tNBottomNavigationBar(),
         ),
       ),
     );
@@ -138,6 +123,10 @@ class _TabsPageState extends State<TabsPage> {
       child: GestureDetector(
         onTap: () async {
           await cubit.getTab(index: index);
+          await cubit.getTabComments(
+            ownerUsername: cubit.pressedTab.ownerUsername,
+            slug: cubit.pressedTab.slug,
+          );
           Modular.to.pushNamed(
             '/pressed-tab-page',
             arguments: cubit,
@@ -188,6 +177,23 @@ class _TabsPageState extends State<TabsPage> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _tNBottomNavigationBar() {
+    return TNBottomNavigationBar(
+      onPressedInRelevantButton: () async {
+        cubit.isInRelevantPage = true;
+        await cubit.getRelevantTabs();
+      },
+      colorRelevantIcon:
+          cubit.isInRelevantPage == true ? AppColors.blue : AppColors.white,
+      onPressedInRecentButton: () async {
+        cubit.isInRelevantPage = false;
+        await cubit.getRecentTabs();
+      },
+      colorRecentIcon:
+          cubit.isInRelevantPage == false ? AppColors.blue : AppColors.white,
     );
   }
 }

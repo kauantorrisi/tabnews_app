@@ -18,16 +18,15 @@ class TabModel extends TabEntity {
     required super.deletedAt,
     required super.tabcoins,
     required super.ownerUsername,
-    required super.childrenDeepCount,
     required super.children,
+    required super.childrenDeepCount,
   });
 
-  factory TabModel.fromRawJson(String str) =>
-      TabModel.fromJson(jsonDecode(str));
+  factory TabModel.fromJson(String str) => TabModel.fromMap(json.decode(str));
 
-  String toRawJson() => jsonEncode(toJson());
+  String toJson() => json.encode(toMap());
 
-  factory TabModel.fromJson(Map<String, dynamic> json) => TabModel(
+  factory TabModel.fromMap(Map<String, dynamic> json) => TabModel(
         id: json["id"],
         ownerId: json["owner_id"],
         parentId: json["parent_id"],
@@ -40,13 +39,13 @@ class TabModel extends TabEntity {
         updatedAt: DateTime.parse(json["updated_at"]),
         publishedAt: DateTime.parse(json["published_at"]),
         deletedAt: json["deleted_at"],
-        tabcoins: json["tabcoins"],
         ownerUsername: json["owner_username"],
-        childrenDeepCount: json["children_deep_count"],
+        tabcoins: json["tabcoins"],
         children: json["children"],
+        childrenDeepCount: json["children_deep_count"],
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toMap() => {
         "id": id,
         "owner_id": ownerId,
         "parent_id": parentId,
@@ -59,10 +58,10 @@ class TabModel extends TabEntity {
         "updated_at": updatedAt.toIso8601String(),
         "published_at": publishedAt.toIso8601String(),
         "deleted_at": deletedAt,
-        "tabcoins": tabcoins,
         "owner_username": ownerUsername,
-        "children_deep_count": childrenDeepCount,
+        "tabcoins": tabcoins,
         "children": children,
+        "children_deep_count": childrenDeepCount,
       };
 
   @override
@@ -72,6 +71,7 @@ class TabModel extends TabEntity {
         parentId,
         slug,
         title,
+        body,
         status,
         sourceUrl,
         createdAt,
@@ -80,7 +80,7 @@ class TabModel extends TabEntity {
         deletedAt,
         tabcoins,
         ownerUsername,
-        childrenDeepCount,
         children,
+        childrenDeepCount,
       ];
 }
