@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter_modular/flutter_modular.dart';
-
-import 'package:tabnews_app/features/tabnews/presenter/cubit/tabnews_cubit.dart';
 import 'package:tabnews_app/libraries/common/design/app_colors.dart';
 
 class TNBottomNavigationBar extends StatelessWidget {
-  TNBottomNavigationBar({
+  const TNBottomNavigationBar({
     super.key,
     required this.onPressedInRelevantButton,
     required this.onPressedInRecentButton,
@@ -18,8 +15,6 @@ class TNBottomNavigationBar extends StatelessWidget {
   final Function()? onPressedInRecentButton;
   final Color? colorRelevantIcon;
   final Color? colorRecentIcon;
-
-  final TabnewsCubit cubit = Modular.get<TabnewsCubit>();
 
   @override
   Widget build(BuildContext context) {

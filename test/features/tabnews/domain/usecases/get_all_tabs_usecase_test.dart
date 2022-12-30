@@ -5,7 +5,7 @@ import 'package:mocktail/mocktail.dart';
 import 'package:tabnews_app/features/tabnews/domain/repositories/i_tabnews_repository.dart';
 import 'package:tabnews_app/features/tabnews/domain/usecases/get_all_tabs_usecase.dart';
 
-import '../../../../mocks/t_list_tab_entities.dart';
+import '../../mocks/t_list_tab_entities.dart';
 
 class MockTabNewsRepository extends Mock implements ITabNewsRepository {}
 

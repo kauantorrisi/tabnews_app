@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
 
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import 'package:tabnews_app/features/tabnews/presenter/cubit/tabnews_cubit.dart';
-import 'package:tabnews_app/libraries/common/design/app_colors.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import 'package:tabnews_app/features/tabnews/presenter/cubits/tabs_cubit.dart';
+import 'package:tabnews_app/libraries/common/design/app_colors.dart';
 
 class PressedTabPage extends StatelessWidget {
   const PressedTabPage({super.key, required this.cubit});
 
-  final TabnewsCubit cubit;
+  final TabsCubit cubit;
 
   @override
   Widget build(BuildContext context) {
@@ -41,12 +41,12 @@ class PressedTabPage extends StatelessWidget {
         children: [
           IconButton(
             onPressed: () async {
-              Modular.to.pop();
               if (cubit.isInRelevantPage == true) {
                 await cubit.getRelevantTabs();
               } else {
                 await cubit.getRecentTabs();
               }
+              Modular.to.pop();
             },
             icon: Icon(
               Icons.arrow_back,
@@ -58,7 +58,7 @@ class PressedTabPage extends StatelessWidget {
           SizedBox(
             width: 250.w,
             child: Text(
-              cubit.pressedTab.title ?? '',
+              cubit.pressedTab.title,
               style: TextStyle(
                 color: AppColors.white,
                 fontSize: 16,
@@ -109,7 +109,7 @@ class PressedTabPage extends StatelessWidget {
           Expanded(
             child: Markdown(
               selectable: true,
-              data: cubit.pressedTab.body!,
+              data: cubit.pressedTab.body,
               onTapLink: (text, href, title) {
                 if (href != null) {
                   launchUrl(Uri.parse(href.toString()));
@@ -150,10 +150,40 @@ class PressedTabPage extends StatelessWidget {
   Widget _commentsOfTab() {
     return Expanded(
       child: ListView.builder(
-        itemCount: cubit.pressedTab.childrenDeepCount,
+        itemCount: cubit.tabComments.length,
         itemBuilder: (context, index) {
-          return Center(
-              child: Text(cubit.pressedTab.children![index]?.body ?? ''));
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 12, bottom: 5),
+                child: Text(
+                  '${cubit.tabComments[index].ownerUsername}: ',
+                  style: TextStyle(
+                    color: AppColors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                  ),
+                ),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  color: AppColors.darkGrey,
+                  border: Border.all(
+                    color: AppColors.white,
+                    width: 1,
+                  ),
+                ),
+                padding: const EdgeInsets.all(10),
+                margin: const EdgeInsets.only(bottom: 10, left: 16, right: 16),
+                child: Text(
+                  cubit.tabComments[index].body,
+                  style: TextStyle(color: AppColors.white),
+                ),
+              ),
+            ],
+          );
         },
       ),
     );
