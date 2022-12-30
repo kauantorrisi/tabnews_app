@@ -3,44 +3,51 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
+import 'package:tabnews_app/core/errors/app_failures.dart';
 import 'package:tabnews_app/features/tabnews/domain/entities/tab_entity.dart';
 import 'package:tabnews_app/features/tabnews/domain/usecases/get_all_tabs_usecase.dart';
 import 'package:tabnews_app/features/tabnews/domain/usecases/get_tab_comments_usecase.dart';
 import 'package:tabnews_app/features/tabnews/domain/usecases/get_tab_usecase.dart';
 
-part 'tabnews_state.dart';
+part 'tabs_state.dart';
 
-class TabnewsCubit extends Cubit<TabnewsState> {
+class TabsCubit extends Cubit<TabsState> {
+  TabsCubit(
+    this.getAllTabsUsecase,
+    this.getTabCommentsUsecase,
+    this.getTabUsecase,
+  ) : super(TabsInitial()) {
+    getRelevantTabs();
+    getRecentTabs();
+  }
+
   final GetAllTabsUsecase getAllTabsUsecase;
   final GetTabCommentsUsecase getTabCommentsUsecase;
   final GetTabUsecase getTabUsecase;
 
-  TabnewsCubit(
-    this.getAllTabsUsecase,
-    this.getTabCommentsUsecase,
-    this.getTabUsecase,
-  ) : super(TabnewsInitial());
-
   List<TabEntity> relevantTabsList = [];
   List<TabEntity> recentTabsList = [];
-  // List<TabEntity> tabCommentsList = [];
-  late TabEntity pressedTab;
+  List<TabEntity> tabComments = [];
+
   bool isInRelevantPage = true;
+  late TabEntity pressedTab;
 
   Future<void> getRelevantTabs() async {
-    emit(TabNewsLoading());
-    final results = await getAllTabsUsecase(
+    emit(TabsLoading());
+
+    final tabList = await getAllTabsUsecase(
         const GetAllTabsParams(page: 1, perPage: 30, strategy: 'relevant'));
     if (relevantTabsList.isEmpty) {
-      results.forEach((tabList) {
+      tabList.forEach((tabList) {
         relevantTabsList.addAll(tabList);
       });
     }
-    results.fold((l) => emit(TabNewsError()), (r) => emit(TabNewsSuccessful()));
+    tabList.fold((l) => emit(TabsError(l)), (r) => emit(TabsLoaded(r)));
   }
 
   Future<void> getRecentTabs() async {
-    emit(TabNewsLoading());
+    emit(TabsLoading());
+
     final results = await getAllTabsUsecase(
         const GetAllTabsParams(page: 1, perPage: 30, strategy: 'new'));
     if (recentTabsList.isEmpty) {
@@ -48,38 +55,37 @@ class TabnewsCubit extends Cubit<TabnewsState> {
         recentTabsList.addAll(tabList);
       });
     }
-    results.fold((l) => emit(TabNewsError()), (r) => emit(TabNewsSuccessful()));
+    results.fold((l) => emit(TabsError(l)), (r) => emit(TabsLoaded(r)));
   }
 
   Future<void> getTab({required int index}) async {
-    emit(TabNewsLoading());
+    emit(TabsLoading());
     if (isInRelevantPage == true) {
       final result = await getTabUsecase(GetTabParams(
           ownerUsername: relevantTabsList[index].ownerUsername,
           slug: relevantTabsList[index].slug));
-      result.fold((l) => emit(TabNewsError()), (tab) {
-        emit(TabNewsSuccessful());
-        pressedTab = tab;
+      result.fold((l) => emit(TabsError(l)), (r) {
+        emit(TabLoaded(r));
+        pressedTab = r;
       });
     } else {
       final result = await getTabUsecase(GetTabParams(
           ownerUsername: recentTabsList[index].ownerUsername,
           slug: recentTabsList[index].slug));
-      result.fold((l) => emit(TabNewsError()), (tab) {
-        emit(TabNewsSuccessful());
-        pressedTab = tab;
+      result.fold((l) => emit(TabsError(l)), (r) {
+        emit(TabLoaded(r));
+        pressedTab = r;
       });
     }
   }
 
-  Future<void> getTabComments(
-      {required String ownerUsername, required String slug}) async {
-    emit(TabNewsLoading());
-    final results = await getTabCommentsUsecase(
-        GetTabCommentsParams(ownerUsername: ownerUsername, slug: slug));
-    results.forEach((content) {
-      pressedTab.children?.addAll(content);
+  Future<void> getTabComments() async {
+    emit(TabsLoading());
+    tabComments = [];
+    final results = await getTabCommentsUsecase(GetTabCommentsParams(
+        ownerUsername: pressedTab.ownerUsername, slug: pressedTab.slug));
+    results.forEach((comments) {
+      tabComments.addAll(comments);
     });
-    results.fold((l) => emit(TabNewsError()), (r) => emit(TabNewsSuccessful()));
   }
 }

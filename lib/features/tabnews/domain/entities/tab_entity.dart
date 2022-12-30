@@ -1,8 +1,7 @@
 import 'package:equatable/equatable.dart';
 
-// TODO SEPARAR TABENTITY / TABMODEL E CHILDTABENTITY / CHILDTABMODEL
-// O CHILDTABENTITY / CHILDTABMODEL TEM OS PARAMETROS BODY E CHILDREN E ESSE MODEL PRECISA SER ->
-// PASSADO NA PRESSEDTABPAGE.
+// TODO: SEPARAR TABENTITY / TABMODEL E CHILDTABENTITY / CHILDTABMODEL
+// O CHILDTABENTITY / CHILDTABMODEL TEM OS PARAMETROS BODY E CHILDREN E ESSE MODEL PRECISA SER PASSADO NA PRESSEDTABPAGE.
 
 class TabEntity extends Equatable {
   const TabEntity({
@@ -38,7 +37,7 @@ class TabEntity extends Equatable {
   final DateTime? deletedAt;
   final int tabcoins;
   final String ownerUsername;
-  final List<TabEntity?>? children;
+  final List<dynamic>? children;
   final int childrenDeepCount;
 
   @override
