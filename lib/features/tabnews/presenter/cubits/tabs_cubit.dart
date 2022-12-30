@@ -28,15 +28,38 @@ class TabsCubit extends Cubit<TabsState> {
   List<TabEntity> relevantTabsList = [];
   List<TabEntity> recentTabsList = [];
   List<TabEntity> tabComments = [];
+  int? relevantPage = 1;
+  int? recentPage = 1;
 
   bool isInRelevantPage = true;
   late TabEntity pressedTab;
 
+  int addPage(int? page) => page! + 1;
+
+  Future<void> loadMoreRelevantTabs() async {
+    relevantPage = addPage(relevantPage);
+    final tabList = await getAllTabsUsecase(GetAllTabsParams(
+        page: relevantPage!, perPage: 30, strategy: 'relevant'));
+    tabList.forEach((tabList) {
+      relevantTabsList.addAll(tabList);
+    });
+    tabList.fold((l) => emit(TabsError(l)), (r) => emit(TabsLoaded(r)));
+  }
+
+  Future<void> loadMoreRecentTabs() async {
+    recentPage = addPage(recentPage);
+    final tabList = await getAllTabsUsecase(
+        GetAllTabsParams(page: recentPage!, perPage: 30, strategy: 'new'));
+    tabList.forEach((tabList) {
+      recentTabsList.addAll(tabList);
+    });
+    tabList.fold((l) => emit(TabsError(l)), (r) => emit(TabsLoaded(r)));
+  }
+
   Future<void> getRelevantTabs() async {
     emit(TabsLoading());
-
-    final tabList = await getAllTabsUsecase(
-        const GetAllTabsParams(page: 1, perPage: 30, strategy: 'relevant'));
+    final tabList = await getAllTabsUsecase(GetAllTabsParams(
+        page: relevantPage!, perPage: 30, strategy: 'relevant'));
     if (relevantTabsList.isEmpty) {
       tabList.forEach((tabList) {
         relevantTabsList.addAll(tabList);
@@ -47,9 +70,8 @@ class TabsCubit extends Cubit<TabsState> {
 
   Future<void> getRecentTabs() async {
     emit(TabsLoading());
-
     final results = await getAllTabsUsecase(
-        const GetAllTabsParams(page: 1, perPage: 30, strategy: 'new'));
+        GetAllTabsParams(page: recentPage!, perPage: 30, strategy: 'new'));
     if (recentTabsList.isEmpty) {
       results.forEach((tabList) {
         recentTabsList.addAll(tabList);

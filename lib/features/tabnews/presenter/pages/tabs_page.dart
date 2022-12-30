@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 
 import 'package:tabnews_app/features/tabnews/domain/entities/tab_entity.dart';
 import 'package:tabnews_app/features/tabnews/presenter/cubits/tabs_cubit.dart';
@@ -12,9 +13,14 @@ import 'package:tabnews_app/features/tabnews/presenter/widgets/tn_bottom_navigat
 import 'package:tabnews_app/features/tabnews/presenter/widgets/tn_user_fab.dart';
 import 'package:tabnews_app/libraries/common/design/app_colors.dart';
 
-class TabsPage extends StatelessWidget {
-  TabsPage({super.key});
+class TabsPage extends StatefulWidget {
+  const TabsPage({super.key});
 
+  @override
+  State<TabsPage> createState() => _TabsPageState();
+}
+
+class _TabsPageState extends State<TabsPage> {
   final cubit = Modular.get<TabsCubit>();
 
   @override
@@ -27,52 +33,59 @@ class TabsPage extends StatelessWidget {
               ? cubit.relevantTabsList
               : cubit.recentTabsList;
 
-          return SafeArea(
-            child: RefreshIndicator(
-              onRefresh: () => cubit.isInRelevantPage == true
-                  ? cubit.getRelevantTabs()
-                  : cubit.getRecentTabs(),
-              child: Scaffold(
-                extendBody: true,
-                backgroundColor: AppColors.grey,
-                body: Column(
-                  children: [
-                    _tNAppBar(
-                      Text(
-                        'TabNews',
-                        style: TextStyle(
-                          color: AppColors.white,
-                          fontWeight: FontWeight.w900,
-                          fontSize: 24,
+          return LazyLoadScrollView(
+            onEndOfPage: () {
+              cubit.isInRelevantPage == true
+                  ? cubit.loadMoreRelevantTabs()
+                  : cubit.loadMoreRecentTabs();
+            },
+            child: SafeArea(
+              child: RefreshIndicator(
+                onRefresh: () => cubit.isInRelevantPage == true
+                    ? cubit.getRelevantTabs()
+                    : cubit.getRecentTabs(),
+                child: Scaffold(
+                  extendBody: true,
+                  backgroundColor: AppColors.grey,
+                  body: Column(
+                    children: [
+                      _tNAppBar(
+                        Text(
+                          'TabNews',
+                          style: TextStyle(
+                            color: AppColors.white,
+                            fontWeight: FontWeight.w900,
+                            fontSize: 24,
+                          ),
                         ),
                       ),
-                    ),
-                    if (state is TabsLoaded)
-                      Expanded(
-                        child: ListView.builder(
-                          itemCount: tabList.length,
-                          itemBuilder: (context, index) {
-                            return _tabCard(tabList, index);
-                          },
+                      if (state is TabsLoaded)
+                        Expanded(
+                          child: ListView.builder(
+                            itemCount: tabList.length,
+                            itemBuilder: (context, index) {
+                              return _tabCard(tabList, index);
+                            },
+                          ),
                         ),
-                      ),
-                    if (state is TabsLoading)
-                      const Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                    if (state is TabsError)
-                      const Center(
-                        child: Text('ERRO'),
-                      ),
-                  ],
+                      if (state is TabsLoading)
+                        const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      if (state is TabsError)
+                        const Center(
+                          child: Text('ERRO'),
+                        ),
+                    ],
+                  ),
+                  floatingActionButtonLocation:
+                      FloatingActionButtonLocation.centerDocked,
+                  floatingActionButton: TNUserFAB(
+                    icon: Icons.person,
+                    onPressed: () {},
+                  ),
+                  bottomNavigationBar: _tNBottomNavigationBar(),
                 ),
-                floatingActionButtonLocation:
-                    FloatingActionButtonLocation.centerDocked,
-                floatingActionButton: TNUserFAB(
-                  icon: Icons.person,
-                  onPressed: () {},
-                ),
-                bottomNavigationBar: _tNBottomNavigationBar(),
               ),
             ),
           );
