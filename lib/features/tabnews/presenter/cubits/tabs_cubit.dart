@@ -28,6 +28,7 @@ class TabsCubit extends Cubit<TabsState> {
   List<TabEntity> relevantTabsList = [];
   List<TabEntity> recentTabsList = [];
   List<TabEntity> tabComments = [];
+  List<TabEntity> commentsOfTabComments = [];
   int? relevantPage = 1;
   int? recentPage = 1;
 

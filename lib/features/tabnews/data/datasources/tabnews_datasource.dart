@@ -55,6 +55,7 @@ class TabNewsDatasource implements ITabNewsDatasource {
     } else {
       throw ServerException();
     }
+
     return tabsList;
   }
 }
