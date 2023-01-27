@@ -9,8 +9,8 @@ import 'package:tabnews_app/core/errors/app_failures.dart';
 import 'package:tabnews_app/features/tabnews/data/datasources/tabnews_datasource.dart';
 import 'package:tabnews_app/features/tabnews/data/repositories/tabnews_repository.dart';
 
-import '../../../../mocks/t_list_tab_models.dart';
-import '../../../../mocks/t_tab_model.dart';
+import '../../mocks/t_list_tab_models.dart';
+import '../../mocks/t_tab_model.dart';
 
 class MockTabNewsDatasource extends Mock implements ITabNewsDatasource {}
 

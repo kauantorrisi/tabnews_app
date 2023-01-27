@@ -5,7 +5,7 @@ import 'package:tabnews_app/features/tabnews/data/repositories/tabnews_repositor
 import 'package:tabnews_app/features/tabnews/domain/usecases/get_all_tabs_usecase.dart';
 import 'package:tabnews_app/features/tabnews/domain/usecases/get_tab_comments_usecase.dart';
 import 'package:tabnews_app/features/tabnews/domain/usecases/get_tab_usecase.dart';
-import 'package:tabnews_app/features/tabnews/presenter/cubit/tabnews_cubit.dart';
+import 'package:tabnews_app/features/tabnews/presenter/cubits/tabs_cubit.dart';
 import 'package:tabnews_app/features/tabnews/presenter/pages/pressed_tab_page.dart';
 import 'package:tabnews_app/features/tabnews/presenter/pages/tabs_page.dart';
 
@@ -19,7 +19,7 @@ class AppModule extends Module {
   ];
 
   static List<Bind> cubits = [
-    Bind.lazySingleton((i) => TabnewsCubit(i(), i(), i())),
+    Bind.lazySingleton((i) => TabsCubit(i(), i(), i())),
   ];
 
   @override
@@ -29,7 +29,7 @@ class AppModule extends Module {
   List<ModularRoute> get routes => [
         ChildRoute(
           Modular.initialRoute,
-          child: (context, args) => const TabsPage(),
+          child: (context, args) => TabsPage(),
         ),
         ChildRoute(
           '/pressed-tab-page',
