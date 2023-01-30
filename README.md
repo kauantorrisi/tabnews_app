@@ -1,16 +1,30 @@
-# tabnews_app
+# TabNews App using Flutter
 
-A new Flutter project.
+Um aplicativo que está sendo feito para consumir os conteúdos do site do TabNews a partir do seu celular, utilizando Clean Archicteture, Cubit, Flutter_Modular, API do TabNews e muita dedicação e suor.
 
-## Getting Started
+Atualmente só penso em colocar na Play Store (Android), mas mais para frente quem sabe eu não coloque na App Store (para iOS) também.
 
-This project is a starting point for a Flutter application.
+## Screenshots: 
+__(Vou adicionar assim que eu terminar o app, ainda falta bastante coisas hahaha).__
 
-A few resources to get you started if this is your first Flutter project:
+## Features: 
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- [x] Infinite scroll;
+- [x] Pull to refresh;
+- [x] Visualizar publicações (Recentes e relevantes);
+- [x] Visualizar todos os comentários de um post/tab;
+- [ ] Login;
+- [ ] Cadastro;
+- [ ] Perfil;
+- [ ] Configurações;
+- [ ] Poder alterar o tamanho das fontes, caso queira aumentar ou diminuir.
+- [ ] Criar uma barra de pesquisa para você poder pesquisar por tópicos ou pelos nomes dos posts/tabs.
+- [ ] Visualizar perfis de outras pessoas;
+- [ ] Comentar nas publicações;
+- [ ] Responder os comentários de outros usuários;
+- [ ] Dar upvote em algum post/tab com suas tabcoins;
+- [ ] Dar downvote em algum post/tab com suas tabcoins;
+- [ ] Criar, editar e apagar as suas próprias publicações;
+- [x] Tema escuro;
+- [ ] Tema claro;
+- [ ] Poder salvar os posts/tabs.
