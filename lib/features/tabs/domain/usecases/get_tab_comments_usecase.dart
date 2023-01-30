@@ -3,12 +3,12 @@ import 'package:equatable/equatable.dart';
 
 import 'package:tabnews_app/core/errors/app_failures.dart';
 import 'package:tabnews_app/core/usecases/usecase.dart';
-import 'package:tabnews_app/features/tabnews/domain/entities/tab_entity.dart';
-import 'package:tabnews_app/features/tabnews/domain/repositories/i_tabnews_repository.dart';
+import 'package:tabnews_app/features/tabs/domain/entities/tab_entity.dart';
+import 'package:tabnews_app/features/tabs/domain/repositories/i_tabnews_repository.dart';
 
 class GetTabCommentsUsecase
     implements Usecase<List<TabEntity>, GetTabCommentsParams> {
-  final ITabNewsRepository repository;
+  final ITabsRepository repository;
 
   GetTabCommentsUsecase(this.repository);
 

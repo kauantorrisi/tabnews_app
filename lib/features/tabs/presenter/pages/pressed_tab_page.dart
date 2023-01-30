@@ -5,7 +5,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'package:tabnews_app/features/tabnews/presenter/cubits/tabs_cubit.dart';
+import 'package:tabnews_app/features/tabs/presenter/cubits/tabs_cubit.dart';
 import 'package:tabnews_app/libraries/common/design/app_colors.dart';
 
 class PressedTabPage extends StatelessWidget {

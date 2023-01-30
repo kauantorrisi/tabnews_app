@@ -1,5 +1,3 @@
-// ignore_for_file: unrelated_type_equality_checks
-
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,10 +5,10 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 
-import 'package:tabnews_app/features/tabnews/domain/entities/tab_entity.dart';
-import 'package:tabnews_app/features/tabnews/presenter/cubits/tabs_cubit.dart';
-import 'package:tabnews_app/features/tabnews/presenter/widgets/tn_bottom_navigation_bar.dart';
-import 'package:tabnews_app/features/tabnews/presenter/widgets/tn_user_fab.dart';
+import 'package:tabnews_app/features/tabs/domain/entities/tab_entity.dart';
+import 'package:tabnews_app/features/tabs/presenter/cubits/tabs_cubit.dart';
+import 'package:tabnews_app/features/tabs/presenter/widgets/tn_bottom_navigation_bar.dart';
+import 'package:tabnews_app/features/tabs/presenter/widgets/tn_user_fab.dart';
 import 'package:tabnews_app/libraries/common/design/app_colors.dart';
 
 class TabsPage extends StatefulWidget {
@@ -70,11 +68,11 @@ class _TabsPageState extends State<TabsPage> {
                         ),
                       if (state is TabsLoading)
                         const Center(
-                          child: CircularProgressIndicator(),
+                          child: LinearProgressIndicator(),
                         ),
                       if (state is TabsError)
                         const Center(
-                          child: Text('ERRO'),
+                          child: Text('ERROR'),
                         ),
                     ],
                   ),
@@ -108,7 +106,10 @@ class _TabsPageState extends State<TabsPage> {
               child: Image.asset('lib/assets/images/TabNews_Logo.png'),
             ),
             const Spacer(),
-            text,
+            Padding(
+              padding: const EdgeInsets.only(right: 40),
+              child: text,
+            ),
             const Spacer(),
           ],
         ),
@@ -129,30 +130,24 @@ class _TabsPageState extends State<TabsPage> {
           );
         },
         child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
-            color: AppColors.black,
-            border: Border.all(
-              color: AppColors.white,
-              width: 1,
-            ),
-          ),
           padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            border: Border.all(color: AppColors.white, width: 1.5),
+            borderRadius: BorderRadius.circular(10),
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Center(
-                child: Text(
-                  '${index + 1}. ${tabsList[index].title}',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.white,
-                  ),
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.clip,
+              Text(
+                '${index + 1}. ${tabsList[index].title}',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.white,
                 ),
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.clip,
               ),
               RichText(
                 text: TextSpan(

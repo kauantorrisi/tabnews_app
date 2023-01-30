@@ -5,8 +5,8 @@ import 'package:modular_test/modular_test.dart';
 
 import 'package:tabnews_app/app_module.dart';
 import 'package:tabnews_app/core/errors/app_failures.dart';
-import 'package:tabnews_app/features/tabnews/domain/entities/tab_entity.dart';
-import 'package:tabnews_app/features/tabnews/domain/usecases/get_all_tabs_usecase.dart';
+import 'package:tabnews_app/features/tabs/domain/entities/tab_entity.dart';
+import 'package:tabnews_app/features/tabs/domain/usecases/get_all_tabs_usecase.dart';
 
 void main() {
   setUp(() {

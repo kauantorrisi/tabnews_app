@@ -2,26 +2,26 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-import 'package:tabnews_app/features/tabnews/domain/repositories/i_tabnews_repository.dart';
-import 'package:tabnews_app/features/tabnews/domain/usecases/get_all_tabs_usecase.dart';
+import 'package:tabnews_app/features/tabs/domain/repositories/i_tabnews_repository.dart';
+import 'package:tabnews_app/features/tabs/domain/usecases/get_all_tabs_usecase.dart';
 
 import '../../mocks/t_list_tab_entities.dart';
 
-class MockTabNewsRepository extends Mock implements ITabNewsRepository {}
+class MockTabsRepository extends Mock implements ITabsRepository {}
 
 void main() {
-  late ITabNewsRepository mockTabNewsRepository;
+  late ITabsRepository mockTabsRepository;
   late GetAllTabsUsecase usecase;
 
   setUp(() {
-    mockTabNewsRepository = MockTabNewsRepository();
-    usecase = GetAllTabsUsecase(mockTabNewsRepository);
+    mockTabsRepository = MockTabsRepository();
+    usecase = GetAllTabsUsecase(mockTabsRepository);
   });
 
   test(
       'should return a List<TabEntity> when the call of repository is successful',
       () async {
-    when(() => mockTabNewsRepository.getAllTabs(any(), any(), any()))
+    when(() => mockTabsRepository.getAllTabs(any(), any(), any()))
         .thenAnswer((_) async => Right(tListTabEntities));
 
     final result = await usecase(
@@ -29,8 +29,7 @@ void main() {
 
     expect(result, isA<Right>());
     expect(result, equals(Right(tListTabEntities)));
-    verify(() => mockTabNewsRepository.getAllTabs(any(), any(), any()))
-        .called(1);
-    verifyNoMoreInteractions(mockTabNewsRepository);
+    verify(() => mockTabsRepository.getAllTabs(any(), any(), any())).called(1);
+    verifyNoMoreInteractions(mockTabsRepository);
   });
 }

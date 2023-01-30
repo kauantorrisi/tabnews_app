@@ -1,4 +1,4 @@
-import 'package:tabnews_app/features/tabnews/domain/entities/tab_entity.dart';
+import 'package:tabnews_app/features/tabs/domain/entities/tab_entity.dart';
 
 final TabEntity tTabEntity = TabEntity(
   id: 'id',

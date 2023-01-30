@@ -4,10 +4,10 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
 import 'package:tabnews_app/core/errors/app_failures.dart';
-import 'package:tabnews_app/features/tabnews/domain/entities/tab_entity.dart';
-import 'package:tabnews_app/features/tabnews/domain/usecases/get_all_tabs_usecase.dart';
-import 'package:tabnews_app/features/tabnews/domain/usecases/get_tab_comments_usecase.dart';
-import 'package:tabnews_app/features/tabnews/domain/usecases/get_tab_usecase.dart';
+import 'package:tabnews_app/features/tabs/domain/entities/tab_entity.dart';
+import 'package:tabnews_app/features/tabs/domain/usecases/get_all_tabs_usecase.dart';
+import 'package:tabnews_app/features/tabs/domain/usecases/get_tab_comments_usecase.dart';
+import 'package:tabnews_app/features/tabs/domain/usecases/get_tab_usecase.dart';
 
 part 'tabs_state.dart';
 

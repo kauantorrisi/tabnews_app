@@ -1,18 +1,18 @@
 import 'package:flutter_modular/flutter_modular.dart';
 
-import 'package:tabnews_app/features/tabnews/data/datasources/tabnews_datasource.dart';
-import 'package:tabnews_app/features/tabnews/data/repositories/tabnews_repository.dart';
-import 'package:tabnews_app/features/tabnews/domain/usecases/get_all_tabs_usecase.dart';
-import 'package:tabnews_app/features/tabnews/domain/usecases/get_tab_comments_usecase.dart';
-import 'package:tabnews_app/features/tabnews/domain/usecases/get_tab_usecase.dart';
-import 'package:tabnews_app/features/tabnews/presenter/cubits/tabs_cubit.dart';
-import 'package:tabnews_app/features/tabnews/presenter/pages/pressed_tab_page.dart';
-import 'package:tabnews_app/features/tabnews/presenter/pages/tabs_page.dart';
+import 'package:tabnews_app/features/tabs/data/datasources/tabs_datasource.dart';
+import 'package:tabnews_app/features/tabs/data/repositories/tabs_repository.dart';
+import 'package:tabnews_app/features/tabs/domain/usecases/get_all_tabs_usecase.dart';
+import 'package:tabnews_app/features/tabs/domain/usecases/get_tab_comments_usecase.dart';
+import 'package:tabnews_app/features/tabs/domain/usecases/get_tab_usecase.dart';
+import 'package:tabnews_app/features/tabs/presenter/cubits/tabs_cubit.dart';
+import 'package:tabnews_app/features/tabs/presenter/pages/pressed_tab_page.dart';
+import 'package:tabnews_app/features/tabs/presenter/pages/tabs_page.dart';
 
 class AppModule extends Module {
   static List<Bind> services = [
-    Bind.lazySingleton((i) => TabNewsDatasource()),
-    Bind.lazySingleton((i) => TabNewsRepository(i())),
+    Bind.lazySingleton((i) => TabsDatasource()),
+    Bind.lazySingleton((i) => TabsRepository(i())),
     Bind.lazySingleton((i) => GetAllTabsUsecase(i())),
     Bind.lazySingleton((i) => GetTabUsecase(i())),
     Bind.lazySingleton((i) => GetTabCommentsUsecase(i())),
@@ -29,7 +29,7 @@ class AppModule extends Module {
   List<ModularRoute> get routes => [
         ChildRoute(
           Modular.initialRoute,
-          child: (context, args) => TabsPage(),
+          child: (context, args) => const TabsPage(),
         ),
         ChildRoute(
           '/pressed-tab-page',

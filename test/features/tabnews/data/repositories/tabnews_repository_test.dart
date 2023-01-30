@@ -6,29 +6,29 @@ import 'package:modular_test/modular_test.dart';
 import 'package:tabnews_app/app_module.dart';
 import 'package:tabnews_app/core/errors/app_exceptions.dart';
 import 'package:tabnews_app/core/errors/app_failures.dart';
-import 'package:tabnews_app/features/tabnews/data/datasources/tabnews_datasource.dart';
-import 'package:tabnews_app/features/tabnews/data/repositories/tabnews_repository.dart';
+import 'package:tabnews_app/features/tabs/data/datasources/tabs_datasource.dart';
+import 'package:tabnews_app/features/tabs/data/repositories/tabs_repository.dart';
 
 import '../../mocks/t_list_tab_models.dart';
 import '../../mocks/t_tab_model.dart';
 
-class MockTabNewsDatasource extends Mock implements ITabNewsDatasource {}
+class MockTabsDatasource extends Mock implements ITabsDatasource {}
 
 void main() {
-  late ITabNewsDatasource mockTabNewsDatasource;
-  late TabNewsRepository repository;
+  late ITabsDatasource mockTabsDatasource;
+  late TabsRepository repository;
 
   setUp(() {
     initModule(AppModule());
-    mockTabNewsDatasource = MockTabNewsDatasource();
-    repository = TabNewsRepository(mockTabNewsDatasource);
+    mockTabsDatasource = MockTabsDatasource();
+    repository = TabsRepository(mockTabsDatasource);
   });
 
   group('getAllTabs', () {
     test(
         'should return a List<TabModel> when the call of datasource is successful',
         () async {
-      when(() => mockTabNewsDatasource.getAllTabs(any(), any(), any()))
+      when(() => mockTabsDatasource.getAllTabs(any(), any(), any()))
           .thenAnswer((_) async => tListTabModels);
 
       final result = await repository.getAllTabs(1, 1, 'relevant');
@@ -39,7 +39,7 @@ void main() {
     test(
         'should return a ServerFailure when the call of datasource is unsuccessful',
         () async {
-      when(() => mockTabNewsDatasource.getAllTabs(any(), any(), any()))
+      when(() => mockTabsDatasource.getAllTabs(any(), any(), any()))
           .thenThrow(ServerException());
 
       final result = await repository.getAllTabs(1, 1, 'relevant');
@@ -51,7 +51,7 @@ void main() {
   group('getTab', () {
     test('should return a TabModel when the call of datasource is successful',
         () async {
-      when(() => mockTabNewsDatasource.getTab(any(), any()))
+      when(() => mockTabsDatasource.getTab(any(), any()))
           .thenAnswer((_) async => tTabModel);
 
       final result = await repository.getTab('ownerUsername', 'slug');
@@ -62,7 +62,7 @@ void main() {
     test(
         'should return a ServerFailure when the call of datasource is unsuccessful',
         () async {
-      when(() => mockTabNewsDatasource.getTab(any(), any()))
+      when(() => mockTabsDatasource.getTab(any(), any()))
           .thenThrow(ServerException());
 
       final result = await repository.getTab('ownerUsername', 'slug');
@@ -75,7 +75,7 @@ void main() {
     test(
         'should return a List<TabModel> when the call of datasource is successful',
         () async {
-      when(() => mockTabNewsDatasource.getTabComments(any(), any()))
+      when(() => mockTabsDatasource.getTabComments(any(), any()))
           .thenAnswer((_) async => tListTabModels);
 
       final result = await repository.getTabComments('ownerUsername', 'slug');
@@ -86,7 +86,7 @@ void main() {
     test(
         'should return a ServerFailure when the call of datasource is unsuccessful',
         () async {
-      when(() => mockTabNewsDatasource.getTabComments(any(), any()))
+      when(() => mockTabsDatasource.getTabComments(any(), any()))
           .thenThrow(ServerException());
 
       final result = await repository.getTabComments('ownerUsername', 'slug');

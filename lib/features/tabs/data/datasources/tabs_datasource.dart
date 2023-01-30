@@ -1,15 +1,15 @@
 import 'package:dio/dio.dart';
 
 import 'package:tabnews_app/core/errors/app_exceptions.dart';
-import 'package:tabnews_app/features/tabnews/data/models/tab_model.dart';
+import 'package:tabnews_app/features/tabs/data/models/tab_model.dart';
 
-abstract class ITabNewsDatasource {
+abstract class ITabsDatasource {
   Future<List<TabModel>> getAllTabs(int page, int perPage, String strategy);
   Future<TabModel> getTab(String ownerUsername, String slug);
   Future<List<TabModel>> getTabComments(String ownerUsername, String slug);
 }
 
-class TabNewsDatasource implements ITabNewsDatasource {
+class TabsDatasource implements ITabsDatasource {
   final Dio dio = Dio();
 
   @override
@@ -55,7 +55,6 @@ class TabNewsDatasource implements ITabNewsDatasource {
     } else {
       throw ServerException();
     }
-
     return tabsList;
   }
 }

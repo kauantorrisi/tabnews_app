@@ -4,26 +4,26 @@ import 'package:mocktail/mocktail.dart';
 import 'package:modular_test/modular_test.dart';
 
 import 'package:tabnews_app/app_module.dart';
-import 'package:tabnews_app/features/tabnews/domain/repositories/i_tabnews_repository.dart';
-import 'package:tabnews_app/features/tabnews/domain/usecases/get_tab_usecase.dart';
+import 'package:tabnews_app/features/tabs/domain/repositories/i_tabnews_repository.dart';
+import 'package:tabnews_app/features/tabs/domain/usecases/get_tab_usecase.dart';
 
 import '../../mocks/t_tab_entity.dart';
 
-class MockITabNewsRepository extends Mock implements ITabNewsRepository {}
+class MockITabsRepository extends Mock implements ITabsRepository {}
 
 void main() {
-  late MockITabNewsRepository mockITabNewsRepository;
+  late MockITabsRepository mockITabsRepository;
   late GetTabUsecase usecase;
 
   setUp(() {
     initModule(AppModule());
-    mockITabNewsRepository = MockITabNewsRepository();
-    usecase = GetTabUsecase(mockITabNewsRepository);
+    mockITabsRepository = MockITabsRepository();
+    usecase = GetTabUsecase(mockITabsRepository);
   });
 
   test('should return a TabEntity when the call of repository is successful',
       () async {
-    when(() => mockITabNewsRepository.getTab(any(), any()))
+    when(() => mockITabsRepository.getTab(any(), any()))
         .thenAnswer((_) async => Right(tTabEntity));
 
     final result = await usecase(
@@ -31,7 +31,7 @@ void main() {
 
     expect(result, isA<Right>());
     expect(result, equals(Right(tTabEntity)));
-    verify(() => mockITabNewsRepository.getTab(any(), any()));
-    verifyNoMoreInteractions(mockITabNewsRepository);
+    verify(() => mockITabsRepository.getTab(any(), any()));
+    verifyNoMoreInteractions(mockITabsRepository);
   });
 }
