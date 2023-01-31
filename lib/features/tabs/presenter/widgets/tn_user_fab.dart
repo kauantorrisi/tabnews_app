@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
 import 'package:hawk_fab_menu/hawk_fab_menu.dart';
 
@@ -21,52 +22,55 @@ class TNMenuFAB extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return HawkFabMenu(
-        icon: icon,
-        fabColor: AppColors.blue.withAlpha(220),
-        iconColor: iconColor,
-        hawkFabMenuController: hawkFabMenuController,
-        items: [
-          HawkFabMenuItem(
-            label: 'Username',
-            ontap: () {},
-            icon: const Icon(Icons.home),
-            color: AppColors.darkGrey,
-            labelColor: AppColors.black,
-            labelBackgroundColor: AppColors.white,
-          ),
-          HawkFabMenuItem(
-            label: 'Publicar novo conteúdo',
-            ontap: () {},
-            icon: const Icon(Icons.article),
-            color: AppColors.darkGrey,
-            labelColor: AppColors.black,
-            labelBackgroundColor: AppColors.white,
-          ),
-          HawkFabMenuItem(
-            label: 'Editar perfil',
-            ontap: () {},
-            icon: const Icon(Icons.person),
-            color: AppColors.darkGrey,
-            labelColor: AppColors.black,
-            labelBackgroundColor: AppColors.white,
-          ),
-          HawkFabMenuItem(
-            label: 'Configurações',
-            ontap: () {},
-            icon: const Icon(Icons.settings),
-            color: AppColors.darkGrey,
-            labelColor: AppColors.black,
-            labelBackgroundColor: AppColors.white,
-          ),
-          HawkFabMenuItem(
-            label: 'Deslogar',
-            ontap: () {},
-            icon: const Icon(Icons.exit_to_app),
-            color: AppColors.red,
-            labelColor: AppColors.black,
-            labelBackgroundColor: AppColors.white,
-          ),
-        ],
-        body: Container());
+      icon: icon,
+      fabColor: AppColors.blue.withAlpha(220),
+      iconColor: iconColor,
+      hawkFabMenuController: hawkFabMenuController,
+      items: [
+        HawkFabMenuItem(
+          label: 'Username',
+          ontap: () {},
+          icon: const Icon(Icons.home),
+          color: AppColors.darkGrey,
+          labelColor: AppColors.black,
+          labelBackgroundColor: AppColors.white,
+        ),
+        HawkFabMenuItem(
+          label: 'Publicar novo conteúdo',
+          ontap: () {},
+          icon: const Icon(Icons.article),
+          color: AppColors.darkGrey,
+          labelColor: AppColors.black,
+          labelBackgroundColor: AppColors.white,
+        ),
+        HawkFabMenuItem(
+          label: 'Editar perfil',
+          ontap: () {},
+          icon: const Icon(Icons.person),
+          color: AppColors.darkGrey,
+          labelColor: AppColors.black,
+          labelBackgroundColor: AppColors.white,
+        ),
+        HawkFabMenuItem(
+          label: 'Configurações',
+          ontap: () {},
+          icon: const Icon(Icons.settings),
+          color: AppColors.darkGrey,
+          labelColor: AppColors.black,
+          labelBackgroundColor: AppColors.white,
+        ),
+        HawkFabMenuItem(
+          label: 'Deslogar',
+          ontap: () {
+            Modular.to.pushReplacementNamed('/auth-module/');
+          },
+          icon: const Icon(Icons.exit_to_app),
+          color: AppColors.red,
+          labelColor: AppColors.black,
+          labelBackgroundColor: AppColors.white,
+        ),
+      ],
+      body: Container(),
+    );
   }
 }
