@@ -1,5 +1,9 @@
 const String baseUrl = 'https://www.tabnews.com.br/api/v1';
 
+/* TABS */
+
+const String getContentsUrl = '$baseUrl/contents'; // GET
+
 /* AUTH */
 
 const String loginUrl = '$baseUrl/sessions'; // POST
