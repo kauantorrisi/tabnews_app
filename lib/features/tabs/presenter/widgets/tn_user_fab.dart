@@ -1,19 +1,72 @@
 import 'package:flutter/material.dart';
 
+import 'package:hawk_fab_menu/hawk_fab_menu.dart';
+
 import 'package:tabnews_app/libraries/common/design/app_colors.dart';
 
-class TNUserFAB extends StatelessWidget {
-  const TNUserFAB({super.key, required this.onPressed, this.icon});
+class TNMenuFAB extends StatelessWidget {
+  const TNMenuFAB({
+    super.key,
+    required this.onPressed,
+    this.icon,
+    required this.hawkFabMenuController,
+    this.iconColor,
+  });
 
   final Function()? onPressed;
-  final IconData? icon;
+  final AnimatedIconData? icon;
+  final HawkFabMenuController hawkFabMenuController;
+  final Color? iconColor;
 
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton(
-      onPressed: onPressed,
-      backgroundColor: AppColors.darkGrey,
-      child: Icon(icon, size: 35),
-    );
+    return HawkFabMenu(
+        icon: icon,
+        fabColor: AppColors.blue.withAlpha(220),
+        iconColor: iconColor,
+        hawkFabMenuController: hawkFabMenuController,
+        items: [
+          HawkFabMenuItem(
+            label: 'Username',
+            ontap: () {},
+            icon: const Icon(Icons.home),
+            color: AppColors.darkGrey,
+            labelColor: AppColors.black,
+            labelBackgroundColor: AppColors.white,
+          ),
+          HawkFabMenuItem(
+            label: 'Publicar novo conteúdo',
+            ontap: () {},
+            icon: const Icon(Icons.article),
+            color: AppColors.darkGrey,
+            labelColor: AppColors.black,
+            labelBackgroundColor: AppColors.white,
+          ),
+          HawkFabMenuItem(
+            label: 'Editar perfil',
+            ontap: () {},
+            icon: const Icon(Icons.person),
+            color: AppColors.darkGrey,
+            labelColor: AppColors.black,
+            labelBackgroundColor: AppColors.white,
+          ),
+          HawkFabMenuItem(
+            label: 'Configurações',
+            ontap: () {},
+            icon: const Icon(Icons.settings),
+            color: AppColors.darkGrey,
+            labelColor: AppColors.black,
+            labelBackgroundColor: AppColors.white,
+          ),
+          HawkFabMenuItem(
+            label: 'Deslogar',
+            ontap: () {},
+            icon: const Icon(Icons.exit_to_app),
+            color: AppColors.red,
+            labelColor: AppColors.black,
+            labelBackgroundColor: AppColors.white,
+          ),
+        ],
+        body: Container());
   }
 }

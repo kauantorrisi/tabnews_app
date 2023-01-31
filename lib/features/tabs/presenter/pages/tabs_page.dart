@@ -22,6 +22,14 @@ class _TabsPageState extends State<TabsPage> {
   final cubit = Modular.get<TabsCubit>();
 
   @override
+  void initState() {
+    // TODO VER SE RESOLVEU ERRO DE VOLTAR E N CARREGAR PELO BOTAO DO SISTEMA ANDROID.
+    cubit.getRelevantTabs();
+    cubit.getRecentTabs();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(builder: (context, _) {
       return BlocBuilder<TabsCubit, TabsState>(
@@ -43,7 +51,6 @@ class _TabsPageState extends State<TabsPage> {
                     ? cubit.getRelevantTabs()
                     : cubit.getRecentTabs(),
                 child: Scaffold(
-                  extendBody: true,
                   backgroundColor: AppColors.grey,
                   body: Column(
                     children: [
@@ -52,7 +59,7 @@ class _TabsPageState extends State<TabsPage> {
                           'TabNews',
                           style: TextStyle(
                             color: AppColors.white,
-                            fontWeight: FontWeight.w900,
+                            fontWeight: FontWeight.w700,
                             fontSize: 24,
                           ),
                         ),
@@ -66,23 +73,36 @@ class _TabsPageState extends State<TabsPage> {
                             },
                           ),
                         ),
-                      if (state is TabsLoading)
-                        const Center(
-                          child: LinearProgressIndicator(),
-                        ),
-                      if (state is TabsError)
-                        const Center(
-                          child: Text('ERROR'),
-                        ),
+                      if (state is TabsLoading) const LinearProgressIndicator(),
+                      if (state is TabsError) const Text('ERROR'),
                     ],
                   ),
                   floatingActionButtonLocation:
-                      FloatingActionButtonLocation.centerDocked,
-                  floatingActionButton: TNUserFAB(
-                    icon: Icons.person,
-                    onPressed: () {},
+                      FloatingActionButtonLocation.endFloat,
+                  floatingActionButton: TNMenuFAB(
+                    icon: AnimatedIcons.list_view,
+                    iconColor: AppColors.white,
+                    hawkFabMenuController: cubit.hawkFabMenuController,
+                    onPressed: () {
+                      cubit.hawkFabMenuController.toggleMenu();
+                    },
                   ),
-                  bottomNavigationBar: _tNBottomNavigationBar(),
+                  bottomNavigationBar: TNBottomNavigationBar(
+                    onPressedInRelevantButton: () async {
+                      await cubit.getRelevantTabs();
+                    },
+                    colorRelevantIcon: cubit.isInRelevantPage == true
+                        ? AppColors.blue
+                        : AppColors.white,
+                    onPressedInRecentButton: () async {
+                      await cubit.getRecentTabs();
+                    },
+                    colorRecentIcon: cubit.isInRelevantPage == false
+                        ? AppColors.blue
+                        : AppColors.white,
+                    colorSaveIcon: AppColors
+                        .white, // TODO ajustar cor se estiver nos tabs salvos
+                  ),
                 ),
               ),
             ),
@@ -129,62 +149,74 @@ class _TabsPageState extends State<TabsPage> {
             arguments: cubit,
           );
         },
-        child: Container(
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            border: Border.all(color: AppColors.white, width: 1.5),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                '${index + 1}. ${tabsList[index].title}',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.white,
-                ),
-                textAlign: TextAlign.center,
-                overflow: TextOverflow.clip,
-              ),
-              RichText(
-                text: TextSpan(
-                  text: '${tabsList[index].tabcoins} tabcoins • ',
-                  style: TextStyle(color: AppColors.lightGrey),
-                  children: [
-                    TextSpan(
-                      text:
-                          '${tabsList[index].childrenDeepCount} comentários • ',
+        child: Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 10, right: 20, bottom: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    '${index + 1}',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.white,
                     ),
-                    TextSpan(
-                      text: tabsList[index].ownerUsername,
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    tabsList[index].title,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.white,
+                    ),
+                    overflow: TextOverflow.clip,
+                  ),
+                  RichText(
+                    text: TextSpan(
+                      text: '${tabsList[index].tabcoins} tabcoins • ',
+                      style: TextStyle(color: AppColors.lightGrey),
+                      children: [
+                        TextSpan(
+                          text:
+                              '${tabsList[index].childrenDeepCount} comentários • ',
+                        ),
+                        TextSpan(
+                          text: '${tabsList[index].ownerUsername} • ',
+                        ),
+                        const TextSpan(
+                          text: 'há algum tempo',
+                        ),
+                      ],
+                    ),
+                  ),
+                  _divider(),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Widget _tNBottomNavigationBar() {
-    return TNBottomNavigationBar(
-      onPressedInRelevantButton: () async {
-        cubit.isInRelevantPage = true;
-        await cubit.getRelevantTabs();
-      },
-      colorRelevantIcon:
-          cubit.isInRelevantPage == true ? AppColors.blue : AppColors.white,
-      onPressedInRecentButton: () async {
-        cubit.isInRelevantPage = false;
-        await cubit.getRecentTabs();
-      },
-      colorRecentIcon:
-          cubit.isInRelevantPage == false ? AppColors.blue : AppColors.white,
+  Widget _divider() {
+    return Container(
+      margin: const EdgeInsets.only(top: 20),
+      color: AppColors.lightGrey,
+      width: 500,
+      height: 1.5,
     );
   }
 }

@@ -2,6 +2,7 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:hawk_fab_menu/hawk_fab_menu.dart';
 
 import 'package:tabnews_app/core/errors/app_failures.dart';
 import 'package:tabnews_app/features/tabs/domain/entities/tab_entity.dart';
@@ -35,10 +36,12 @@ class TabsCubit extends Cubit<TabsState> {
   bool isInRelevantPage = true;
   late TabEntity pressedTab;
 
-  int addPage(int? page) => page! + 1;
+  HawkFabMenuController hawkFabMenuController = HawkFabMenuController();
+
+  int loadNextPage(int? page) => page! + 1;
 
   Future<void> loadMoreRelevantTabs() async {
-    relevantPage = addPage(relevantPage);
+    relevantPage = loadNextPage(relevantPage);
     final tabList = await getAllTabsUsecase(GetAllTabsParams(
         page: relevantPage!, perPage: 30, strategy: 'relevant'));
     tabList.forEach((tabList) {
@@ -48,7 +51,7 @@ class TabsCubit extends Cubit<TabsState> {
   }
 
   Future<void> loadMoreRecentTabs() async {
-    recentPage = addPage(recentPage);
+    recentPage = loadNextPage(recentPage);
     final tabList = await getAllTabsUsecase(
         GetAllTabsParams(page: recentPage!, perPage: 30, strategy: 'new'));
     tabList.forEach((tabList) {
@@ -59,6 +62,7 @@ class TabsCubit extends Cubit<TabsState> {
 
   Future<void> getRelevantTabs() async {
     emit(TabsLoading());
+    isInRelevantPage = true;
     final tabList = await getAllTabsUsecase(GetAllTabsParams(
         page: relevantPage!, perPage: 30, strategy: 'relevant'));
     if (relevantTabsList.isEmpty) {
@@ -71,6 +75,7 @@ class TabsCubit extends Cubit<TabsState> {
 
   Future<void> getRecentTabs() async {
     emit(TabsLoading());
+    isInRelevantPage = false;
     final results = await getAllTabsUsecase(
         GetAllTabsParams(page: recentPage!, perPage: 30, strategy: 'new'));
     if (recentTabsList.isEmpty) {

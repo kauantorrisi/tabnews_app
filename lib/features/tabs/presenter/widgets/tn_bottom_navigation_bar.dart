@@ -9,47 +9,54 @@ class TNBottomNavigationBar extends StatelessWidget {
     required this.onPressedInRecentButton,
     this.colorRelevantIcon,
     this.colorRecentIcon,
+    this.colorSaveIcon,
   });
 
   final Function()? onPressedInRelevantButton;
   final Function()? onPressedInRecentButton;
   final Color? colorRelevantIcon;
   final Color? colorRecentIcon;
+  final Color? colorSaveIcon;
 
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(
-      notchMargin: 5,
       elevation: 10,
       shape: const CircularNotchedRectangle(),
       color: AppColors.darkGrey,
-      child: IconTheme(
-        data: IconThemeData(color: Theme.of(context).colorScheme.onPrimary),
-        child: Padding(
-          padding: const EdgeInsets.all(12),
-          child: Row(
-            children: [
-              const Spacer(),
-              IconButton(
-                onPressed: onPressedInRelevantButton,
-                icon: Icon(
-                  Icons.bar_chart_rounded,
-                  size: 35,
-                  color: colorRelevantIcon,
-                ),
+      child: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Row(
+          children: [
+            const Spacer(),
+            IconButton(
+              onPressed: onPressedInRelevantButton,
+              icon: Icon(
+                Icons.bar_chart_rounded,
+                size: 30,
+                color: colorRelevantIcon,
               ),
-              const Spacer(flex: 4),
-              IconButton(
-                onPressed: onPressedInRecentButton,
-                icon: Icon(
-                  Icons.access_time_rounded,
-                  size: 35,
-                  color: colorRecentIcon,
-                ),
+            ),
+            const Spacer(flex: 2),
+            IconButton(
+              onPressed: onPressedInRecentButton,
+              icon: Icon(
+                Icons.access_time_rounded,
+                size: 30,
+                color: colorRecentIcon,
               ),
-              const Spacer(),
-            ],
-          ),
+            ),
+            const Spacer(flex: 2),
+            IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.bookmarks,
+                size: 30,
+                color: colorSaveIcon,
+              ),
+            ),
+            const Spacer(),
+          ],
         ),
       ),
     );
