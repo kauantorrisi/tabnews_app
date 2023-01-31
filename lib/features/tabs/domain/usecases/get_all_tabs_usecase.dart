@@ -4,7 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:tabnews_app/core/errors/app_failures.dart';
 import 'package:tabnews_app/core/usecases/usecase.dart';
 import 'package:tabnews_app/features/tabs/domain/entities/tab_entity.dart';
-import 'package:tabnews_app/features/tabs/domain/repositories/i_tabnews_repository.dart';
+import 'package:tabnews_app/features/tabs/domain/repositories/i_tabs_repository.dart';
 
 class GetAllTabsUsecase implements Usecase<List<TabEntity>, GetAllTabsParams> {
   final ITabsRepository repository;

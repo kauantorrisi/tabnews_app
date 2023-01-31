@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-import 'package:tabnews_app/features/tabs/domain/repositories/i_tabnews_repository.dart';
+import 'package:tabnews_app/features/tabs/domain/repositories/i_tabs_repository.dart';
 import 'package:tabnews_app/features/tabs/domain/usecases/get_all_tabs_usecase.dart';
 
 import '../../mocks/t_list_tab_entities.dart';
