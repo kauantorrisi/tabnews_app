@@ -23,7 +23,7 @@ class _TabsPageState extends State<TabsPage> {
 
   @override
   void initState() {
-    // TODO VER SE RESOLVEU ERRO DE VOLTAR E N CARREGAR PELO BOTAO DO SISTEMA ANDROID.
+    // TODO VER SE RESOLVEU ERRO DE VOLTAR E Não CARREGAR PELO BOTAO DO SISTEMA ANDROID.
     cubit.getRelevantTabs();
     cubit.getRecentTabs();
     super.initState();
@@ -101,7 +101,7 @@ class _TabsPageState extends State<TabsPage> {
                         ? AppColors.blue
                         : AppColors.white,
                     colorSaveIcon: AppColors
-                        .white, // TODO ajustar cor se estiver nos tabs salvos
+                        .white, // TODO ajustar cor se estiver na página dos tabs salvos
                   ),
                 ),
               ),
@@ -152,7 +152,7 @@ class _TabsPageState extends State<TabsPage> {
         child: Row(
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 10, right: 20, bottom: 20),
+              padding: const EdgeInsets.only(left: 10, right: 20, bottom: 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -161,7 +161,7 @@ class _TabsPageState extends State<TabsPage> {
                     '${index + 1}',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 15,
                       fontWeight: FontWeight.bold,
                       color: AppColors.white,
                     ),
@@ -196,7 +196,8 @@ class _TabsPageState extends State<TabsPage> {
                           text: '${tabsList[index].ownerUsername} • ',
                         ),
                         const TextSpan(
-                          text: 'há algum tempo',
+                          text:
+                              'há algum tempo', // TODO adicionar há quanto tempo em que o tab foi publicado
                         ),
                       ],
                     ),
@@ -213,7 +214,7 @@ class _TabsPageState extends State<TabsPage> {
 
   Widget _divider() {
     return Container(
-      margin: const EdgeInsets.only(top: 20),
+      margin: const EdgeInsets.only(top: 10),
       color: AppColors.lightGrey,
       width: 500,
       height: 1.5,

@@ -191,7 +191,11 @@ class PressedTabPage extends StatelessWidget {
               ),
             ),
             const Spacer(flex: 2),
-            Icon(Icons.chat_bubble_outline, color: AppColors.white),
+            IconButton(
+              icon: const Icon(Icons.chat_bubble_outline),
+              color: AppColors.white,
+              onPressed: () {},
+            ),
             Text(
               ' ${cubit.pressedTab.childrenDeepCount}',
               style: TextStyle(
@@ -224,32 +228,64 @@ class PressedTabPage extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       itemCount: cubit.tabComments.length,
       itemBuilder: (context, index) {
-        return Column(
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 12, bottom: 5),
-              child: Text(
-                '${cubit.tabComments[index].ownerUsername}: ',
-                style: TextStyle(
-                  color: AppColors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
+            Column(
+              // TODO implementar upvote e downvote nos comentários
+              children: [
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.keyboard_arrow_up),
+                  color: AppColors.green,
                 ),
-              ),
+                Text(
+                  '${cubit.tabComments[index].tabcoins}',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: AppColors.white,
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.keyboard_arrow_down),
+                  color: AppColors.red,
+                ),
+              ],
             ),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                color: AppColors.darkGrey,
-                border: Border.all(
-                  color: AppColors.white,
-                  width: 1.5,
-                ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 12, bottom: 5),
+                    child: Text(
+                      '${cubit.tabComments[index].ownerUsername}: ',
+                      style: TextStyle(
+                        color: AppColors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      color: AppColors.grey,
+                      border: Border.all(
+                        color: AppColors.white,
+                        width: 1.5,
+                      ),
+                    ),
+                    margin:
+                        const EdgeInsets.only(bottom: 10, left: 10, right: 10),
+                    child: _convertTabBodyToMarkdown(
+                        data: cubit.tabComments[index].body),
+                  ),
+                ],
               ),
-              margin: const EdgeInsets.only(bottom: 10, left: 16, right: 16),
-              child: _convertTabBodyToMarkdown(
-                  data: cubit.tabComments[index].body),
             ),
           ],
         );
