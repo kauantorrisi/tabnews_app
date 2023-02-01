@@ -62,7 +62,7 @@ class TNMenuFAB extends StatelessWidget {
         HawkFabMenuItem(
           label: 'Deslogar',
           ontap: () {
-            Modular.to.pushReplacementNamed('/auth-module/');
+            Modular.to.pushReplacementNamed(Modular.initialRoute);
           },
           icon: const Icon(Icons.exit_to_app),
           color: AppColors.red,

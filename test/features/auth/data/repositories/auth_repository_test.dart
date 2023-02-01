@@ -5,10 +5,8 @@ import 'package:mocktail/mocktail.dart';
 import 'package:tabnews_app/core/errors/app_exceptions.dart';
 import 'package:tabnews_app/core/errors/app_failures.dart';
 import 'package:tabnews_app/features/auth/data/datasources/auth_datasource.dart';
-import 'package:tabnews_app/features/auth/data/models/login_model.dart';
 import 'package:tabnews_app/features/auth/data/repositories/auth_repository.dart';
 
-import '../../mocks/t_login_entity.dart';
 import '../../mocks/t_login_model.dart';
 import '../../mocks/t_recovery_password_model.dart';
 import '../../mocks/t_register_model.dart';

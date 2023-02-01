@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 
 import 'package:tabnews_app/features/tabs/domain/entities/tab_entity.dart';
-import 'package:tabnews_app/features/tabs/presenter/cubits/tabs_cubit.dart';
+import 'package:tabnews_app/features/tabs/presenter/cubit/tabs_cubit.dart';
 import 'package:tabnews_app/features/tabs/presenter/widgets/tn_bottom_navigation_bar.dart';
 import 'package:tabnews_app/features/tabs/presenter/widgets/tn_user_fab.dart';
 import 'package:tabnews_app/libraries/common/design/app_colors.dart';
@@ -123,7 +123,7 @@ class _TabsPageState extends State<TabsPage> {
             GestureDetector(
               onTap: () =>
                   Modular.to.pushReplacementNamed(Modular.initialRoute),
-              child: Image.asset('lib/assets/images/TabNews_Logo.png'),
+              child: Image.asset('lib/assets/images/TabNewsIcon.png'),
             ),
             const Spacer(),
             Padding(

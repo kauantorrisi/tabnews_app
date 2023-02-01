@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:equatable/equatable.dart';
 import 'package:tabnews_app/features/auth/domain/entities/login_entity.dart';
 
 class LoginModel extends LoginEntity {

@@ -18,7 +18,14 @@ class AuthDatasource implements IAuthDatasource {
 
   @override
   Future<LoginModel> login(String email, String password) async {
-    Response result = await dio.post(loginUrl);
+    Response result = await dio.post(
+      loginUrl,
+      options: Options(contentType: 'application/json'),
+      data: {
+        "email": email,
+        "password": password,
+      },
+    );
     Map<String, dynamic> response = result.data;
     if (result.statusCode == 201) {
       final LoginModel loginModel = LoginModel.fromJson(response);
@@ -28,7 +35,7 @@ class AuthDatasource implements IAuthDatasource {
     }
   }
 
-  @override
+  @override // TODO: AJEITAR REQUISIÇÃO PASSANDO BODY
   Future<RegisterModel> register(
       String username, String email, String password) async {
     Response result = await dio.post(registerUrl);
@@ -41,7 +48,7 @@ class AuthDatasource implements IAuthDatasource {
     }
   }
 
-  @override
+  @override // TODO: AJEITAR REQUISIÇÃO PASSANDO BODY
   Future<RecoveryPasswordModel> recoveryPassword(String emailOrUsername) async {
     Response result = await dio.post(recoveryPasswordUrl);
     Map<String, dynamic> response = result.data;
