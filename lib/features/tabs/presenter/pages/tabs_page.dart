@@ -11,23 +11,12 @@ import 'package:tabnews_app/features/tabs/presenter/widgets/tn_bottom_navigation
 import 'package:tabnews_app/features/tabs/presenter/widgets/tn_user_fab.dart';
 import 'package:tabnews_app/libraries/common/design/app_colors.dart';
 
-class TabsPage extends StatefulWidget {
-  const TabsPage({super.key});
+class TabsPage extends StatelessWidget {
+  TabsPage({
+    super.key,
+  });
 
-  @override
-  State<TabsPage> createState() => _TabsPageState();
-}
-
-class _TabsPageState extends State<TabsPage> {
   final cubit = Modular.get<TabsCubit>();
-
-  @override
-  void initState() {
-    // TODO VER SE RESOLVEU ERRO DE VOLTAR E Não CARREGAR PELO BOTAO DO SISTEMA ANDROID.
-    cubit.getRelevantTabs();
-    cubit.getRecentTabs();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,17 +58,19 @@ class _TabsPageState extends State<TabsPage> {
                           child: ListView.builder(
                             itemCount: tabList.length,
                             itemBuilder: (context, index) {
-                              return _tabCard(tabList, index);
+                              return _tabCard(tabList, index, state);
                             },
                           ),
                         ),
                       if (state is TabsLoading) const LinearProgressIndicator(),
-                      if (state is TabsError) const Text('ERROR'),
+                      if (state is TabsError)
+                        const Text('ERROR'), // TODO Melhorar tela de erro.
                     ],
                   ),
                   floatingActionButtonLocation:
                       FloatingActionButtonLocation.endFloat,
                   floatingActionButton: TNMenuFAB(
+                    username: '', // TODO add username here
                     icon: AnimatedIcons.list_view,
                     iconColor: AppColors.white,
                     hawkFabMenuController: cubit.hawkFabMenuController,
@@ -137,17 +128,19 @@ class _TabsPageState extends State<TabsPage> {
     );
   }
 
-  Widget _tabCard(List<TabEntity> tabsList, int index) {
+  Widget _tabCard(List<TabEntity> tabsList, int index, TabsState state) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: GestureDetector(
         onTap: () async {
           await cubit.getTab(index: index);
           await cubit.getTabComments();
-          Modular.to.pushNamed(
-            '/tabs-module/pressed-tab-page',
-            arguments: cubit,
-          );
+          if (state is TabLoaded) {
+            Modular.to.pushNamed(
+              '/tabs-module/pressed-tab-page',
+              arguments: cubit,
+            );
+          }
         },
         child: Row(
           children: [

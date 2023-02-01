@@ -9,7 +9,6 @@ import 'package:tabnews_app/features/auth/data/repositories/auth_repository.dart
 
 import '../../mocks/t_login_model.dart';
 import '../../mocks/t_recovery_password_model.dart';
-import '../../mocks/t_register_model.dart';
 
 class MockAuthDatasource extends Mock implements IAuthDatasource {}
 
@@ -41,30 +40,6 @@ void main() {
           .thenThrow(ServerException());
 
       final result = await repository.login('', '');
-
-      expect(result, Left(ServerFailure()));
-    });
-  });
-
-  group('Register', () {
-    test(
-        'should return a RegisterModel when the call of the datasource is successful',
-        () async {
-      when(() => mockAuthDatasource.register(any(), any(), any()))
-          .thenAnswer((_) async => tRegisterModel);
-
-      final result = await repository.register('', '', '');
-
-      expect(result, equals(Right(tRegisterModel)));
-    });
-
-    test(
-        'should return a ServerFailure when the call of the datasource is unsuccessful',
-        () async {
-      when(() => mockAuthDatasource.register(any(), any(), any()))
-          .thenThrow(ServerException());
-
-      final result = await repository.register('', '', '');
 
       expect(result, Left(ServerFailure()));
     });

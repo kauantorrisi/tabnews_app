@@ -5,10 +5,14 @@ import 'package:equatable/equatable.dart';
 import 'package:hawk_fab_menu/hawk_fab_menu.dart';
 
 import 'package:tabnews_app/core/errors/app_failures.dart';
+import 'package:tabnews_app/core/usecases/usecase.dart';
+import 'package:tabnews_app/features/auth/domain/entities/login_entity.dart';
 import 'package:tabnews_app/features/tabs/domain/entities/tab_entity.dart';
+import 'package:tabnews_app/features/tabs/domain/entities/user_entity.dart';
 import 'package:tabnews_app/features/tabs/domain/usecases/get_all_tabs_usecase.dart';
 import 'package:tabnews_app/features/tabs/domain/usecases/get_tab_comments_usecase.dart';
 import 'package:tabnews_app/features/tabs/domain/usecases/get_tab_usecase.dart';
+import 'package:tabnews_app/features/tabs/domain/usecases/get_user_usecase.dart';
 
 part 'tabs_state.dart';
 
@@ -17,6 +21,7 @@ class TabsCubit extends Cubit<TabsState> {
     this.getAllTabsUsecase,
     this.getTabCommentsUsecase,
     this.getTabUsecase,
+    this.getUserUsecase,
   ) : super(TabsInitial()) {
     getRelevantTabs();
     getRecentTabs();
@@ -25,6 +30,7 @@ class TabsCubit extends Cubit<TabsState> {
   final GetAllTabsUsecase getAllTabsUsecase;
   final GetTabCommentsUsecase getTabCommentsUsecase;
   final GetTabUsecase getTabUsecase;
+  final GetUserUsecase getUserUsecase;
 
   List<TabEntity> relevantTabsList = [];
   List<TabEntity> recentTabsList = [];
@@ -34,7 +40,7 @@ class TabsCubit extends Cubit<TabsState> {
   int? recentPage = 1;
 
   bool isInRelevantPage = true;
-  late TabEntity pressedTab;
+  TabEntity? pressedTab;
 
   HawkFabMenuController hawkFabMenuController = HawkFabMenuController();
 
@@ -47,7 +53,7 @@ class TabsCubit extends Cubit<TabsState> {
     tabList.forEach((tabList) {
       relevantTabsList.addAll(tabList);
     });
-    tabList.fold((l) => emit(TabsError(l)), (r) => emit(TabsLoaded(r)));
+    tabList.fold((l) => emit(TabsError()), (r) => emit(TabsLoaded()));
   }
 
   Future<void> loadMoreRecentTabs() async {
@@ -57,7 +63,7 @@ class TabsCubit extends Cubit<TabsState> {
     tabList.forEach((tabList) {
       recentTabsList.addAll(tabList);
     });
-    tabList.fold((l) => emit(TabsError(l)), (r) => emit(TabsLoaded(r)));
+    tabList.fold((l) => emit(TabsError()), (r) => emit(TabsLoaded()));
   }
 
   Future<void> getRelevantTabs() async {
@@ -70,7 +76,7 @@ class TabsCubit extends Cubit<TabsState> {
         relevantTabsList.addAll(tabList);
       });
     }
-    tabList.fold((l) => emit(TabsError(l)), (r) => emit(TabsLoaded(r)));
+    tabList.fold((l) => emit(TabsError()), (r) => emit(TabsLoaded()));
   }
 
   Future<void> getRecentTabs() async {
@@ -83,7 +89,7 @@ class TabsCubit extends Cubit<TabsState> {
         recentTabsList.addAll(tabList);
       });
     }
-    results.fold((l) => emit(TabsError(l)), (r) => emit(TabsLoaded(r)));
+    results.fold((l) => emit(TabsError()), (r) => emit(TabsLoaded()));
   }
 
   Future<void> getTab({required int index}) async {
@@ -92,8 +98,8 @@ class TabsCubit extends Cubit<TabsState> {
       final result = await getTabUsecase(GetTabParams(
           ownerUsername: relevantTabsList[index].ownerUsername,
           slug: relevantTabsList[index].slug));
-      result.fold((l) => emit(TabsError(l)), (r) {
-        emit(TabLoaded(r));
+      result.fold((l) => emit(TabsError()), (r) {
+        emit(TabLoaded());
         pressedTab = r;
       });
     } else {
@@ -101,9 +107,9 @@ class TabsCubit extends Cubit<TabsState> {
           ownerUsername: recentTabsList[index].ownerUsername,
           slug: recentTabsList[index].slug));
       result.fold(
-        (l) => emit(TabsError(l)),
+        (l) => emit(TabsError()),
         (r) {
-          emit(TabLoaded(r));
+          emit(TabLoaded());
           pressedTab = r;
         },
       );
@@ -114,7 +120,7 @@ class TabsCubit extends Cubit<TabsState> {
     emit(TabsLoading());
     tabComments = [];
     final results = await getTabCommentsUsecase(GetTabCommentsParams(
-        ownerUsername: pressedTab.ownerUsername, slug: pressedTab.slug));
+        ownerUsername: pressedTab!.ownerUsername, slug: pressedTab!.slug));
     results.forEach((comments) {
       tabComments.addAll(comments);
     });

@@ -46,7 +46,7 @@ class PressedTabPage extends StatelessWidget {
   Widget _body() {
     return Column(
       children: [
-        _convertTabBodyToMarkdown(data: cubit.pressedTab.body),
+        _convertTabBodyToMarkdown(data: cubit.pressedTab?.body),
         _tabStatusBar(),
         _commentsOfTab(),
       ],
@@ -78,7 +78,7 @@ class PressedTabPage extends StatelessWidget {
           SizedBox(
             width: 250.w,
             child: Text(
-              cubit.pressedTab.title,
+              cubit.pressedTab?.title,
               style: TextStyle(
                 color: AppColors.white,
                 fontSize: 16,
@@ -111,7 +111,7 @@ class PressedTabPage extends StatelessWidget {
         ),
         child: Center(
           child: Text(
-            cubit.pressedTab.ownerUsername,
+            cubit.pressedTab!.ownerUsername,
             style: TextStyle(
               color: AppColors.black,
               fontSize: 16,
@@ -176,7 +176,7 @@ class PressedTabPage extends StatelessWidget {
               ),
             ),
             Text(
-              ' ${cubit.pressedTab.tabcoins}',
+              ' ${cubit.pressedTab?.tabcoins}',
               style: TextStyle(
                 color: AppColors.white,
                 fontSize: 16,
@@ -197,7 +197,7 @@ class PressedTabPage extends StatelessWidget {
               onPressed: () {},
             ),
             Text(
-              ' ${cubit.pressedTab.childrenDeepCount}',
+              ' ${cubit.pressedTab?.childrenDeepCount}',
               style: TextStyle(
                 color: AppColors.white,
                 fontSize: 16,

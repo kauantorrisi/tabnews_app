@@ -12,12 +12,14 @@ class TNMenuFAB extends StatelessWidget {
     this.icon,
     required this.hawkFabMenuController,
     this.iconColor,
+    required this.username,
   });
 
   final Function()? onPressed;
   final AnimatedIconData? icon;
   final HawkFabMenuController hawkFabMenuController;
   final Color? iconColor;
+  final String username;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,7 @@ class TNMenuFAB extends StatelessWidget {
       hawkFabMenuController: hawkFabMenuController,
       items: [
         HawkFabMenuItem(
-          label: 'Username',
+          label: username,
           ontap: () {},
           icon: const Icon(Icons.home),
           color: AppColors.darkGrey,

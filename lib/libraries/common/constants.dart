@@ -3,6 +3,7 @@ const String baseUrl = 'https://www.tabnews.com.br/api/v1';
 /* TABS */
 
 const String getContentsUrl = '$baseUrl/contents'; // GET
+const String getUserUrl = '$baseUrl/user';
 
 /* AUTH */
 

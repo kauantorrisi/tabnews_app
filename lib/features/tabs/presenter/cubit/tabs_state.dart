@@ -1,40 +1,16 @@
 part of 'tabs_cubit.dart';
 
-abstract class TabsState extends Equatable {}
-
-class TabsInitial extends TabsState {
+abstract class TabsState extends Equatable {
   @override
   List<Object?> get props => [];
 }
 
-class TabsLoaded extends TabsState {
-  TabsLoaded(this.tabList);
+class TabsInitial extends TabsState {}
 
-  final List<TabEntity> tabList;
+class TabsLoaded extends TabsState {}
 
-  @override
-  List<Object?> get props => [tabList];
-}
+class TabsError extends TabsState {}
 
-class TabsError extends TabsState {
-  TabsError(this.failure);
+class TabsLoading extends TabsState {}
 
-  final Failure failure;
-
-  @override
-  List<Object?> get props => [failure];
-}
-
-class TabsLoading extends TabsState {
-  @override
-  List<Object?> get props => [];
-}
-
-class TabLoaded extends TabsState {
-  TabLoaded(this.tab);
-
-  final TabEntity tab;
-
-  @override
-  List<Object?> get props => [tab];
-}
+class TabLoaded extends TabsState {}
