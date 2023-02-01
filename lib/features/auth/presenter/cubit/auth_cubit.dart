@@ -1,9 +1,12 @@
 // ignore_for_file: depend_on_referenced_packages
 
-import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
+import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
+import 'package:flutter_modular/flutter_modular.dart';
+
+import 'package:tabnews_app/core/errors/app_failures.dart';
 import 'package:tabnews_app/features/auth/domain/entities/login_entity.dart';
 import 'package:tabnews_app/features/auth/domain/entities/recovery_password_entity.dart';
 import 'package:tabnews_app/features/auth/domain/entities/register_entity.dart';
@@ -37,7 +40,21 @@ class AuthCubit extends Cubit<AuthState> {
       email: loginEmailController.text,
       password: loginPasswordController.text,
     ));
-    result.fold((l) => emit(AuthError()), (r) => loginEntity = r);
+    result.fold(
+      (l) {
+        if (l == ServerFailure('"email" deve conter um email válido.')) {
+          emit(AuthEmailException());
+        } else if (l == ServerFailure("Dados não conferem.")) {
+          emit(AuthPasswordException());
+        } else {
+          emit(AuthError());
+        }
+      },
+      (r) {
+        loginEntity = r;
+        Modular.to.pushReplacementNamed('/tabs-module/');
+      },
+    );
   }
 
   Future<void> register({

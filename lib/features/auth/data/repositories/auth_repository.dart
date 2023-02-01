@@ -1,10 +1,12 @@
-import 'package:tabnews_app/core/errors/app_exceptions.dart';
-import 'package:tabnews_app/features/auth/data/datasources/auth_datasource.dart';
-import 'package:tabnews_app/features/auth/domain/entities/register_entity.dart';
-import 'package:tabnews_app/features/auth/domain/entities/recovery_password_entity.dart';
-import 'package:tabnews_app/features/auth/domain/entities/login_entity.dart';
-import 'package:tabnews_app/core/errors/app_failures.dart';
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
+
+import 'package:tabnews_app/core/errors/app_exceptions.dart';
+import 'package:tabnews_app/core/errors/app_failures.dart';
+import 'package:tabnews_app/features/auth/data/datasources/auth_datasource.dart';
+import 'package:tabnews_app/features/auth/domain/entities/login_entity.dart';
+import 'package:tabnews_app/features/auth/domain/entities/recovery_password_entity.dart';
+import 'package:tabnews_app/features/auth/domain/entities/register_entity.dart';
 import 'package:tabnews_app/features/auth/domain/repositories/i_auth_repository.dart';
 
 class AuthRepository implements IAuthRepository {
@@ -21,6 +23,9 @@ class AuthRepository implements IAuthRepository {
     } on ServerException {
       return Left(ServerFailure());
     } catch (e) {
+      if (e is DioError) {
+        return Left(ServerFailure(e.response?.data["message"]));
+      }
       rethrow;
     }
   }

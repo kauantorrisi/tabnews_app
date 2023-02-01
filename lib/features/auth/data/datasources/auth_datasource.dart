@@ -18,14 +18,12 @@ class AuthDatasource implements IAuthDatasource {
 
   @override
   Future<LoginModel> login(String email, String password) async {
-    Response result = await dio.post(
-      loginUrl,
-      options: Options(contentType: 'application/json'),
-      data: {
-        "email": email,
-        "password": password,
-      },
-    );
+    Response result = await dio.post(loginUrl,
+        options: Options(contentType: 'application/json'),
+        data: {
+          "email": email,
+          "password": password,
+        });
     Map<String, dynamic> response = result.data;
     if (result.statusCode == 201) {
       final LoginModel loginModel = LoginModel.fromJson(response);
@@ -35,10 +33,16 @@ class AuthDatasource implements IAuthDatasource {
     }
   }
 
-  @override // TODO: AJEITAR REQUISIÇÃO PASSANDO BODY
+  @override
   Future<RegisterModel> register(
       String username, String email, String password) async {
-    Response result = await dio.post(registerUrl);
+    Response result = await dio.post(registerUrl,
+        options: Options(contentType: 'application/json'),
+        data: {
+          "username": username,
+          "email": email,
+          "password": password,
+        });
     Map<String, dynamic> response = result.data;
     if (result.statusCode == 201) {
       final RegisterModel registerModel = RegisterModel.fromJson(response);
@@ -48,9 +52,14 @@ class AuthDatasource implements IAuthDatasource {
     }
   }
 
-  @override // TODO: AJEITAR REQUISIÇÃO PASSANDO BODY
+  @override
   Future<RecoveryPasswordModel> recoveryPassword(String emailOrUsername) async {
-    Response result = await dio.post(recoveryPasswordUrl);
+    Response result = await dio.post(recoveryPasswordUrl,
+        options: Options(contentType: 'application/json'),
+        data: {
+          "email": emailOrUsername,
+          "username": emailOrUsername,
+        });
     Map<String, dynamic> response = result.data;
     if (result.statusCode == 201) {
       final RecoveryPasswordModel recoveryPasswordModel =
