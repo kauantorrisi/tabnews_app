@@ -20,107 +20,133 @@ class LoginPage extends StatelessWidget {
     return ScreenUtilInit(
         designSize: Size(screenSize.width, screenSize.height),
         builder: (context, widget) {
-          return _loginPage();
+          return SafeArea(
+            child: Scaffold(
+              resizeToAvoidBottomInset: false,
+              backgroundColor: AppColors.darkGrey,
+              body: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Center(
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 30.h, bottom: 60.h),
+                      child: Image.asset('lib/assets/images/TabNewsLogo.png'),
+                    ),
+                  ),
+                  const Spacer(),
+                  _body(),
+                  const Spacer(flex: 2),
+                  _footer(),
+                  const Spacer(),
+                ],
+              ),
+            ),
+          );
         });
   }
 
-  Widget _loginPage() {
-    return BlocBuilder<AuthCubit, AuthState>(
-      bloc: cubit,
-      builder: (context, state) {
-        return SafeArea(
-          child: Scaffold(
-            resizeToAvoidBottomInset: false,
-            backgroundColor: AppColors.darkGrey,
-            body: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Center(
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 30.h, bottom: 60.h),
-                    child: Image.asset('lib/assets/images/TabNewsLogo.png'),
-                  ),
-                ),
-                const Spacer(),
-                _body(state),
-                const Spacer(flex: 2),
-                _footer(),
-                const Spacer(),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _body(AuthState state) {
+  Widget _body() {
     final textfieldIsEmpty = cubit.loginEmailController.text.isEmpty ||
             cubit.loginPasswordController.text.isEmpty
         ? true
         : false;
 
-    return Column(
-      children: [
-        Text(
-          'Login',
-          style: TextStyle(
-            color: AppColors.white,
-            fontWeight: FontWeight.bold,
-            fontSize: 40.r,
-          ),
-        ),
-        const SizedBox(height: 30),
-        // TODO fazer um widget em um arquivo separado para o textformfield para usar aq e n repetir código
-        TNTextField(
-          icon: Icons.email_outlined,
-          controller: cubit.loginEmailController,
-        ),
-        TNTextField(
-          icon: Icons.lock,
-          controller: cubit.loginPasswordController,
-        ),
-        if (state is AuthEmailException)
-          _errorMessage(message: 'Digite um emal válido!'),
-        if (state is AuthPasswordException)
-          _errorMessage(message: 'Sua senha está incorreta!'),
-        if (state is AuthError)
-          _errorMessage(
-              message:
-                  'Ocorreu um erro durante a tentativa de\nfazer login, tente novamente mais tarde!'),
-        Padding(
-          padding: EdgeInsets.only(
-            top: state is AuthEmailException || state is AuthPasswordException
-                ? 20
-                : state is AuthError
-                    ? 10
-                    : 50,
-          ),
-          child: _logginButton(
-            color: textfieldIsEmpty
-                ? AppColors.darkGreen
-                : state is AuthLoading
-                    ? AppColors.grey
-                    : AppColors.green,
-            widget: state is AuthLoading // && !textfieldIsEmpty
-                ? CircularProgressIndicator(
-                    color: AppColors.green,
-                    strokeWidth: 3,
-                  )
-                : Text(
-                    'Fazer login',
-                    style: TextStyle(
-                      color: textfieldIsEmpty
-                          ? AppColors.white.withAlpha(100)
-                          : AppColors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16.r,
-                    ),
-                  ),
-          ),
-        ),
-      ],
+    return BlocBuilder<AuthCubit, AuthState>(
+      bloc: cubit,
+      builder: (context, state) {
+        return Column(
+          children: [
+            Text(
+              'Login',
+              style: TextStyle(
+                color: AppColors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 40.r,
+              ),
+            ),
+            const SizedBox(height: 30),
+            TNTextField(
+              enabledBorderColor:
+                  state is AuthEmailException || state is AuthError
+                      ? AppColors.red
+                      : AppColors.black,
+              prefixIcon: Icons.email,
+              controller: cubit.loginEmailController,
+              obscureText: false,
+              hintText: 'E-mail',
+              textInputAction: TextInputAction.next,
+            ),
+            const SizedBox(height: 10),
+            TNTextField(
+              enabledBorderColor:
+                  state is AuthPasswordException || state is AuthError
+                      ? AppColors.red
+                      : AppColors.black,
+              prefixIcon: Icons.lock,
+              suffixIcon:
+                  cubit.obscureText ? Icons.visibility : Icons.visibility_off,
+              controller: cubit.loginPasswordController,
+              obscureText: cubit.obscureText,
+              onPressedInVisibilityButton: () {
+                if (FocusScope.of(context).hasFocus) {
+                  cubit.toggleObscureText;
+                  return FocusScope.of(context).unfocus();
+                } else {
+                  cubit.toggleObscureText;
+                  return FocusScope.of(context).requestFocus();
+                }
+              },
+              hintText: 'Senha',
+              textInputAction: TextInputAction.done,
+            ),
+            if (state is AuthEmailException)
+              _errorMessage(message: 'Digite um emal válido!'),
+            if (state is AuthPasswordException)
+              _errorMessage(message: 'Sua senha está incorreta!'),
+            if (state is AuthError)
+              _errorMessage(
+                  message:
+                      'Ocorreu um erro durante a tentativa de\nfazer login, tente novamente mais tarde!'),
+            Padding(
+              padding: EdgeInsets.only(
+                top: state is AuthEmailException ||
+                        state is AuthPasswordException
+                    ? 20
+                    : state is AuthError
+                        ? 10
+                        : 40,
+              ),
+              child: _logginButton(
+                state: state,
+                textfieldIsEmpty: textfieldIsEmpty,
+                color: textfieldIsEmpty
+                    ? AppColors.darkGreen
+                    : state is AuthLoading
+                        ? AppColors.grey
+                        : state is AuthError
+                            ? AppColors.red
+                            : AppColors.green,
+                widget: state is AuthLoading
+                    ? CircularProgressIndicator(
+                        color: AppColors.green,
+                        strokeWidth: 3,
+                      )
+                    : Text(
+                        'Fazer login',
+                        style: TextStyle(
+                          color: textfieldIsEmpty
+                              ? AppColors.white.withAlpha(100)
+                              : AppColors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16.r,
+                        ),
+                      ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -138,12 +164,24 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  Widget _logginButton({required Widget widget, required Color color}) {
+  Widget _logginButton({
+    required Widget widget,
+    required Color color,
+    required AuthState state,
+    required bool textfieldIsEmpty,
+  }) {
     return Padding(
       padding: EdgeInsets.only(top: 20.h, bottom: 40.h),
       child: GestureDetector(
         onTap: () async {
-          await cubit.login();
+          if (!textfieldIsEmpty) {
+            await cubit.login();
+            state is AuthSuccessful
+                ? Modular.to.pushReplacementNamed('/tabs-module/')
+                : null;
+          } else {
+            return;
+          }
         },
         child: Container(
           height: 50.h,

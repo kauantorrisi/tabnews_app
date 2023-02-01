@@ -1,10 +1,10 @@
 // ignore_for_file: depend_on_referenced_packages
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 
 import 'package:tabnews_app/core/errors/app_failures.dart';
 import 'package:tabnews_app/features/auth/domain/entities/login_entity.dart';
@@ -25,6 +25,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   final TextEditingController loginEmailController = TextEditingController();
   final TextEditingController loginPasswordController = TextEditingController();
+  bool obscureText = true;
 
   final LoginUsecase loginUsecase;
   final RegisterUsecase registerUsecase;
@@ -34,6 +35,11 @@ class AuthCubit extends Cubit<AuthState> {
   RegisterEntity? registerEntity;
   RecoveryPasswordEntity? recoveryPasswordEntity;
 
+  bool get toggleObscureText {
+    emit(state);
+    return obscureText = !obscureText;
+  }
+
   Future<void> login() async {
     emit(AuthLoading());
     final result = await loginUsecase(LoginParams(
@@ -42,9 +48,11 @@ class AuthCubit extends Cubit<AuthState> {
     ));
     result.fold(
       (l) {
-        if (l == ServerFailure('"email" deve conter um email válido.')) {
+        if (l == ServerFailure('"email" deve conter um email válido.') ||
+            l == ServerFailure('"email" não pode estar em branco.')) {
           emit(AuthEmailException());
-        } else if (l == ServerFailure("Dados não conferem.")) {
+        } else if (l == ServerFailure("Dados não conferem.") ||
+            l == ServerFailure('"password" não pode estar em branco.')) {
           emit(AuthPasswordException());
         } else {
           emit(AuthError());
@@ -52,7 +60,7 @@ class AuthCubit extends Cubit<AuthState> {
       },
       (r) {
         loginEntity = r;
-        Modular.to.pushReplacementNamed('/tabs-module/');
+        emit(AuthSuccessful());
       },
     );
   }
