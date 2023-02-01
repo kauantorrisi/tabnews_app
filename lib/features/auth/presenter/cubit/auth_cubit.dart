@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
 import 'package:tabnews_app/core/errors/app_failures.dart';
 import 'package:tabnews_app/features/auth/domain/entities/login_entity.dart';
@@ -33,12 +34,11 @@ class AuthCubit extends Cubit<AuthState> {
   RecoveryPasswordEntity? recoveryPasswordEntity;
 
   bool get toggleObscureText {
-    emit(state);
     return obscureText = !obscureText;
   }
 
   Future<void> login() async {
-    emit(AuthLoading());
+    emit(LoginLoading());
     final result = await loginUsecase(LoginParams(
       email: loginEmailController.text,
       password: loginPasswordController.text,
@@ -47,17 +47,17 @@ class AuthCubit extends Cubit<AuthState> {
       (l) {
         if (l == ServerFailure('"email" deve conter um email válido.') ||
             l == ServerFailure('"email" não pode estar em branco.')) {
-          emit(AuthEmailException());
+          emit(LoginEmailException());
         } else if (l == ServerFailure("Dados não conferem.") ||
             l == ServerFailure('"password" não pode estar em branco.')) {
-          emit(AuthPasswordException());
+          emit(LoginPasswordException());
         } else {
-          emit(AuthError());
+          emit(LoginError());
         }
       },
       (r) {
         loginEntity = r;
-        emit(AuthSuccessful());
+        Modular.to.pushReplacementNamed('/tabs-module/');
       },
     );
   }
@@ -67,21 +67,21 @@ class AuthCubit extends Cubit<AuthState> {
     required String email,
     required String password,
   }) async {
-    emit(AuthLoading());
+    emit(RegisterLoading());
     final result =
         await registerUsecase(RegisterParams(username, email, password));
     result.fold(
-      (l) => emit(AuthError()),
+      (l) => emit(RegisterError()),
       (r) {},
     );
   }
 
   Future<void> recoveryPassword({required String emailOrUsername}) async {
-    emit(AuthLoading());
+    emit(RecoveryPasswordLoading());
     final result =
         await recoveryPasswordUsecase(RecoveryPasswordParams(emailOrUsername));
     result.fold(
-      (l) => emit(AuthError()),
+      (l) => emit(RecoveryPasswordError()),
       (r) => recoveryPasswordEntity = r,
     );
   }

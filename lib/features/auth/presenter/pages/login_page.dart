@@ -68,7 +68,7 @@ class LoginPage extends StatelessWidget {
             const SizedBox(height: 30),
             TNTextField(
               enabledBorderColor:
-                  state is AuthEmailException || state is AuthError
+                  state is LoginEmailException || state is LoginError
                       ? AppColors.red
                       : AppColors.black,
               prefixIcon: Icons.email,
@@ -80,7 +80,7 @@ class LoginPage extends StatelessWidget {
             const SizedBox(height: 10),
             TNTextField(
               enabledBorderColor:
-                  state is AuthPasswordException || state is AuthError
+                  state is LoginPasswordException || state is LoginError
                       ? AppColors.red
                       : AppColors.black,
               prefixIcon: Icons.lock,
@@ -101,20 +101,20 @@ class LoginPage extends StatelessWidget {
               hintText: 'Senha',
               textInputAction: TextInputAction.done,
             ),
-            if (state is AuthEmailException)
+            if (state is LoginEmailException)
               _errorMessage(message: 'Digite um emal válido!'),
-            if (state is AuthPasswordException)
+            if (state is LoginPasswordException)
               _errorMessage(message: 'Sua senha está incorreta!'),
-            if (state is AuthError)
+            if (state is LoginError)
               _errorMessage(
                   message:
                       'Ocorreu um erro durante a tentativa de\nfazer login, tente novamente mais tarde!'),
             Padding(
               padding: EdgeInsets.only(
-                top: state is AuthEmailException ||
-                        state is AuthPasswordException
+                top: state is LoginEmailException ||
+                        state is LoginPasswordException
                     ? 20
-                    : state is AuthError
+                    : state is LoginError
                         ? 10
                         : 40,
               ),
@@ -123,12 +123,12 @@ class LoginPage extends StatelessWidget {
                 textfieldIsEmpty: textfieldIsEmpty,
                 color: textfieldIsEmpty
                     ? AppColors.darkGreen
-                    : state is AuthLoading
+                    : state is LoginLoading
                         ? AppColors.grey
-                        : state is AuthError
+                        : state is LoginError
                             ? AppColors.red
                             : AppColors.green,
-                widget: state is AuthLoading
+                widget: state is LoginLoading
                     ? CircularProgressIndicator(
                         color: AppColors.green,
                         strokeWidth: 3,
@@ -175,14 +175,7 @@ class LoginPage extends StatelessWidget {
       padding: EdgeInsets.only(top: 20.h, bottom: 40.h),
       child: GestureDetector(
         onTap: () async {
-          if (!textfieldIsEmpty) {
-            await cubit.login();
-            state is AuthSuccessful
-                ? Modular.to.pushReplacementNamed('/tabs-module/')
-                : null;
-          } else {
-            return;
-          }
+          await cubit.login();
         },
         child: Container(
           height: 50.h,
