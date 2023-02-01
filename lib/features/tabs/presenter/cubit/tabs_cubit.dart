@@ -100,10 +100,13 @@ class TabsCubit extends Cubit<TabsState> {
       final result = await getTabUsecase(GetTabParams(
           ownerUsername: recentTabsList[index].ownerUsername,
           slug: recentTabsList[index].slug));
-      result.fold((l) => emit(TabsError(l)), (r) {
-        emit(TabLoaded(r));
-        pressedTab = r;
-      });
+      result.fold(
+        (l) => emit(TabsError(l)),
+        (r) {
+          emit(TabLoaded(r));
+          pressedTab = r;
+        },
+      );
     }
   }
 

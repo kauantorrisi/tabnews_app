@@ -145,7 +145,7 @@ class _TabsPageState extends State<TabsPage> {
           await cubit.getTab(index: index);
           await cubit.getTabComments();
           Modular.to.pushNamed(
-            '/pressed-tab-page',
+            '/tabs-module/pressed-tab-page',
             arguments: cubit,
           );
         },
