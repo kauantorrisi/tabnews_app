@@ -3,13 +3,11 @@ import 'package:dio/dio.dart';
 import 'package:tabnews_app/core/errors/app_exceptions.dart';
 import 'package:tabnews_app/features/auth/data/models/login_model.dart';
 import 'package:tabnews_app/features/auth/data/models/recovery_password_model.dart';
-import 'package:tabnews_app/features/auth/data/models/register_model.dart';
 import 'package:tabnews_app/libraries/common/constants.dart';
 
 abstract class IAuthDatasource {
   Future<LoginModel> login(String email, String password);
-  Future<RegisterModel> register(
-      String username, String email, String password);
+  Future<void> register(String username, String email, String password);
   Future<RecoveryPasswordModel> recoveryPassword(String emailOrUsername);
 }
 
@@ -34,8 +32,7 @@ class AuthDatasource implements IAuthDatasource {
   }
 
   @override
-  Future<RegisterModel> register(
-      String username, String email, String password) async {
+  Future<void> register(String username, String email, String password) async {
     Response result = await dio.post(registerUrl,
         options: Options(contentType: 'application/json'),
         data: {
@@ -43,11 +40,7 @@ class AuthDatasource implements IAuthDatasource {
           "email": email,
           "password": password,
         });
-    Map<String, dynamic> response = result.data;
-    if (result.statusCode == 201) {
-      final RegisterModel registerModel = RegisterModel.fromJson(response);
-      return registerModel;
-    } else {
+    if (result.statusCode == 401 || result.statusCode == 400) {
       throw ServerException();
     }
   }

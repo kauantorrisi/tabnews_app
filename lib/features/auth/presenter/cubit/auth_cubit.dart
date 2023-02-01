@@ -1,7 +1,6 @@
 // ignore_for_file: depend_on_referenced_packages
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -9,7 +8,6 @@ import 'package:equatable/equatable.dart';
 import 'package:tabnews_app/core/errors/app_failures.dart';
 import 'package:tabnews_app/features/auth/domain/entities/login_entity.dart';
 import 'package:tabnews_app/features/auth/domain/entities/recovery_password_entity.dart';
-import 'package:tabnews_app/features/auth/domain/entities/register_entity.dart';
 import 'package:tabnews_app/features/auth/domain/usecases/login_usecase.dart';
 import 'package:tabnews_app/features/auth/domain/usecases/recovery_password_usecase.dart';
 import 'package:tabnews_app/features/auth/domain/usecases/register_usecase.dart';
@@ -32,7 +30,6 @@ class AuthCubit extends Cubit<AuthState> {
   final RecoveryPasswordUsecase recoveryPasswordUsecase;
 
   LoginEntity? loginEntity;
-  RegisterEntity? registerEntity;
   RecoveryPasswordEntity? recoveryPasswordEntity;
 
   bool get toggleObscureText {
@@ -75,7 +72,7 @@ class AuthCubit extends Cubit<AuthState> {
         await registerUsecase(RegisterParams(username, email, password));
     result.fold(
       (l) => emit(AuthError()),
-      (r) => registerEntity = r,
+      (r) {},
     );
   }
 

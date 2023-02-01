@@ -6,7 +6,6 @@ import 'package:tabnews_app/core/errors/app_failures.dart';
 import 'package:tabnews_app/features/auth/data/datasources/auth_datasource.dart';
 import 'package:tabnews_app/features/auth/domain/entities/login_entity.dart';
 import 'package:tabnews_app/features/auth/domain/entities/recovery_password_entity.dart';
-import 'package:tabnews_app/features/auth/domain/entities/register_entity.dart';
 import 'package:tabnews_app/features/auth/domain/repositories/i_auth_repository.dart';
 
 class AuthRepository implements IAuthRepository {
@@ -31,7 +30,7 @@ class AuthRepository implements IAuthRepository {
   }
 
   @override
-  Future<Either<Failure, RegisterEntity>> register(
+  Future<Either<Failure, void>> register(
       String username, String email, String password) async {
     try {
       final response = await datasource.register(username, email, password);
