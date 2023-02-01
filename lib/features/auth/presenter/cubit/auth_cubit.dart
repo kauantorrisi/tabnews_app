@@ -60,9 +60,14 @@ class AuthCubit extends Cubit<AuthState> {
           emit(LoginError());
         }
       },
-      (r) {
+      (r) async {
         loginEntity = r;
-        Modular.to.pushReplacementNamed('/tabs-module/');
+        await getUser(loginEntity!.token);
+        Modular.to.pushReplacementNamed('/tabs-module/', arguments: {
+          "username": userEntity!.username,
+          "email": userEntity!.email,
+          "notifications": userEntity!.notifications
+        });
       },
     );
   }

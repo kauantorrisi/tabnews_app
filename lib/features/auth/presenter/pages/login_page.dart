@@ -8,21 +8,10 @@ import 'package:tabnews_app/features/auth/presenter/cubit/auth_cubit.dart';
 import 'package:tabnews_app/features/auth/presenter/widgets/tn_textfield_widget.dart';
 import 'package:tabnews_app/libraries/common/design/app_colors.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class LoginPage extends StatelessWidget {
+  LoginPage({super.key});
 
-  @override
-  State<LoginPage> createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
   final AuthCubit cubit = Modular.get<AuthCubit>();
-
-  @override
-  void dispose() {
-    cubit.getUser(cubit.loginEntity!.token);
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {

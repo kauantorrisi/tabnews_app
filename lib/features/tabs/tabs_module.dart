@@ -29,7 +29,11 @@ class TabsModule extends Module {
   List<ModularRoute> get routes => [
         ChildRoute(
           Modular.initialRoute,
-          child: (context, args) => TabsPage(),
+          child: (context, args) => TabsPage(
+            email: args.data['email'],
+            username: args.data['username'],
+            notifications: args.data['notifications'],
+          ),
         ),
         ChildRoute(
           '/pressed-tab-page',

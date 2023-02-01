@@ -30,8 +30,7 @@ class AuthModule extends Module {
 
   @override
   List<ModularRoute> get routes => [
-        ChildRoute(Modular.initialRoute,
-            child: (context, args) => const LoginPage()),
+        ChildRoute(Modular.initialRoute, child: (context, args) => LoginPage()),
         ChildRoute('/register-page',
             child: (context, args) => const RegisterPage()),
         ChildRoute('/recovery-password-page',

@@ -14,9 +14,15 @@ import 'package:tabnews_app/libraries/common/design/app_colors.dart';
 class TabsPage extends StatelessWidget {
   TabsPage({
     super.key,
+    required this.username,
+    required this.email,
+    required this.notifications,
   });
 
   final cubit = Modular.get<TabsCubit>();
+  final String username;
+  final String email;
+  final bool notifications;
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +76,7 @@ class TabsPage extends StatelessWidget {
                   floatingActionButtonLocation:
                       FloatingActionButtonLocation.endFloat,
                   floatingActionButton: TNMenuFAB(
-                    username: '', // TODO add username here
+                    username: username,
                     icon: AnimatedIcons.list_view,
                     iconColor: AppColors.white,
                     hawkFabMenuController: cubit.hawkFabMenuController,
