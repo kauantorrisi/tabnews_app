@@ -9,6 +9,8 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:tabnews_app/core/errors/app_failures.dart';
 import 'package:tabnews_app/features/auth/domain/entities/login_entity.dart';
 import 'package:tabnews_app/features/auth/domain/entities/recovery_password_entity.dart';
+import 'package:tabnews_app/features/auth/domain/entities/user_entity.dart';
+import 'package:tabnews_app/features/auth/domain/usecases/get_user_usecase.dart';
 import 'package:tabnews_app/features/auth/domain/usecases/login_usecase.dart';
 import 'package:tabnews_app/features/auth/domain/usecases/recovery_password_usecase.dart';
 import 'package:tabnews_app/features/auth/domain/usecases/register_usecase.dart';
@@ -16,11 +18,12 @@ import 'package:tabnews_app/features/auth/domain/usecases/register_usecase.dart'
 part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
-  AuthCubit({
-    required this.loginUsecase,
-    required this.registerUsecase,
-    required this.recoveryPasswordUsecase,
-  }) : super(AuthInitial());
+  AuthCubit(
+    this.loginUsecase,
+    this.registerUsecase,
+    this.recoveryPasswordUsecase,
+    this.getUserUsecase,
+  ) : super(AuthInitial());
 
   final TextEditingController loginEmailController = TextEditingController();
   final TextEditingController loginPasswordController = TextEditingController();
@@ -28,10 +31,12 @@ class AuthCubit extends Cubit<AuthState> {
 
   final LoginUsecase loginUsecase;
   final RegisterUsecase registerUsecase;
+  final GetUserUsecase getUserUsecase;
   final RecoveryPasswordUsecase recoveryPasswordUsecase;
 
   LoginEntity? loginEntity;
   RecoveryPasswordEntity? recoveryPasswordEntity;
+  UserEntity? userEntity;
 
   bool get toggleObscureText {
     return obscureText = !obscureText;
@@ -84,5 +89,13 @@ class AuthCubit extends Cubit<AuthState> {
       (l) => emit(RecoveryPasswordError()),
       (r) => recoveryPasswordEntity = r,
     );
+  }
+
+  Future<void> getUser(String token) async {
+    emit(LoginLoading());
+    final result = await getUserUsecase(UserParams(token));
+    result.fold((l) => emit(LoginError()), (r) {
+      userEntity = r;
+    });
   }
 }

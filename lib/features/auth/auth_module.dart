@@ -2,6 +2,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 
 import 'package:tabnews_app/features/auth/data/datasources/auth_datasource.dart';
 import 'package:tabnews_app/features/auth/data/repositories/auth_repository.dart';
+import 'package:tabnews_app/features/auth/domain/usecases/get_user_usecase.dart';
 import 'package:tabnews_app/features/auth/domain/usecases/login_usecase.dart';
 import 'package:tabnews_app/features/auth/domain/usecases/recovery_password_usecase.dart';
 import 'package:tabnews_app/features/auth/domain/usecases/register_usecase.dart';
@@ -17,14 +18,11 @@ class AuthModule extends Module {
         Bind.lazySingleton((i) => LoginUsecase(i())),
         Bind.lazySingleton((i) => RegisterUsecase(i())),
         Bind.lazySingleton((i) => RecoveryPasswordUsecase(i())),
+        Bind.lazySingleton((i) => GetUserUsecase(i()))
       ];
 
   List<Bind> get cubits => [
-        Bind.lazySingleton((i) => AuthCubit(
-              loginUsecase: i(),
-              registerUsecase: i(),
-              recoveryPasswordUsecase: i(),
-            )),
+        Bind.lazySingleton((i) => AuthCubit(i(), i(), i(), i())),
       ];
 
   @override
@@ -32,7 +30,8 @@ class AuthModule extends Module {
 
   @override
   List<ModularRoute> get routes => [
-        ChildRoute(Modular.initialRoute, child: (context, args) => LoginPage()),
+        ChildRoute(Modular.initialRoute,
+            child: (context, args) => const LoginPage()),
         ChildRoute('/register-page',
             child: (context, args) => const RegisterPage()),
         ChildRoute('/recovery-password-page',

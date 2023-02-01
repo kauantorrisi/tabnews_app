@@ -1,14 +1,18 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:dio/dio.dart';
 
 import 'package:tabnews_app/core/errors/app_exceptions.dart';
 import 'package:tabnews_app/features/auth/data/models/login_model.dart';
 import 'package:tabnews_app/features/auth/data/models/recovery_password_model.dart';
+import 'package:tabnews_app/features/auth/data/models/user_model.dart';
 import 'package:tabnews_app/libraries/common/constants.dart';
 
 abstract class IAuthDatasource {
   Future<LoginModel> login(String email, String password);
   Future<void> register(String username, String email, String password);
   Future<RecoveryPasswordModel> recoveryPassword(String emailOrUsername);
+  Future<UserModel> getUser(String token);
 }
 
 class AuthDatasource implements IAuthDatasource {
@@ -58,6 +62,22 @@ class AuthDatasource implements IAuthDatasource {
       final RecoveryPasswordModel recoveryPasswordModel =
           RecoveryPasswordModel.fromJson(response);
       return recoveryPasswordModel;
+    } else {
+      throw ServerException();
+    }
+  }
+
+  @override
+  Future<UserModel> getUser(String token) async {
+    final UserModel userModel;
+    Response results = await dio.get(getUserUrl,
+        options: Options(
+          headers: {
+            "cookie": "session_id=$token",
+          },
+        ));
+    if (results.statusCode == 200) {
+      return userModel = UserModel.fromJson(results.data);
     } else {
       throw ServerException();
     }

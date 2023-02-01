@@ -5,7 +5,7 @@ import 'package:tabnews_app/core/errors/app_exceptions.dart';
 import 'package:tabnews_app/core/errors/app_failures.dart';
 import 'package:tabnews_app/features/tabs/data/datasources/tabs_datasource.dart';
 import 'package:tabnews_app/features/tabs/domain/entities/tab_entity.dart';
-import 'package:tabnews_app/features/tabs/domain/entities/user_entity.dart';
+import 'package:tabnews_app/features/auth/domain/entities/user_entity.dart';
 import 'package:tabnews_app/features/tabs/domain/repositories/i_tabs_repository.dart';
 
 class TabsRepository implements ITabsRepository {
@@ -48,21 +48,6 @@ class TabsRepository implements ITabsRepository {
     } on ServerException {
       return Left(ServerFailure());
     } catch (e) {
-      rethrow;
-    }
-  }
-
-  @override
-  Future<Either<Failure, UserEntity>> getUser(String token) async {
-    try {
-      final response = await datasource.getUser(token);
-      return Right(response);
-    } on ServerException {
-      return Left(ServerFailure());
-    } catch (e) {
-      if (e is DioError) {
-        return Left(ServerFailure(e.response?.data['message']));
-      }
       rethrow;
     }
   }

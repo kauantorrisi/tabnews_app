@@ -1,12 +1,10 @@
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:tabnews_app/features/auth/presenter/cubit/auth_cubit.dart';
 
 import 'package:tabnews_app/features/tabs/data/datasources/tabs_datasource.dart';
 import 'package:tabnews_app/features/tabs/data/repositories/tabs_repository.dart';
 import 'package:tabnews_app/features/tabs/domain/usecases/get_all_tabs_usecase.dart';
 import 'package:tabnews_app/features/tabs/domain/usecases/get_tab_comments_usecase.dart';
 import 'package:tabnews_app/features/tabs/domain/usecases/get_tab_usecase.dart';
-import 'package:tabnews_app/features/tabs/domain/usecases/get_user_usecase.dart';
 import 'package:tabnews_app/features/tabs/presenter/cubit/tabs_cubit.dart';
 import 'package:tabnews_app/features/tabs/presenter/pages/pressed_tab_page.dart';
 import 'package:tabnews_app/features/tabs/presenter/pages/tabs_page.dart';
@@ -18,11 +16,10 @@ class TabsModule extends Module {
     Bind.lazySingleton((i) => GetAllTabsUsecase(i())),
     Bind.lazySingleton((i) => GetTabUsecase(i())),
     Bind.lazySingleton((i) => GetTabCommentsUsecase(i())),
-    Bind.lazySingleton((i) => GetUserUsecase(i())),
   ];
 
   static List<Bind> cubits = [
-    Bind.lazySingleton((i) => TabsCubit(i(), i(), i(), i())),
+    Bind.lazySingleton((i) => TabsCubit(i(), i(), i())),
   ];
 
   @override

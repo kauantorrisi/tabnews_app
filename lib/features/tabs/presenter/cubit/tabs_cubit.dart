@@ -4,15 +4,10 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hawk_fab_menu/hawk_fab_menu.dart';
 
-import 'package:tabnews_app/core/errors/app_failures.dart';
-import 'package:tabnews_app/core/usecases/usecase.dart';
-import 'package:tabnews_app/features/auth/domain/entities/login_entity.dart';
 import 'package:tabnews_app/features/tabs/domain/entities/tab_entity.dart';
-import 'package:tabnews_app/features/tabs/domain/entities/user_entity.dart';
 import 'package:tabnews_app/features/tabs/domain/usecases/get_all_tabs_usecase.dart';
 import 'package:tabnews_app/features/tabs/domain/usecases/get_tab_comments_usecase.dart';
 import 'package:tabnews_app/features/tabs/domain/usecases/get_tab_usecase.dart';
-import 'package:tabnews_app/features/tabs/domain/usecases/get_user_usecase.dart';
 
 part 'tabs_state.dart';
 
@@ -21,7 +16,6 @@ class TabsCubit extends Cubit<TabsState> {
     this.getAllTabsUsecase,
     this.getTabCommentsUsecase,
     this.getTabUsecase,
-    this.getUserUsecase,
   ) : super(TabsInitial()) {
     getRelevantTabs();
     getRecentTabs();
@@ -30,7 +24,6 @@ class TabsCubit extends Cubit<TabsState> {
   final GetAllTabsUsecase getAllTabsUsecase;
   final GetTabCommentsUsecase getTabCommentsUsecase;
   final GetTabUsecase getTabUsecase;
-  final GetUserUsecase getUserUsecase;
 
   List<TabEntity> relevantTabsList = [];
   List<TabEntity> recentTabsList = [];

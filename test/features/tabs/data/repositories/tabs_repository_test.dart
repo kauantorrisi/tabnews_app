@@ -11,7 +11,7 @@ import 'package:tabnews_app/features/tabs/data/repositories/tabs_repository.dart
 
 import '../../mocks/t_list_tab_models.dart';
 import '../../mocks/t_tab_model.dart';
-import '../../mocks/t_user_model.dart';
+import '../../../auth/mocks/t_user_model.dart';
 
 class MockTabsDatasource extends Mock implements ITabsDatasource {}
 
@@ -91,29 +91,6 @@ void main() {
           .thenThrow(ServerException());
 
       final result = await repository.getTabComments('ownerUsername', 'slug');
-
-      expect(result, Left(ServerFailure()));
-    });
-  });
-
-  group('getUser', () {
-    test('should return a UserModel when the call of datasource is successful',
-        () async {
-      when(() => mockTabsDatasource.getUser(any()))
-          .thenAnswer((_) async => tUserModel);
-
-      final result = await repository.getUser('');
-
-      expect(result, Right(tUserModel));
-    });
-
-    test(
-        'should return a ServerFailure when the call of datasource is unsuccessful',
-        () async {
-      when(() => mockTabsDatasource.getUser(any()))
-          .thenThrow(ServerException());
-
-      final result = await repository.getUser('');
 
       expect(result, Left(ServerFailure()));
     });

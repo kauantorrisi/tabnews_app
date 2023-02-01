@@ -1,6 +1,6 @@
-import 'package:tabnews_app/features/tabs/data/models/user_model.dart';
+import 'package:tabnews_app/features/auth/domain/entities/user_entity.dart';
 
-final UserModel tUserModel = UserModel(
+final UserEntity tUserEntity = UserEntity(
   id: '',
   username: '',
   email: '',
