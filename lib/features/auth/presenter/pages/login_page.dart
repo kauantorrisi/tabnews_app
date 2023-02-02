@@ -50,7 +50,7 @@ class LoginPage extends StatelessWidget {
   }
 
   Widget _body() {
-    final textfieldIsEmpty = cubit.loginEmailController.text.isEmpty ||
+    final bool textfieldIsEmpty = cubit.loginEmailController.text.isEmpty ||
             cubit.loginPasswordController.text.isEmpty
         ? true
         : false;

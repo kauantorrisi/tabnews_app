@@ -43,8 +43,8 @@ class RegisterPage extends StatelessWidget {
 
   Widget _body() {
     final bool textfieldsIsEmpty =
-        cubit.registerUsernameController.text.isEmpty &&
-                cubit.registerEmailController.text.isEmpty &&
+        cubit.registerUsernameController.text.isEmpty ||
+                cubit.registerEmailController.text.isEmpty ||
                 cubit.registerPasswordController.text.isEmpty
             ? true
             : false;
