@@ -75,7 +75,9 @@ class AuthCubit extends Cubit<AuthState> {
         Modular.to.pushReplacementNamed('/tabs-module/', arguments: {
           "username": userEntity!.username,
           "email": userEntity!.email,
-          "notifications": userEntity!.notifications
+          "notifications": userEntity!.notifications,
+          "tabcoins": userEntity!.tabcoins,
+          "tabcash": userEntity!.tabcash,
         });
         loginEmailController.text = '';
         loginPasswordController.text = '';

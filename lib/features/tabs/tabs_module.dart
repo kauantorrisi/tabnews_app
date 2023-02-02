@@ -33,6 +33,8 @@ class TabsModule extends Module {
             email: args.data['email'],
             username: args.data['username'],
             notifications: args.data['notifications'],
+            tabcoins: args.data['tabcoins'],
+            tabcash: args.data['tabcash'],
           ),
         ),
         ChildRoute(

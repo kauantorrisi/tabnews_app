@@ -17,12 +17,16 @@ class TabsPage extends StatelessWidget {
     required this.username,
     required this.email,
     required this.notifications,
+    required this.tabcoins,
+    required this.tabcash,
   });
 
   final cubit = Modular.get<TabsCubit>();
   final String username;
   final String email;
   final bool notifications;
+  final int tabcoins;
+  final int tabcash;
 
   @override
   Widget build(BuildContext context) {
