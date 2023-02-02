@@ -61,11 +61,7 @@ class PressedTabPage extends StatelessWidget {
         children: [
           IconButton(
             onPressed: () async {
-              if (cubit.isInRelevantPage == true) {
-                await cubit.getRelevantTabs();
-              } else {
-                await cubit.getRecentTabs();
-              }
+              cubit.getAllTabs();
               Modular.to.pop();
             },
             icon: Icon(

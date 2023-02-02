@@ -42,7 +42,9 @@ class TNAppBarWidget extends StatelessWidget {
           if (haveCoins)
             _tabCoinsAndCash(
                 color: AppColors.blue, tabCoinsOrTabCash: tabCoins),
-          _tabCoinsAndCash(color: AppColors.green, tabCoinsOrTabCash: tabCash),
+          if (haveCoins)
+            _tabCoinsAndCash(
+                color: AppColors.green, tabCoinsOrTabCash: tabCash),
         ],
       ),
     );

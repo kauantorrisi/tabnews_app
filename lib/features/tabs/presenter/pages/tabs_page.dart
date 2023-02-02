@@ -12,8 +12,8 @@ import 'package:tabnews_app/features/tabs/presenter/widgets/tn_bottom_navigation
 import 'package:tabnews_app/features/tabs/presenter/widgets/tn_user_fab.dart';
 import 'package:tabnews_app/libraries/common/design/app_colors.dart';
 
-class TabsPage extends StatelessWidget {
-  TabsPage({
+class TabsPage extends StatefulWidget {
+  const TabsPage({
     super.key,
     required this.username,
     required this.email,
@@ -22,12 +22,24 @@ class TabsPage extends StatelessWidget {
     required this.tabcash,
   });
 
-  final cubit = Modular.get<TabsCubit>();
   final String username;
   final String email;
   final bool notifications;
   final int tabcoins;
   final int tabcash;
+
+  @override
+  State<TabsPage> createState() => _TabsPageState();
+}
+
+class _TabsPageState extends State<TabsPage> {
+  final cubit = Modular.get<TabsCubit>();
+
+  @override
+  void initState() {
+    cubit.getAllTabs();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,16 +52,13 @@ class TabsPage extends StatelessWidget {
               : cubit.recentTabsList;
 
           return LazyLoadScrollView(
-            onEndOfPage: () {
-              cubit.isInRelevantPage == true
-                  ? cubit.loadMoreRelevantTabs()
-                  : cubit.loadMoreRecentTabs();
+            onEndOfPage: () async {
+              await cubit.loadMoreTabs();
+              setState(() {});
             },
             child: SafeArea(
               child: RefreshIndicator(
-                onRefresh: () => cubit.isInRelevantPage == true
-                    ? cubit.getRelevantTabs()
-                    : cubit.getRecentTabs(),
+                onRefresh: () => cubit.getAllTabs(),
                 child: Scaffold(
                   backgroundColor: AppColors.grey,
                   appBar: PreferredSize(
@@ -58,8 +67,8 @@ class TabsPage extends StatelessWidget {
                       paddingHorizontal: 81,
                       haveImage: true,
                       haveCoins: true,
-                      tabCoins: tabcoins,
-                      tabCash: tabcash,
+                      tabCoins: widget.tabcoins,
+                      tabCash: widget.tabcash,
                     ),
                   ),
                   body: Column(
@@ -81,7 +90,7 @@ class TabsPage extends StatelessWidget {
                   floatingActionButtonLocation:
                       FloatingActionButtonLocation.endFloat,
                   floatingActionButton: TNMenuFAB(
-                    username: username,
+                    username: widget.username,
                     icon: AnimatedIcons.list_view,
                     iconColor: AppColors.white,
                     hawkFabMenuController: cubit.hawkFabMenuController,
@@ -91,13 +100,15 @@ class TabsPage extends StatelessWidget {
                   ),
                   bottomNavigationBar: TNBottomNavigationBar(
                     onPressedInRelevantButton: () async {
-                      await cubit.getRelevantTabs();
+                      cubit.toggleIsInRelevantPage(true);
+                      await cubit.getAllTabs();
                     },
                     colorRelevantIcon: cubit.isInRelevantPage == true
                         ? AppColors.blue
                         : AppColors.white,
                     onPressedInRecentButton: () async {
-                      await cubit.getRecentTabs();
+                      cubit.toggleIsInRelevantPage(false);
+                      await cubit.getAllTabs();
                     },
                     colorRecentIcon: cubit.isInRelevantPage == false
                         ? AppColors.blue
@@ -119,8 +130,8 @@ class TabsPage extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: GestureDetector(
         onTap: () async {
-          await cubit.getTabComments();
           await cubit.getTab(index: index);
+          await cubit.getTabComments();
           Modular.to.pushNamed(
             '/tabs-module/pressed-tab-page',
             arguments: cubit,

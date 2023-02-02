@@ -16,10 +16,7 @@ class TabsCubit extends Cubit<TabsState> {
     this.getAllTabsUsecase,
     this.getTabCommentsUsecase,
     this.getTabUsecase,
-  ) : super(TabsInitial()) {
-    getRelevantTabs();
-    getRecentTabs();
-  }
+  ) : super(TabsInitial());
 
   final GetAllTabsUsecase getAllTabsUsecase;
   final GetTabCommentsUsecase getTabCommentsUsecase;
@@ -32,57 +29,58 @@ class TabsCubit extends Cubit<TabsState> {
   int? relevantPage = 1;
   int? recentPage = 1;
 
-  bool isInRelevantPage = true;
+  bool isInRelevantPage = false;
   TabEntity? pressedTab;
+
+  bool toggleIsInRelevantPage(bool value) => isInRelevantPage = value;
 
   HawkFabMenuController hawkFabMenuController = HawkFabMenuController();
 
   int loadNextPage(int? page) => page! + 1;
 
-  Future<void> loadMoreRelevantTabs() async {
-    relevantPage = loadNextPage(relevantPage);
-    final tabList = await getAllTabsUsecase(GetAllTabsParams(
-        page: relevantPage!, perPage: 30, strategy: 'relevant'));
-    tabList.forEach((tabList) {
-      relevantTabsList.addAll(tabList);
-    });
-    tabList.fold((l) => emit(TabsError()), (r) => emit(TabsLoaded()));
-  }
-
-  Future<void> loadMoreRecentTabs() async {
-    recentPage = loadNextPage(recentPage);
-    final tabList = await getAllTabsUsecase(
-        GetAllTabsParams(page: recentPage!, perPage: 30, strategy: 'new'));
-    tabList.forEach((tabList) {
-      recentTabsList.addAll(tabList);
-    });
-    tabList.fold((l) => emit(TabsError()), (r) => emit(TabsLoaded()));
-  }
-
-  Future<void> getRelevantTabs() async {
-    emit(TabsLoading());
-    isInRelevantPage = true;
-    final tabList = await getAllTabsUsecase(GetAllTabsParams(
-        page: relevantPage!, perPage: 30, strategy: 'relevant'));
-    if (relevantTabsList.isEmpty) {
+  Future<void> loadMoreTabs() async {
+    if (isInRelevantPage == true) {
+      relevantPage = loadNextPage(relevantPage);
+      final tabList = await getAllTabsUsecase(GetAllTabsParams(
+          page: relevantPage!, perPage: 30, strategy: 'relevant'));
       tabList.forEach((tabList) {
         relevantTabsList.addAll(tabList);
       });
-    }
-    tabList.fold((l) => emit(TabsError()), (r) => emit(TabsLoaded()));
-  }
-
-  Future<void> getRecentTabs() async {
-    emit(TabsLoading());
-    isInRelevantPage = false;
-    final results = await getAllTabsUsecase(
-        GetAllTabsParams(page: recentPage!, perPage: 30, strategy: 'new'));
-    if (recentTabsList.isEmpty) {
-      results.forEach((tabList) {
+      tabList.fold((l) => emit(TabsError()), (r) => emit(TabsLoaded()));
+      emit(TabsLoaded());
+    } else {
+      recentPage = loadNextPage(recentPage);
+      final tabList = await getAllTabsUsecase(
+          GetAllTabsParams(page: recentPage!, perPage: 30, strategy: 'new'));
+      tabList.forEach((tabList) {
         recentTabsList.addAll(tabList);
       });
+      tabList.fold((l) => emit(TabsError()), (r) => emit(TabsLoaded()));
+      emit(TabsLoaded());
     }
-    results.fold((l) => emit(TabsError()), (r) => emit(TabsLoaded()));
+  }
+
+  Future<void> getAllTabs() async {
+    emit(TabsLoading());
+    if (isInRelevantPage == true) {
+      final tabList = await getAllTabsUsecase(GetAllTabsParams(
+          page: relevantPage!, perPage: 30, strategy: 'relevant'));
+      if (relevantTabsList.isEmpty) {
+        tabList.forEach((tabList) {
+          relevantTabsList.addAll(tabList);
+        });
+      }
+      tabList.fold((l) => emit(TabsError()), (r) => emit(TabsLoaded()));
+    } else {
+      final results = await getAllTabsUsecase(
+          GetAllTabsParams(page: recentPage!, perPage: 30, strategy: 'new'));
+      if (recentTabsList.isEmpty) {
+        results.forEach((tabList) {
+          recentTabsList.addAll(tabList);
+        });
+      }
+      results.fold((l) => emit(TabsError()), (r) => emit(TabsLoaded()));
+    }
   }
 
   Future<void> getTab({required int index}) async {
