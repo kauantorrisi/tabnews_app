@@ -142,12 +142,12 @@ class RegisterPage extends StatelessWidget {
             TNButtonWidget(
               onTap: () async {
                 FocusScope.of(context).unfocus();
-                await cubit.register();
+                await cubit.register(context);
               },
-              color: textfieldsIsEmpty
-                  ? AppColors.darkGreen
-                  : state is RegisterLoading
-                      ? AppColors.grey
+              color: state is RegisterLoading
+                  ? AppColors.grey
+                  : textfieldsIsEmpty
+                      ? AppColors.darkGreen
                       : AppColors.green,
               widget: state is RegisterLoading
                   ? Center(

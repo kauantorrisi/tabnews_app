@@ -15,6 +15,7 @@ import 'package:tabnews_app/features/auth/domain/usecases/get_user_usecase.dart'
 import 'package:tabnews_app/features/auth/domain/usecases/login_usecase.dart';
 import 'package:tabnews_app/features/auth/domain/usecases/recovery_password_usecase.dart';
 import 'package:tabnews_app/features/auth/domain/usecases/register_usecase.dart';
+import 'package:tabnews_app/features/auth/presenter/widgets/tn_alert_dialog_widget.dart';
 
 part 'auth_state.dart';
 
@@ -85,7 +86,7 @@ class AuthCubit extends Cubit<AuthState> {
     );
   }
 
-  Future<void> register() async {
+  Future<void> register(BuildContext context) async {
     emit(RegisterLoading());
     final result = await registerUsecase(RegisterParams(
       registerUsernameController.text,
@@ -114,12 +115,21 @@ class AuthCubit extends Cubit<AuthState> {
           emit(RegisterError());
         }
       },
-      (r) {
+      (r) async {
         emit(RegisteredSuccessful());
-        registerEmailController.text = '';
-        registerPasswordController.text = '';
-        registerUsernameController.text = '';
-        //TODO NAVEGAR PARA PÁGINA QUE VEM APÓS EFETUAR O REGISTRO
+        if (state is RegisteredSuccessful) {
+          await showDialog(
+            context: context,
+            builder: (context) => TNAlertDialogWidget(
+              userEmail: registerEmailController.text,
+              textContent:
+                  'Você irá receber um e-mail para confirmar seu registro e ativar a sua conta.',
+            ),
+          );
+          registerEmailController.text = '';
+          registerPasswordController.text = '';
+          registerUsernameController.text = '';
+        }
       },
     );
   }
