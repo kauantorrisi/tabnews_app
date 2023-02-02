@@ -100,15 +100,23 @@ class _TabsPageState extends State<TabsPage> {
                   ),
                   bottomNavigationBar: TNBottomNavigationBar(
                     onPressedInRelevantButton: () async {
-                      cubit.toggleIsInRelevantPage(true);
-                      await cubit.getAllTabs();
+                      if (state is TabsLoading) {
+                        return;
+                      } else {
+                        cubit.toggleIsInRelevantPage(true);
+                        await cubit.getAllTabs();
+                      }
                     },
                     colorRelevantIcon: cubit.isInRelevantPage == true
                         ? AppColors.blue
                         : AppColors.white,
                     onPressedInRecentButton: () async {
-                      cubit.toggleIsInRelevantPage(false);
-                      await cubit.getAllTabs();
+                      if (state is TabsLoading) {
+                        return;
+                      } else {
+                        cubit.toggleIsInRelevantPage(false);
+                        await cubit.getAllTabs();
+                      }
                     },
                     colorRecentIcon: cubit.isInRelevantPage == false
                         ? AppColors.blue
@@ -134,7 +142,11 @@ class _TabsPageState extends State<TabsPage> {
           await cubit.getTabComments();
           Modular.to.pushNamed(
             '/tabs-module/pressed-tab-page',
-            arguments: cubit,
+            arguments: {
+              "cubit": cubit,
+              "tabCoins": widget.tabcoins,
+              "tabCash": widget.tabcash,
+            },
           );
         },
         child: Row(

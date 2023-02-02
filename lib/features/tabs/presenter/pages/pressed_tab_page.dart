@@ -3,15 +3,34 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tabnews_app/features/auth/presenter/widgets/tn_appbar_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:tabnews_app/features/tabs/presenter/cubit/tabs_cubit.dart';
 import 'package:tabnews_app/libraries/common/design/app_colors.dart';
 
-class PressedTabPage extends StatelessWidget {
-  const PressedTabPage({super.key, required this.cubit});
+class PressedTabPage extends StatefulWidget {
+  const PressedTabPage({
+    super.key,
+    required this.cubit,
+    this.tabCoins,
+    this.tabCash,
+  });
 
   final TabsCubit cubit;
+  final int? tabCoins;
+  final int? tabCash;
+
+  @override
+  State<PressedTabPage> createState() => _PressedTabPageState();
+}
+
+class _PressedTabPageState extends State<PressedTabPage> {
+  @override
+  void dispose() {
+    widget.cubit.getAllTabs();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +40,13 @@ class PressedTabPage extends StatelessWidget {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _tNAppBar(),
+            TNAppBarWidget(
+              paddingHorizontal: 69,
+              haveImage: false,
+              haveCoins: true,
+              tabCoins: widget.tabCoins,
+              tabCash: widget.tabCash,
+            ),
             _ownerOfTab(),
             Expanded(
               child: CustomScrollView(
@@ -46,54 +71,21 @@ class PressedTabPage extends StatelessWidget {
   Widget _body() {
     return Column(
       children: [
-        _convertTabBodyToMarkdown(data: cubit.pressedTab?.body),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            widget.cubit.pressedTab?.title,
+            style: TextStyle(
+              color: AppColors.white,
+              fontSize: 20.r,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        _convertTabBodyToMarkdown(data: widget.cubit.pressedTab?.body),
         _tabStatusBar(),
         _commentsOfTab(),
       ],
-    );
-  }
-
-  Widget _tNAppBar() {
-    return Container(
-      height: 50.h,
-      decoration: BoxDecoration(color: AppColors.darkGrey),
-      child: Row(
-        children: [
-          IconButton(
-            onPressed: () async {
-              cubit.getAllTabs();
-              Modular.to.pop();
-            },
-            icon: Icon(
-              Icons.arrow_back,
-              size: 30,
-              color: AppColors.white,
-            ),
-          ),
-          const Spacer(flex: 5),
-          SizedBox(
-            width: 250.w,
-            child: Text(
-              cubit.pressedTab?.title,
-              style: TextStyle(
-                color: AppColors.white,
-                fontSize: 16,
-              ),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-          const Spacer(flex: 5),
-          IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.bookmark_add_outlined,
-              color: AppColors.white,
-            ),
-          ),
-          const Spacer(),
-        ],
-      ),
     );
   }
 
@@ -107,7 +99,7 @@ class PressedTabPage extends StatelessWidget {
         ),
         child: Center(
           child: Text(
-            cubit.pressedTab!.ownerUsername,
+            widget.cubit.pressedTab!.ownerUsername,
             style: TextStyle(
               color: AppColors.black,
               fontSize: 16,
@@ -172,7 +164,7 @@ class PressedTabPage extends StatelessWidget {
               ),
             ),
             Text(
-              ' ${cubit.pressedTab?.tabcoins}',
+              ' ${widget.cubit.pressedTab?.tabcoins}',
               style: TextStyle(
                 color: AppColors.white,
                 fontSize: 16,
@@ -193,7 +185,7 @@ class PressedTabPage extends StatelessWidget {
               onPressed: () {},
             ),
             Text(
-              ' ${cubit.pressedTab?.childrenDeepCount}',
+              ' ${widget.cubit.pressedTab?.childrenDeepCount}',
               style: TextStyle(
                 color: AppColors.white,
                 fontSize: 16,
@@ -222,7 +214,7 @@ class PressedTabPage extends StatelessWidget {
       shrinkWrap: true,
       primary: false,
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: cubit.tabComments.length,
+      itemCount: widget.cubit.tabComments.length,
       itemBuilder: (context, index) {
         return Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -237,7 +229,7 @@ class PressedTabPage extends StatelessWidget {
                   color: AppColors.green,
                 ),
                 Text(
-                  '${cubit.tabComments[index].tabcoins}',
+                  '${widget.cubit.tabComments[index].tabcoins}',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 16,
@@ -258,7 +250,7 @@ class PressedTabPage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 12, bottom: 5),
                     child: Text(
-                      '${cubit.tabComments[index].ownerUsername}: ',
+                      '${widget.cubit.tabComments[index].ownerUsername}: ',
                       style: TextStyle(
                         color: AppColors.white,
                         fontWeight: FontWeight.bold,
@@ -278,7 +270,7 @@ class PressedTabPage extends StatelessWidget {
                     margin:
                         const EdgeInsets.only(bottom: 10, left: 10, right: 10),
                     child: _convertTabBodyToMarkdown(
-                        data: cubit.tabComments[index].body),
+                        data: widget.cubit.tabComments[index].body),
                   ),
                 ],
               ),

@@ -39,7 +39,11 @@ class TabsModule extends Module {
         ),
         ChildRoute(
           '/pressed-tab-page',
-          child: (context, args) => PressedTabPage(cubit: args.data),
+          child: (context, args) => PressedTabPage(
+            cubit: args.data['cubit'],
+            tabCoins: args.data['tabCoins'],
+            tabCash: args.data['tabCash'],
+          ),
         ),
       ];
 }
