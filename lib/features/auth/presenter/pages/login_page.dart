@@ -74,6 +74,10 @@ class LoginPage extends StatelessWidget {
                   state is LoginEmailException || state is LoginError
                       ? AppColors.red
                       : AppColors.black,
+              focusedBorderColor:
+                  state is LoginEmailException || state is LoginError
+                      ? AppColors.red
+                      : AppColors.black,
               prefixIcon: Icons.email,
               controller: cubit.loginEmailController,
               obscureText: false,
@@ -83,6 +87,10 @@ class LoginPage extends StatelessWidget {
             const SizedBox(height: 10),
             TNTextField(
               enabledBorderColor:
+                  state is LoginPasswordException || state is LoginError
+                      ? AppColors.red
+                      : AppColors.black,
+              focusedBorderColor:
                   state is LoginPasswordException || state is LoginError
                       ? AppColors.red
                       : AppColors.black,
@@ -114,6 +122,7 @@ class LoginPage extends StatelessWidget {
                       'Ocorreu um erro durante a tentativa de\nfazer login, tente novamente mais tarde!'),
             TNButtonWidget(
               onTap: () async {
+                FocusScope.of(context).unfocus();
                 await cubit.login();
               },
               margin: EdgeInsets.only(
@@ -182,26 +191,6 @@ class LoginPage extends StatelessWidget {
                     Modular.to.pushNamed('/recovery-password-page'),
                 child: const Text('Recupere-a aqui!'))
           ],
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 30),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 10),
-                child: Image.asset(
-                  'lib/assets/images/TabNewsIcon.png',
-                  height: 24,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              Text(
-                '© 2022 TabNews',
-                style: TextStyle(color: AppColors.white),
-              ),
-            ],
-          ),
         ),
       ],
     );

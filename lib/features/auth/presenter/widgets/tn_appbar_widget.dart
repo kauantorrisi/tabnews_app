@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:tabnews_app/libraries/common/design/app_colors.dart';
 
 class TNAppBarWidget extends StatelessWidget {
@@ -17,7 +20,7 @@ class TNAppBarWidget extends StatelessWidget {
         children: [
           Image.asset('lib/assets/images/TabNewsIcon.png', height: 24),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: paddingHorizontal),
+            padding: EdgeInsets.symmetric(horizontal: paddingHorizontal.w),
             child: Text(
               'TabNews',
               style: TextStyle(

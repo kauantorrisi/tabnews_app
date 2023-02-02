@@ -60,7 +60,10 @@ class AuthCubit extends Cubit<AuthState> {
             l == ServerFailure('"email" não pode estar em branco.')) {
           emit(LoginEmailException());
         } else if (l == ServerFailure("Dados não conferem.") ||
-            l == ServerFailure('"password" não pode estar em branco.')) {
+            l == ServerFailure('"password" não pode estar em branco.') ||
+            l ==
+                ServerFailure(
+                    '"password" deve conter no mínimo 8 caracteres.')) {
           emit(LoginPasswordException());
         } else {
           emit(LoginError());
@@ -94,7 +97,8 @@ class AuthCubit extends Cubit<AuthState> {
         } else if (l ==
             ServerFailure('O "username" informado já está sendo usado.')) {
           emit(RegisterUsernameAlreadyTakenException());
-        } else if (l == ServerFailure('"email" não pode estar em branco.')) {
+        } else if (l == ServerFailure('"email" não pode estar em branco.') ||
+            l == ServerFailure('"email" deve conter um email válido.')) {
           emit(RegisterEmailException());
         } else if (l ==
             ServerFailure('O email informado já está sendo usado.')) {

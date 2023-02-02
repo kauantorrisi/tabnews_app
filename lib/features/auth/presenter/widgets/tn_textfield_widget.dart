@@ -16,12 +16,14 @@ class TNTextField extends StatelessWidget {
     required this.hintText,
     required this.textInputAction,
     this.onEditingComplete,
+    required this.focusedBorderColor,
   });
 
   final TextEditingController controller;
   final IconData prefixIcon;
   final IconData? suffixIcon;
   final Color enabledBorderColor;
+  final Color focusedBorderColor;
   final bool obscureText;
   final Function()? onPressedInVisibilityButton;
   final Function()? onEditingComplete;
@@ -47,7 +49,7 @@ class TNTextField extends StatelessWidget {
             borderRadius: BorderRadius.circular(50.0),
           ),
           focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: AppColors.black, width: 2),
+            borderSide: BorderSide(color: focusedBorderColor, width: 2),
             borderRadius: BorderRadius.circular(50.0),
           ),
           prefixIcon: Icon(
