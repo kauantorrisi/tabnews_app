@@ -1,4 +1,4 @@
-import 'package:tabnews_app/features/auth/data/models/login_model.dart';
+import 'package:tabnews_app/app/features/auth/data/models/login_model.dart';
 
 final LoginModel tLoginModel = LoginModel(
   id: '8a95612a-d287-4b23-835a-a5d881b5c1ab',

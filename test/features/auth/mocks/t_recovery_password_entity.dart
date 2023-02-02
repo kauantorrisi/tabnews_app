@@ -1,4 +1,4 @@
-import 'package:tabnews_app/features/auth/domain/entities/recovery_password_entity.dart';
+import 'package:tabnews_app/app/features/auth/domain/entities/recovery_password_entity.dart';
 
 final RecoveryPasswordEntity tRecoveryPasswordEntity = RecoveryPasswordEntity(
   used: false,

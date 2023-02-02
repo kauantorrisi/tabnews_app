@@ -1,4 +1,4 @@
-import 'package:tabnews_app/features/tabs/data/models/tab_model.dart';
+import 'package:tabnews_app/app/features/tabs/data/models/tab_model.dart';
 
 final List<TabModel> tListTabModels = [
   TabModel(

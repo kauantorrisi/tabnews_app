@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:tabnews_app/features/auth/domain/repositories/i_auth_repository.dart';
-import 'package:tabnews_app/features/auth/domain/usecases/recovery_password_usecase.dart';
+import 'package:tabnews_app/app/features/auth/domain/repositories/i_auth_repository.dart';
+import 'package:tabnews_app/app/features/auth/domain/usecases/recovery_password_usecase.dart';
 
 import '../../mocks/t_recovery_password_entity.dart';
 

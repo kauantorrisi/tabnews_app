@@ -1,4 +1,4 @@
-import 'package:tabnews_app/features/auth/data/models/recovery_password_model.dart';
+import 'package:tabnews_app/app/features/auth/data/models/recovery_password_model.dart';
 
 final RecoveryPasswordModel tRecoveryPasswordModel = RecoveryPasswordModel(
   used: false,

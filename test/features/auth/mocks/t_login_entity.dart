@@ -1,4 +1,4 @@
-import 'package:tabnews_app/features/auth/domain/entities/login_entity.dart';
+import 'package:tabnews_app/app/features/auth/domain/entities/login_entity.dart';
 
 final LoginEntity tLoginEntity = LoginEntity(
   id: '8a95612a-d287-4b23-835a-a5d881b5c1ab',

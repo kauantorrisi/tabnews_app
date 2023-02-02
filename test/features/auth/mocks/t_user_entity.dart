@@ -1,4 +1,4 @@
-import 'package:tabnews_app/features/auth/domain/entities/user_entity.dart';
+import 'package:tabnews_app/app/features/auth/domain/entities/user_entity.dart';
 
 final UserEntity tUserEntity = UserEntity(
   id: '',

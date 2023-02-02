@@ -2,10 +2,10 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-import 'package:tabnews_app/core/errors/app_exceptions.dart';
-import 'package:tabnews_app/core/errors/app_failures.dart';
-import 'package:tabnews_app/features/auth/data/datasources/auth_datasource.dart';
-import 'package:tabnews_app/features/auth/data/repositories/auth_repository.dart';
+import 'package:tabnews_app/app/core/errors/app_exceptions.dart';
+import 'package:tabnews_app/app/core/errors/app_failures.dart';
+import 'package:tabnews_app/app/features/auth/data/datasources/auth_datasource.dart';
+import 'package:tabnews_app/app/features/auth/data/repositories/auth_repository.dart';
 
 import '../../mocks/t_login_model.dart';
 import '../../mocks/t_recovery_password_model.dart';
