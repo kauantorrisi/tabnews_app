@@ -11,7 +11,6 @@ import 'package:tabnews_app/app/features/tabs/data/repositories/tabs_repository.
 
 import '../../mocks/t_list_tab_models.dart';
 import '../../mocks/t_tab_model.dart';
-import '../../../auth/mocks/t_user_model.dart';
 
 class MockTabsDatasource extends Mock implements ITabsDatasource {}
 

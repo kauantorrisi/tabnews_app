@@ -1,11 +1,9 @@
 import 'package:dartz/dartz.dart';
-import 'package:dio/dio.dart';
 
 import 'package:tabnews_app/app/core/errors/app_exceptions.dart';
 import 'package:tabnews_app/app/core/errors/app_failures.dart';
 import 'package:tabnews_app/app/features/tabs/data/datasources/tabs_datasource.dart';
 import 'package:tabnews_app/app/features/tabs/domain/entities/tab_entity.dart';
-import 'package:tabnews_app/app/features/auth/domain/entities/user_entity.dart';
 import 'package:tabnews_app/app/features/tabs/domain/repositories/i_tabs_repository.dart';
 
 class TabsRepository implements ITabsRepository {
