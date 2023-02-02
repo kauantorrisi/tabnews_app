@@ -31,6 +31,8 @@ class LoginPage extends StatelessWidget {
                 preferredSize: Size.fromHeight(kToolbarHeight),
                 child: TNAppBarWidget(
                   paddingHorizontal: 110,
+                  haveImage: true,
+                  haveCoins: false,
                 ),
               ),
               body: Column(

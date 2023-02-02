@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
+import 'package:tabnews_app/features/auth/presenter/widgets/tn_appbar_widget.dart';
 
 import 'package:tabnews_app/features/tabs/domain/entities/tab_entity.dart';
 import 'package:tabnews_app/features/tabs/presenter/cubit/tabs_cubit.dart';
@@ -51,24 +52,24 @@ class TabsPage extends StatelessWidget {
                     : cubit.getRecentTabs(),
                 child: Scaffold(
                   backgroundColor: AppColors.grey,
+                  appBar: PreferredSize(
+                    preferredSize: const Size.fromHeight(kToolbarHeight),
+                    child: TNAppBarWidget(
+                      paddingHorizontal: 81,
+                      haveImage: true,
+                      haveCoins: true,
+                      tabCoins: tabcoins,
+                      tabCash: tabcash,
+                    ),
+                  ),
                   body: Column(
                     children: [
-                      _tNAppBar(
-                        Text(
-                          'TabNews',
-                          style: TextStyle(
-                            color: AppColors.white,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 24,
-                          ),
-                        ),
-                      ),
                       if (state is TabsLoaded)
                         Expanded(
                           child: ListView.builder(
                             itemCount: tabList.length,
                             itemBuilder: (context, index) {
-                              return _tabCard(tabList, index, state);
+                              return _tabCard(tabList, index);
                             },
                           ),
                         ),
@@ -113,44 +114,17 @@ class TabsPage extends StatelessWidget {
     });
   }
 
-  Widget _tNAppBar(Widget text) {
-    return Container(
-      height: 50.h,
-      decoration: BoxDecoration(color: AppColors.darkGrey),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Row(
-          children: [
-            GestureDetector(
-              onTap: () =>
-                  Modular.to.pushReplacementNamed(Modular.initialRoute),
-              child: Image.asset('lib/assets/images/TabNewsIcon.png'),
-            ),
-            const Spacer(),
-            Padding(
-              padding: const EdgeInsets.only(right: 40),
-              child: text,
-            ),
-            const Spacer(),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _tabCard(List<TabEntity> tabsList, int index, TabsState state) {
+  Widget _tabCard(List<TabEntity> tabsList, int index) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: GestureDetector(
         onTap: () async {
-          await cubit.getTab(index: index);
           await cubit.getTabComments();
-          if (state is TabLoaded) {
-            Modular.to.pushNamed(
-              '/tabs-module/pressed-tab-page',
-              arguments: cubit,
-            );
-          }
+          await cubit.getTab(index: index);
+          Modular.to.pushNamed(
+            '/tabs-module/pressed-tab-page',
+            arguments: cubit,
+          );
         },
         child: Row(
           children: [
