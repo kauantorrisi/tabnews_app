@@ -5,6 +5,9 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:tabnews_app/features/auth/presenter/cubit/auth_cubit.dart';
+import 'package:tabnews_app/features/auth/presenter/widgets/tn_appbar_widget.dart';
+import 'package:tabnews_app/features/auth/presenter/widgets/tn_button_widget.dart';
+import 'package:tabnews_app/features/auth/presenter/widgets/tn_error_message_widget.dart';
 import 'package:tabnews_app/features/auth/presenter/widgets/tn_textfield_widget.dart';
 import 'package:tabnews_app/libraries/common/design/app_colors.dart';
 
@@ -24,19 +27,19 @@ class LoginPage extends StatelessWidget {
             child: Scaffold(
               resizeToAvoidBottomInset: false,
               backgroundColor: AppColors.darkGrey,
+              appBar: const PreferredSize(
+                preferredSize: Size.fromHeight(kToolbarHeight),
+                child: TNAppBarWidget(
+                  paddingHorizontal: 100,
+                ),
+              ),
               body: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Center(
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 30.h, bottom: 60.h),
-                      child: Image.asset('lib/assets/images/TabNewsLogo.png'),
-                    ),
-                  ),
-                  const Spacer(),
+                  const Spacer(flex: 4),
                   _body(),
-                  const Spacer(flex: 2),
+                  const Spacer(flex: 3),
                   _footer(),
                   const Spacer(),
                 ],
@@ -102,15 +105,18 @@ class LoginPage extends StatelessWidget {
               textInputAction: TextInputAction.done,
             ),
             if (state is LoginEmailException)
-              _errorMessage(message: 'Digite um emal válido!'),
+              const TNErrorMessageWidget(message: 'Digite um emal válido!'),
             if (state is LoginPasswordException)
-              _errorMessage(message: 'Sua senha está incorreta!'),
+              const TNErrorMessageWidget(message: 'Sua senha está incorreta!'),
             if (state is LoginError)
-              _errorMessage(
+              const TNErrorMessageWidget(
                   message:
                       'Ocorreu um erro durante a tentativa de\nfazer login, tente novamente mais tarde!'),
-            Padding(
-              padding: EdgeInsets.only(
+            TNButtonWidget(
+              onTap: () async {
+                await cubit.login();
+              },
+              margin: EdgeInsets.only(
                 top: state is LoginEmailException ||
                         state is LoginPasswordException
                     ? 20
@@ -118,77 +124,32 @@ class LoginPage extends StatelessWidget {
                         ? 10
                         : 40,
               ),
-              child: _logginButton(
-                state: state,
-                textfieldIsEmpty: textfieldIsEmpty,
-                color: textfieldIsEmpty
-                    ? AppColors.darkGreen
-                    : state is LoginLoading
-                        ? AppColors.grey
-                        : state is LoginError
-                            ? AppColors.red
-                            : AppColors.green,
-                widget: state is LoginLoading
-                    ? CircularProgressIndicator(
-                        color: AppColors.green,
-                        strokeWidth: 3,
-                      )
-                    : Text(
-                        'Fazer login',
-                        style: TextStyle(
-                          color: textfieldIsEmpty
-                              ? AppColors.white.withAlpha(100)
-                              : AppColors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16.r,
-                        ),
+              color: textfieldIsEmpty
+                  ? AppColors.darkGreen
+                  : state is LoginLoading
+                      ? AppColors.grey
+                      : state is LoginError
+                          ? AppColors.red
+                          : AppColors.green,
+              widget: state is LoginLoading
+                  ? CircularProgressIndicator(
+                      color: AppColors.green,
+                      strokeWidth: 3,
+                    )
+                  : Text(
+                      'Fazer login',
+                      style: TextStyle(
+                        color: textfieldIsEmpty
+                            ? AppColors.white.withAlpha(100)
+                            : AppColors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16.r,
                       ),
-              ),
+                    ),
             ),
           ],
         );
       },
-    );
-  }
-
-  Widget _errorMessage({required String message}) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 30),
-      child: Text(
-        message,
-        style: TextStyle(
-          color: AppColors.red.withBlue(80),
-          fontWeight: FontWeight.w600,
-          fontSize: 14.r,
-        ),
-      ),
-    );
-  }
-
-  Widget _logginButton({
-    required Widget widget,
-    required Color color,
-    required AuthState state,
-    required bool textfieldIsEmpty,
-  }) {
-    return Padding(
-      padding: EdgeInsets.only(top: 20.h, bottom: 40.h),
-      child: GestureDetector(
-        onTap: () async {
-          await cubit.login();
-        },
-        child: Container(
-          height: 50.h,
-          width: 150.w,
-          decoration: BoxDecoration(
-            color: color,
-            borderRadius: BorderRadius.circular(30),
-          ),
-          child: Center(
-            child: widget,
-          ),
-        ),
-      ),
     );
   }
 
@@ -202,7 +163,11 @@ class LoginPage extends StatelessWidget {
               'Novo no TabNews?',
               style: TextStyle(color: AppColors.white),
             ),
-            TextButton(onPressed: () {}, child: const Text('Registre-se aqui!'))
+            TextButton(
+              onPressed: () =>
+                  Modular.to.pushReplacementNamed('/register-page'),
+              child: const Text('Registre-se aqui!'),
+            )
           ],
         ),
         Row(
@@ -212,11 +177,14 @@ class LoginPage extends StatelessWidget {
               'Esqueceu sua senha?',
               style: TextStyle(color: AppColors.white),
             ),
-            TextButton(onPressed: () {}, child: const Text('Recupere-a aqui!'))
+            TextButton(
+                onPressed: () =>
+                    Modular.to.pushNamed('/recovery-password-page'),
+                child: const Text('Recupere-a aqui!'))
           ],
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 30, bottom: 20),
+          padding: const EdgeInsets.only(top: 30),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

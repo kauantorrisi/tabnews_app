@@ -1,5 +1,6 @@
 // ignore_for_file: depend_on_referenced_packages
 
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 
 import 'package:bloc/bloc.dart';
@@ -27,6 +28,11 @@ class AuthCubit extends Cubit<AuthState> {
 
   final TextEditingController loginEmailController = TextEditingController();
   final TextEditingController loginPasswordController = TextEditingController();
+  final TextEditingController registerUsernameController =
+      TextEditingController();
+  final TextEditingController registerEmailController = TextEditingController();
+  final TextEditingController registerPasswordController =
+      TextEditingController();
   bool obscureText = true;
 
   final LoginUsecase loginUsecase;
@@ -68,21 +74,47 @@ class AuthCubit extends Cubit<AuthState> {
           "email": userEntity!.email,
           "notifications": userEntity!.notifications
         });
+        loginEmailController.text = '';
+        loginPasswordController.text = '';
       },
     );
   }
 
-  Future<void> register({
-    required String username,
-    required String email,
-    required String password,
-  }) async {
+  Future<void> register() async {
     emit(RegisterLoading());
-    final result =
-        await registerUsecase(RegisterParams(username, email, password));
+    final result = await registerUsecase(RegisterParams(
+      registerUsernameController.text,
+      registerEmailController.text,
+      registerPasswordController.text,
+    ));
     result.fold(
-      (l) => emit(RegisterError()),
-      (r) {},
+      (l) {
+        if (l == ServerFailure('"username" não pode estar em branco.')) {
+          emit(RegisterEmptyUsernameException());
+        } else if (l ==
+            ServerFailure('O "username" informado já está sendo usado.')) {
+          emit(RegisterUsernameAlreadyTakenException());
+        } else if (l == ServerFailure('"email" não pode estar em branco.')) {
+          emit(RegisterEmailException());
+        } else if (l ==
+            ServerFailure('O email informado já está sendo usado.')) {
+          emit(RegisterEmailAlreadyTakenException());
+        } else if (l == ServerFailure('"password" não pode estar em branco.') ||
+            l ==
+                ServerFailure(
+                    '"password" deve conter no mínimo 8 caracteres.')) {
+          emit(RegisterPasswordException());
+        } else {
+          emit(RegisterError());
+        }
+      },
+      (r) {
+        emit(RegisteredSuccessful());
+        registerEmailController.text = '';
+        registerPasswordController.text = '';
+        registerUsernameController.text = '';
+        //TODO NAVEGAR PARA PÁGINA QUE VEM APÓS EFETUAR O REGISTRO
+      },
     );
   }
 

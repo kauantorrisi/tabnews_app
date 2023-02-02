@@ -19,6 +19,18 @@ class LoginError extends AuthState {}
 
 class RegisterLoading extends AuthState {}
 
+class RegisteredSuccessful extends AuthState {}
+
+class RegisterEmptyUsernameException extends AuthState {}
+
+class RegisterUsernameAlreadyTakenException extends AuthState {}
+
+class RegisterEmailException extends AuthState {}
+
+class RegisterEmailAlreadyTakenException extends AuthState {}
+
+class RegisterPasswordException extends AuthState {}
+
 class RegisterError extends AuthState {}
 
 class RecoveryPasswordLoading extends AuthState {}
