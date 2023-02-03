@@ -2,7 +2,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 
 import 'package:tabnews_app/app/features/auth/data/datasources/auth_datasource.dart';
 import 'package:tabnews_app/app/features/auth/data/repositories/auth_repository.dart';
-import 'package:tabnews_app/app/features/auth/domain/usecases/get_user_usecase.dart';
+import 'package:tabnews_app/app/domain/usecases/get_user_usecase.dart';
 import 'package:tabnews_app/app/features/auth/domain/usecases/login_usecase.dart';
 import 'package:tabnews_app/app/features/auth/domain/usecases/recovery_password_usecase.dart';
 import 'package:tabnews_app/app/features/auth/domain/usecases/register_usecase.dart';

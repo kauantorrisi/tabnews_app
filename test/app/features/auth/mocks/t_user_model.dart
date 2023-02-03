@@ -1,4 +1,4 @@
-import 'package:tabnews_app/app/features/auth/data/models/user_model.dart';
+import 'package:tabnews_app/app/data/models/user_model.dart';
 
 final UserModel tUserModel = UserModel(
   id: '',

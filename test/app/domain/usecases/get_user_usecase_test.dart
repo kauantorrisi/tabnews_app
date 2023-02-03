@@ -1,12 +1,13 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:tabnews_app/app/features/auth/domain/repositories/i_auth_repository.dart';
-import 'package:tabnews_app/app/features/auth/domain/usecases/get_user_usecase.dart';
+
+import 'package:tabnews_app/app/domain/repositories/i_app_repository.dart';
+import 'package:tabnews_app/app/domain/usecases/get_user_usecase.dart';
 
 import '../../mocks/t_user_entity.dart';
 
-class MockAuthRepository extends Mock implements IAuthRepository {}
+class MockAuthRepository extends Mock implements IAppRepository {}
 
 void main() {
   late MockAuthRepository mockAuthRepository;

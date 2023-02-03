@@ -102,7 +102,6 @@ class LoginPage extends StatelessWidget {
               controller: cubit.loginPasswordController,
               obscureText: cubit.obscureText,
               onPressedInVisibilityButton: () {
-                // It's changing the FocusScope because otherwise it doesn't update the state, so it doesn't change the obscureText.
                 if (FocusScope.of(context).hasFocus) {
                   cubit.toggleObscureText;
                   return FocusScope.of(context).unfocus();
