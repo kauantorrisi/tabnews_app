@@ -1,5 +1,6 @@
 import 'package:flutter_modular/flutter_modular.dart';
 
+import 'package:tabnews_app/app/domain/usecases/get_user_usecase.dart';
 import 'package:tabnews_app/app/features/tabs/data/datasources/tabs_datasource.dart';
 import 'package:tabnews_app/app/features/tabs/data/repositories/tabs_repository.dart';
 import 'package:tabnews_app/app/features/tabs/domain/usecases/get_all_tabs_usecase.dart';
@@ -16,10 +17,11 @@ class TabsModule extends Module {
     Bind.lazySingleton((i) => GetAllTabsUsecase(i())),
     Bind.lazySingleton((i) => GetTabUsecase(i())),
     Bind.lazySingleton((i) => GetTabCommentsUsecase(i())),
+    Bind.lazySingleton((i) => GetUserUsecase(i()))
   ];
 
   static List<Bind> cubits = [
-    Bind.lazySingleton((i) => TabsCubit(i(), i(), i())),
+    Bind.lazySingleton((i) => TabsCubit(i(), i(), i(), i())),
   ];
 
   @override
@@ -30,11 +32,10 @@ class TabsModule extends Module {
         ChildRoute(
           Modular.initialRoute,
           child: (context, args) => TabsPage(
-            email: args.data['email'],
+            token: args.data['token'],
             username: args.data['username'],
-            notifications: args.data['notifications'],
-            tabcoins: args.data['tabcoins'],
-            tabcash: args.data['tabcash'],
+            tabCoins: args.data['tabcoins'],
+            tabCash: args.data['tabcash'],
           ),
         ),
         ChildRoute(
@@ -43,6 +44,7 @@ class TabsModule extends Module {
             cubit: args.data['cubit'],
             tabCoins: args.data['tabCoins'],
             tabCash: args.data['tabCash'],
+            token: args.data['token'],
           ),
         ),
       ];

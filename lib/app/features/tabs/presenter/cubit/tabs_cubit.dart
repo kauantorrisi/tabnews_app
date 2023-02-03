@@ -4,6 +4,8 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hawk_fab_menu/hawk_fab_menu.dart';
 
+import 'package:tabnews_app/app/domain/entities/user_entity.dart';
+import 'package:tabnews_app/app/domain/usecases/get_user_usecase.dart';
 import 'package:tabnews_app/app/features/tabs/domain/entities/tab_entity.dart';
 import 'package:tabnews_app/app/features/tabs/domain/usecases/get_all_tabs_usecase.dart';
 import 'package:tabnews_app/app/features/tabs/domain/usecases/get_tab_comments_usecase.dart';
@@ -16,11 +18,13 @@ class TabsCubit extends Cubit<TabsState> {
     this.getAllTabsUsecase,
     this.getTabCommentsUsecase,
     this.getTabUsecase,
+    this.getUserUsecase,
   ) : super(TabsInitial());
 
   final GetAllTabsUsecase getAllTabsUsecase;
   final GetTabCommentsUsecase getTabCommentsUsecase;
   final GetTabUsecase getTabUsecase;
+  final GetUserUsecase getUserUsecase;
 
   List<TabEntity> relevantTabsList = [];
   List<TabEntity> recentTabsList = [];
@@ -31,6 +35,7 @@ class TabsCubit extends Cubit<TabsState> {
 
   bool isInRelevantPage = false;
   TabEntity? pressedTab;
+  UserEntity? userEntity;
 
   bool toggleIsInRelevantPage(bool value) => isInRelevantPage = value;
 
@@ -114,6 +119,14 @@ class TabsCubit extends Cubit<TabsState> {
         ownerUsername: pressedTab!.ownerUsername, slug: pressedTab!.slug));
     results.forEach((comments) {
       tabComments.addAll(comments);
+    });
+  }
+
+  Future<void> getUser(String token) async {
+    emit(TabsLoading());
+    final result = await getUserUsecase(UserParams(token));
+    result.fold((l) => emit(TabsError()), (r) {
+      userEntity = r;
     });
   }
 }

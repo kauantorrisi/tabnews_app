@@ -24,7 +24,7 @@ class RegisterPage extends StatelessWidget {
       appBar: const PreferredSize(
         preferredSize: Size.fromHeight(kToolbarHeight),
         child: TNAppBarWidget(
-          paddingHorizontal: 110,
+          paddingLeft: 125,
           haveImage: true,
           haveCoins: false,
         ),

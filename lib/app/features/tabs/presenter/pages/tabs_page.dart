@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
-import 'package:tabnews_app/app/features/auth/presenter/widgets/tn_appbar_widget.dart';
 
+import 'package:tabnews_app/app/features/auth/presenter/widgets/tn_appbar_widget.dart';
 import 'package:tabnews_app/app/features/tabs/domain/entities/tab_entity.dart';
 import 'package:tabnews_app/app/features/tabs/presenter/cubit/tabs_cubit.dart';
 import 'package:tabnews_app/app/features/tabs/presenter/widgets/tn_bottom_navigation_bar.dart';
@@ -15,18 +15,16 @@ import 'package:tabnews_app/libraries/common/design/app_colors.dart';
 class TabsPage extends StatefulWidget {
   const TabsPage({
     super.key,
+    required this.token,
     required this.username,
-    required this.email,
-    required this.notifications,
-    required this.tabcoins,
-    required this.tabcash,
+    required this.tabCoins,
+    required this.tabCash,
   });
 
+  final String token;
   final String username;
-  final String email;
-  final bool notifications;
-  final int tabcoins;
-  final int tabcash;
+  final int tabCoins;
+  final int tabCash;
 
   @override
   State<TabsPage> createState() => _TabsPageState();
@@ -64,11 +62,12 @@ class _TabsPageState extends State<TabsPage> {
                   appBar: PreferredSize(
                     preferredSize: const Size.fromHeight(kToolbarHeight),
                     child: TNAppBarWidget(
-                      paddingHorizontal: 81,
+                      paddingRight: 77,
+                      paddingLeft: 110,
                       haveImage: true,
                       haveCoins: true,
-                      tabCoins: widget.tabcoins,
-                      tabCash: widget.tabcash,
+                      tabCoins: widget.tabCoins,
+                      tabCash: widget.tabCash,
                     ),
                   ),
                   body: Column(
@@ -144,8 +143,9 @@ class _TabsPageState extends State<TabsPage> {
             '/tabs-module/pressed-tab-page',
             arguments: {
               "cubit": cubit,
-              "tabCoins": widget.tabcoins,
-              "tabCash": widget.tabcash,
+              "tabCoins": widget.tabCoins,
+              "tabCash": widget.tabCash,
+              "token": widget.token,
             },
           );
         },

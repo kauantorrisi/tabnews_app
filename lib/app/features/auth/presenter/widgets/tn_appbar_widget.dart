@@ -7,14 +7,16 @@ import 'package:tabnews_app/libraries/common/design/app_colors.dart';
 class TNAppBarWidget extends StatelessWidget {
   const TNAppBarWidget({
     super.key,
-    required this.paddingHorizontal,
+    this.paddingRight,
+    this.paddingLeft,
     required this.haveImage,
     required this.haveCoins,
     this.tabCoins,
     this.tabCash,
   });
 
-  final double paddingHorizontal;
+  final double? paddingRight;
+  final double? paddingLeft;
   final bool haveImage;
   final bool haveCoins;
   final int? tabCoins;
@@ -29,7 +31,10 @@ class TNAppBarWidget extends StatelessWidget {
           if (haveImage)
             Image.asset('lib/assets/images/TabNewsIcon.png', height: 24),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: paddingHorizontal.w),
+            padding: EdgeInsets.only(
+              right: paddingRight ?? 0,
+              left: paddingLeft ?? 0,
+            ),
             child: Text(
               'TabNews',
               style: TextStyle(

@@ -14,11 +14,13 @@ class PressedTabPage extends StatefulWidget {
     required this.cubit,
     this.tabCoins,
     this.tabCash,
+    required this.token,
   });
 
   final TabsCubit cubit;
   final int? tabCoins;
   final int? tabCash;
+  final String token;
 
   @override
   State<PressedTabPage> createState() => _PressedTabPageState();
@@ -28,6 +30,7 @@ class _PressedTabPageState extends State<PressedTabPage> {
   @override
   void dispose() {
     widget.cubit.getAllTabs();
+    widget.cubit.getUser(widget.token);
     super.dispose();
   }
 
@@ -40,7 +43,8 @@ class _PressedTabPageState extends State<PressedTabPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TNAppBarWidget(
-              paddingHorizontal: 69,
+              paddingRight: 77,
+              paddingLeft: 89,
               haveImage: false,
               haveCoins: true,
               tabCoins: widget.tabCoins,

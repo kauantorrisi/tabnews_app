@@ -12,12 +12,12 @@ class UserEntity {
   });
 
   final String id;
-  final String username;
+  String username;
   final String email;
   final bool notifications;
   final List<String> features;
-  final int tabcoins;
-  final int tabcash;
+  int tabcoins;
+  int tabcash;
   final DateTime createdAt;
   final DateTime updatedAt;
 }
