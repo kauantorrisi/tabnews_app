@@ -29,11 +29,7 @@ class LoginPage extends StatelessWidget {
               backgroundColor: AppColors.darkGrey,
               appBar: const PreferredSize(
                 preferredSize: Size.fromHeight(kToolbarHeight),
-                child: TNAppBarWidget(
-                  paddingLeft: 125,
-                  haveImage: true,
-                  haveCoins: false,
-                ),
+                child: TNAppBarWidget(haveImage: true, haveCoins: false),
               ),
               body: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -188,9 +184,10 @@ class LoginPage extends StatelessWidget {
               style: TextStyle(color: AppColors.white),
             ),
             TextButton(
-                onPressed: () =>
-                    Modular.to.pushNamed('/recovery-password-page'),
-                child: const Text('Recupere-a aqui!'))
+              onPressed: () => Modular.to
+                  .pushNamed('/recovery-password-page', arguments: cubit),
+              child: const Text('Recupere-a aqui!'),
+            )
           ],
         ),
       ],

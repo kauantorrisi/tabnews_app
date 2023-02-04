@@ -54,6 +54,9 @@ class AuthRepository implements IAuthRepository {
     } on ServerException {
       return Left(ServerFailure());
     } catch (e) {
+      if (e is DioError) {
+        return Left(ServerFailure(e.response?.data["message"]));
+      }
       rethrow;
     }
   }

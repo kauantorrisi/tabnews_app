@@ -23,11 +23,7 @@ class RegisterPage extends StatelessWidget {
       backgroundColor: AppColors.darkGrey,
       appBar: const PreferredSize(
         preferredSize: Size.fromHeight(kToolbarHeight),
-        child: TNAppBarWidget(
-          paddingLeft: 125,
-          haveImage: true,
-          haveCoins: false,
-        ),
+        child: TNAppBarWidget(haveImage: true, haveCoins: false),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,

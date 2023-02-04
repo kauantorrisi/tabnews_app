@@ -1,22 +1,17 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
 import 'package:tabnews_app/libraries/common/design/app_colors.dart';
 
 class TNAppBarWidget extends StatelessWidget {
   const TNAppBarWidget({
     super.key,
-    this.paddingRight,
-    this.paddingLeft,
     required this.haveImage,
     required this.haveCoins,
     this.tabCoins,
     this.tabCash,
   });
-
-  final double? paddingRight;
-  final double? paddingLeft;
   final bool haveImage;
   final bool haveCoins;
   final int? tabCoins;
@@ -26,22 +21,21 @@ class TNAppBarWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: AppColors.darkGrey,
-      title: Row(
-        children: [
-          if (haveImage)
-            Image.asset('lib/assets/images/TabNewsIcon.png', height: 24),
-          Padding(
-            padding: EdgeInsets.only(
-              right: paddingRight ?? 0,
-              left: paddingLeft ?? 0,
+      leading: haveImage
+          ? Image.asset('lib/assets/images/TabNewsIcon.png', height: 24)
+          : IconButton(
+              onPressed: () => Modular.to.pop(),
+              icon: const Icon(Icons.arrow_back),
             ),
-            child: Text(
-              'TabNews',
-              style: TextStyle(
-                color: AppColors.white,
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
-              ),
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'TabNews',
+            style: TextStyle(
+              color: AppColors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
             ),
           ),
           if (haveCoins)

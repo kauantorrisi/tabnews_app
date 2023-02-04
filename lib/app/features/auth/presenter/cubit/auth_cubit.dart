@@ -32,6 +32,9 @@ class AuthCubit extends Cubit<AuthState> {
   final TextEditingController registerEmailController = TextEditingController();
   final TextEditingController registerPasswordController =
       TextEditingController();
+
+  final TextEditingController recoveryPasswordController =
+      TextEditingController();
   bool obscureText = true;
 
   final LoginUsecase loginUsecase;
@@ -131,14 +134,34 @@ class AuthCubit extends Cubit<AuthState> {
     );
   }
 
-  Future<void> recoveryPassword({required String emailOrUsername}) async {
+  Future<void> recoveryPassword(BuildContext context) async {
     emit(RecoveryPasswordLoading());
-    final result =
-        await recoveryPasswordUsecase(RecoveryPasswordParams(emailOrUsername));
-    result.fold(
-      (l) => emit(RecoveryPasswordError()),
-      (r) => recoveryPasswordEntity = r,
-    );
+    final result = await recoveryPasswordUsecase(
+        RecoveryPasswordParams(recoveryPasswordController.text));
+    result.fold((l) {
+      if (l == ServerFailure('"email" deve conter um email válido.')) {
+        emit(RecoveryPasswordEmailException());
+      } else if (l ==
+          ServerFailure('O "email" informado não foi encontrado no sistema.')) {
+        emit(RecoveryPasswordEmailNotFoundException());
+      } else {
+        emit(RecoveryPasswordError());
+      }
+    }, (r) async {
+      emit(RecoveryPasswordSuccessful());
+      if (state is RecoveryPasswordSuccessful) {
+        await showDialog(
+          context: context,
+          builder: (context) => TNAlertDialogWidget(
+            userEmail: recoveryPasswordController.text,
+            textContent:
+                'Você irá receber um e-mail para poder recuperar sua senha',
+          ),
+        );
+      }
+      recoveryPasswordEntity = r;
+      recoveryPasswordController.text = '';
+    });
   }
 
   Future<void> getUser(String token) async {

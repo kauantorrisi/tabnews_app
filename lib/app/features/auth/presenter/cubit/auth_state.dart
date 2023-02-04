@@ -35,4 +35,10 @@ class RegisterError extends AuthState {}
 
 class RecoveryPasswordLoading extends AuthState {}
 
+class RecoveryPasswordSuccessful extends AuthState {}
+
+class RecoveryPasswordEmailException extends AuthState {}
+
+class RecoveryPasswordEmailNotFoundException extends AuthState {}
+
 class RecoveryPasswordError extends AuthState {}

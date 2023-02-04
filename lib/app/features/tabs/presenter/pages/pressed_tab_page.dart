@@ -43,8 +43,6 @@ class _PressedTabPageState extends State<PressedTabPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TNAppBarWidget(
-              paddingRight: 77,
-              paddingLeft: 89,
               haveImage: false,
               haveCoins: true,
               tabCoins: widget.tabCoins,

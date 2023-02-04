@@ -5,7 +5,6 @@ import 'package:dio/dio.dart';
 import 'package:tabnews_app/app/core/errors/app_exceptions.dart';
 import 'package:tabnews_app/app/features/auth/data/models/login_model.dart';
 import 'package:tabnews_app/app/features/auth/data/models/recovery_password_model.dart';
-import 'package:tabnews_app/app/data/models/user_model.dart';
 import 'package:tabnews_app/libraries/common/constants.dart';
 
 abstract class IAuthDatasource {
@@ -54,7 +53,6 @@ class AuthDatasource implements IAuthDatasource {
         options: Options(contentType: 'application/json'),
         data: {
           "email": emailOrUsername,
-          "username": emailOrUsername,
         });
     Map<String, dynamic> response = result.data;
     if (result.statusCode == 201) {

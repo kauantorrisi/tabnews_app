@@ -62,8 +62,6 @@ class _TabsPageState extends State<TabsPage> {
                   appBar: PreferredSize(
                     preferredSize: const Size.fromHeight(kToolbarHeight),
                     child: TNAppBarWidget(
-                      paddingRight: 77,
-                      paddingLeft: 110,
                       haveImage: true,
                       haveCoins: true,
                       tabCoins: widget.tabCoins,

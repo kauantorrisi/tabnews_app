@@ -33,6 +33,8 @@ class AuthModule extends Module {
         ChildRoute(Modular.initialRoute, child: (context, args) => LoginPage()),
         ChildRoute('/register-page', child: (context, args) => RegisterPage()),
         ChildRoute('/recovery-password-page',
-            child: (context, args) => const RecoveryPasswordPage()),
+            child: (context, args) => RecoveryPasswordPage(
+                  cubit: args.data,
+                )),
       ];
 }
