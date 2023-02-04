@@ -35,6 +35,7 @@ flutter:
   assets:
     - lib/assets/images/
     - lib/assets/images/TabNewsIcon.png
+    - lib/assets/images/icon.png
 
   # fonts:
   #   - family: Schyler
