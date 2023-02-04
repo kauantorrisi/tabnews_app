@@ -10,6 +10,7 @@ class TNBottomNavigationBar extends StatelessWidget {
     this.colorRelevantIcon,
     this.colorRecentIcon,
     this.colorSaveIcon,
+    required this.haveIconToNavigateOfTabsSaved,
   });
 
   final Function()? onPressedInRelevantButton;
@@ -17,6 +18,7 @@ class TNBottomNavigationBar extends StatelessWidget {
   final Color? colorRelevantIcon;
   final Color? colorRecentIcon;
   final Color? colorSaveIcon;
+  final bool haveIconToNavigateOfTabsSaved;
 
   @override
   Widget build(BuildContext context) {
@@ -46,15 +48,16 @@ class TNBottomNavigationBar extends StatelessWidget {
                 color: colorRecentIcon,
               ),
             ),
-            const Spacer(flex: 2),
-            IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.bookmarks,
-                size: 30,
-                color: colorSaveIcon,
+            if (haveIconToNavigateOfTabsSaved) const Spacer(flex: 2),
+            if (haveIconToNavigateOfTabsSaved)
+              IconButton(
+                onPressed: () {},
+                icon: Icon(
+                  Icons.bookmarks,
+                  size: 30,
+                  color: colorSaveIcon,
+                ),
               ),
-            ),
             const Spacer(),
           ],
         ),

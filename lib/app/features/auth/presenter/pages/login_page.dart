@@ -120,6 +120,7 @@ class LoginPage extends StatelessWidget {
             TNButtonWidget(
               onTap: () async {
                 FocusScope.of(context).unfocus();
+                cubit.toggleIsGuest(false);
                 await cubit.login();
               },
               margin: EdgeInsets.only(
@@ -129,6 +130,7 @@ class LoginPage extends StatelessWidget {
                     : state is LoginError
                         ? 10
                         : 40,
+                bottom: 20,
               ),
               color: textfieldIsEmpty
                   ? AppColors.darkGreen
@@ -152,6 +154,36 @@ class LoginPage extends StatelessWidget {
                         fontSize: 16.r,
                       ),
                     ),
+            ),
+            Text(
+              'Ou',
+              style: TextStyle(
+                color: AppColors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 14.r,
+              ),
+            ),
+            TNButtonWidget(
+              onTap: () {
+                cubit.toggleIsGuest(true);
+                Modular.to.pushNamed('/tabs-module/', arguments: {
+                  "token": 'token is null',
+                  "username": 'Convidado',
+                  "tabcoins": 0,
+                  "tabcash": 0,
+                  "isGuest": cubit.isGuest,
+                });
+              },
+              color: AppColors.white,
+              widget: Text(
+                'Entrar como convidado',
+                style: TextStyle(
+                  color: AppColors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 12.r,
+                ),
+              ),
+              margin: const EdgeInsets.only(top: 20),
             ),
           ],
         );

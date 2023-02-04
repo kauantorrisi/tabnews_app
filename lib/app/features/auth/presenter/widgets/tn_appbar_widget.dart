@@ -30,12 +30,17 @@ class TNAppBarWidget extends StatelessWidget {
       title: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            'TabNews',
-            style: TextStyle(
-              color: AppColors.white,
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
+          Padding(
+            padding: haveCoins
+                ? const EdgeInsets.only(right: 70, left: 80)
+                : const EdgeInsets.all(0),
+            child: Text(
+              'TabNews',
+              style: TextStyle(
+                color: AppColors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
           if (haveCoins)

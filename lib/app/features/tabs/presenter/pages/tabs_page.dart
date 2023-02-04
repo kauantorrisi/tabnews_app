@@ -19,12 +19,14 @@ class TabsPage extends StatefulWidget {
     required this.username,
     required this.tabCoins,
     required this.tabCash,
+    required this.isGuest,
   });
 
   final String token;
   final String username;
   final int tabCoins;
   final int tabCash;
+  final bool isGuest;
 
   @override
   State<TabsPage> createState() => _TabsPageState();
@@ -62,8 +64,8 @@ class _TabsPageState extends State<TabsPage> {
                   appBar: PreferredSize(
                     preferredSize: const Size.fromHeight(kToolbarHeight),
                     child: TNAppBarWidget(
-                      haveImage: true,
-                      haveCoins: true,
+                      haveImage: widget.isGuest ? false : true,
+                      haveCoins: widget.isGuest ? false : true,
                       tabCoins: widget.tabCoins,
                       tabCash: widget.tabCash,
                     ),
@@ -86,16 +88,20 @@ class _TabsPageState extends State<TabsPage> {
                   ),
                   floatingActionButtonLocation:
                       FloatingActionButtonLocation.endFloat,
-                  floatingActionButton: TNMenuFAB(
-                    username: widget.username,
-                    icon: AnimatedIcons.list_view,
-                    iconColor: AppColors.white,
-                    hawkFabMenuController: cubit.hawkFabMenuController,
-                    onPressed: () {
-                      cubit.hawkFabMenuController.toggleMenu();
-                    },
-                  ),
+                  floatingActionButton: widget.isGuest
+                      ? null
+                      : TNMenuFAB(
+                          username: widget.username,
+                          icon: AnimatedIcons.list_view,
+                          iconColor: AppColors.white,
+                          hawkFabMenuController: cubit.hawkFabMenuController,
+                          onPressed: () {
+                            cubit.hawkFabMenuController.toggleMenu();
+                          },
+                        ),
                   bottomNavigationBar: TNBottomNavigationBar(
+                    haveIconToNavigateOfTabsSaved:
+                        widget.isGuest ? false : true,
                     onPressedInRelevantButton: () async {
                       if (state is TabsLoading) {
                         return;
@@ -144,6 +150,7 @@ class _TabsPageState extends State<TabsPage> {
               "tabCoins": widget.tabCoins,
               "tabCash": widget.tabCash,
               "token": widget.token,
+              "isGuest": widget.isGuest,
             },
           );
         },

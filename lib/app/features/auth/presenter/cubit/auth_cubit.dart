@@ -46,6 +46,10 @@ class AuthCubit extends Cubit<AuthState> {
   RecoveryPasswordEntity? recoveryPasswordEntity;
   UserEntity? userEntity;
 
+  bool isGuest = false;
+
+  bool toggleIsGuest(bool value) => isGuest = value;
+
   bool get toggleObscureText {
     return obscureText = !obscureText;
   }
@@ -79,6 +83,7 @@ class AuthCubit extends Cubit<AuthState> {
           "username": userEntity!.username,
           "tabcoins": userEntity!.tabcoins,
           "tabcash": userEntity!.tabcash,
+          "isGuest": isGuest,
         });
         loginEmailController.text = '';
         loginPasswordController.text = '';

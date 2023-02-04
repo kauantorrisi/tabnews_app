@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:tabnews_app/app/features/auth/presenter/widgets/tn_appbar_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'package:tabnews_app/app/features/auth/presenter/widgets/tn_appbar_widget.dart';
 import 'package:tabnews_app/app/features/tabs/presenter/cubit/tabs_cubit.dart';
 import 'package:tabnews_app/libraries/common/design/app_colors.dart';
 
@@ -15,12 +15,14 @@ class PressedTabPage extends StatefulWidget {
     this.tabCoins,
     this.tabCash,
     required this.token,
+    required this.isGuest,
   });
 
   final TabsCubit cubit;
   final int? tabCoins;
   final int? tabCash;
   final String token;
+  final bool isGuest;
 
   @override
   State<PressedTabPage> createState() => _PressedTabPageState();
@@ -44,7 +46,7 @@ class _PressedTabPageState extends State<PressedTabPage> {
           children: [
             TNAppBarWidget(
               haveImage: false,
-              haveCoins: true,
+              haveCoins: widget.isGuest ? false : true,
               tabCoins: widget.tabCoins,
               tabCash: widget.tabCash,
             ),
@@ -153,53 +155,54 @@ class _PressedTabPageState extends State<PressedTabPage> {
   Widget _tabStatusBar() {
     return Column(
       children: [
-        Row(
-          children: [
-            const Spacer(),
-            IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.keyboard_arrow_up,
-                color: AppColors.green,
-                size: 30,
+        if (widget.isGuest == false)
+          Row(
+            children: [
+              const Spacer(),
+              IconButton(
+                onPressed: () {},
+                icon: Icon(
+                  Icons.keyboard_arrow_up,
+                  color: AppColors.green,
+                  size: 30,
+                ),
               ),
-            ),
-            Text(
-              ' ${widget.cubit.pressedTab?.tabcoins}',
-              style: TextStyle(
+              Text(
+                ' ${widget.cubit.pressedTab?.tabcoins}',
+                style: TextStyle(
+                  color: AppColors.white,
+                  fontSize: 16,
+                ),
+              ),
+              IconButton(
+                onPressed: () {},
+                icon: Icon(
+                  Icons.keyboard_arrow_down,
+                  color: AppColors.red,
+                  size: 30,
+                ),
+              ),
+              const Spacer(flex: 2),
+              IconButton(
+                icon: const Icon(Icons.chat_bubble_outline),
                 color: AppColors.white,
-                fontSize: 16,
+                onPressed: () {},
               ),
-            ),
-            IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.keyboard_arrow_down,
-                color: AppColors.red,
-                size: 30,
+              Text(
+                ' ${widget.cubit.pressedTab?.childrenDeepCount}',
+                style: TextStyle(
+                  color: AppColors.white,
+                  fontSize: 16,
+                ),
               ),
-            ),
-            const Spacer(flex: 2),
-            IconButton(
-              icon: const Icon(Icons.chat_bubble_outline),
-              color: AppColors.white,
-              onPressed: () {},
-            ),
-            Text(
-              ' ${widget.cubit.pressedTab?.childrenDeepCount}',
-              style: TextStyle(
-                color: AppColors.white,
-                fontSize: 16,
+              const Spacer(flex: 2),
+              IconButton(
+                onPressed: () {},
+                icon: Icon(Icons.share, color: AppColors.white),
               ),
-            ),
-            const Spacer(flex: 2),
-            IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.share, color: AppColors.white),
-            ),
-            const Spacer(flex: 2),
-          ],
-        ),
+              const Spacer(flex: 2),
+            ],
+          ),
         Container(
           height: 1.5.h,
           width: 500.w,
@@ -221,29 +224,30 @@ class _PressedTabPageState extends State<PressedTabPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
-              // TODO implementar upvote e downvote nos comentários
-              children: [
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.keyboard_arrow_up),
-                  color: AppColors.green,
-                ),
-                Text(
-                  '${widget.cubit.tabComments[index].tabcoins}',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: AppColors.white,
+            if (widget.isGuest == false)
+              Column(
+                // TODO implementar upvote e downvote nos comentários
+                children: [
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(Icons.keyboard_arrow_up),
+                    color: AppColors.green,
                   ),
-                ),
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.keyboard_arrow_down),
-                  color: AppColors.red,
-                ),
-              ],
-            ),
+                  Text(
+                    '${widget.cubit.tabComments[index].tabcoins}',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: AppColors.white,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(Icons.keyboard_arrow_down),
+                    color: AppColors.red,
+                  ),
+                ],
+              ),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

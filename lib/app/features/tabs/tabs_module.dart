@@ -36,6 +36,7 @@ class TabsModule extends Module {
             username: args.data['username'],
             tabCoins: args.data['tabcoins'],
             tabCash: args.data['tabcash'],
+            isGuest: args.data['isGuest'],
           ),
         ),
         ChildRoute(
@@ -45,6 +46,7 @@ class TabsModule extends Module {
             tabCoins: args.data['tabCoins'],
             tabCash: args.data['tabCash'],
             token: args.data['token'],
+            isGuest: args.data['isGuest'],
           ),
         ),
       ];
