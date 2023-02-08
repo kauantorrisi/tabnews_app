@@ -221,7 +221,7 @@ class _TabsPageState extends State<TabsPage> {
     return Container(
       margin: const EdgeInsets.only(top: 10),
       color: AppColors.lightGrey,
-      width: 500,
+      width: 500.w,
       height: 1.5,
     );
   }

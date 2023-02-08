@@ -7,6 +7,7 @@ import 'package:tabnews_app/app/features/tabs/domain/usecases/get_all_tabs_useca
 import 'package:tabnews_app/app/features/tabs/domain/usecases/get_tab_comments_usecase.dart';
 import 'package:tabnews_app/app/features/tabs/domain/usecases/get_tab_usecase.dart';
 import 'package:tabnews_app/app/features/tabs/presenter/cubit/tabs_cubit.dart';
+import 'package:tabnews_app/app/features/tabs/presenter/pages/post_tab_page.dart';
 import 'package:tabnews_app/app/features/tabs/presenter/pages/pressed_tab_page.dart';
 import 'package:tabnews_app/app/features/tabs/presenter/pages/tabs_page.dart';
 
@@ -49,5 +50,7 @@ class TabsModule extends Module {
             isGuest: args.data['isGuest'],
           ),
         ),
+        ChildRoute('/post-tab-page',
+            child: (context, args) => const PostTabPage())
       ];
 }

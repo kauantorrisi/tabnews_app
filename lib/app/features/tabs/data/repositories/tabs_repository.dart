@@ -49,4 +49,17 @@ class TabsRepository implements ITabsRepository {
       rethrow;
     }
   }
+
+  @override
+  Future<Either<Failure, TabEntity>> postTab(
+      String title, String body, String status) async {
+    try {
+      final response = await datasource.postTab(title, body, status);
+      return Right(response);
+    } on ServerException {
+      return Left(ServerFailure());
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

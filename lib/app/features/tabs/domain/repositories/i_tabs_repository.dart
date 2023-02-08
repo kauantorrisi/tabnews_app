@@ -12,5 +12,8 @@ abstract class ITabsRepository {
   Future<Either<Failure, List<TabEntity>>> getTabComments(
       String ownerUsername, String slug);
 
+  Future<Either<Failure, TabEntity>> postTab(
+      String title, String body, String status);
+
   // TODO UP-VOTE AND DOWN-VOTE GET REQUEST
 }

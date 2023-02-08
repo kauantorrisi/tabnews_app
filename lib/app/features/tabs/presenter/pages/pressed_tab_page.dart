@@ -32,7 +32,9 @@ class _PressedTabPageState extends State<PressedTabPage> {
   @override
   void dispose() {
     widget.cubit.getAllTabs();
-    widget.cubit.getUser(widget.token);
+    if (!widget.isGuest) {
+      widget.cubit.getUser(widget.token);
+    }
     super.dispose();
   }
 
@@ -77,7 +79,7 @@ class _PressedTabPageState extends State<PressedTabPage> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
-            widget.cubit.pressedTab?.title,
+            widget.cubit.pressedTab!.title,
             style: TextStyle(
               color: AppColors.white,
               fontSize: 20.r,
@@ -85,7 +87,7 @@ class _PressedTabPageState extends State<PressedTabPage> {
             ),
           ),
         ),
-        _convertTabBodyToMarkdown(data: widget.cubit.pressedTab?.body),
+        _convertTabBodyToMarkdown(data: widget.cubit.pressedTab!.body),
         _tabStatusBar(),
         _commentsOfTab(),
       ],
@@ -139,7 +141,6 @@ class _PressedTabPageState extends State<PressedTabPage> {
           fontSize: 16,
           backgroundColor: AppColors.darkGrey,
         ),
-        // TODO textScaleFactor adjust with the user choices in settings ,
         blockquoteDecoration: BoxDecoration(
           color: AppColors.darkGrey,
           borderRadius: BorderRadius.circular(16),
@@ -224,7 +225,7 @@ class _PressedTabPageState extends State<PressedTabPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (widget.isGuest == false)
+            if (!widget.isGuest)
               Column(
                 // TODO implementar upvote e downvote nos comentários
                 children: [
@@ -254,12 +255,24 @@ class _PressedTabPageState extends State<PressedTabPage> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(left: 12, bottom: 5),
-                    child: Text(
-                      '${widget.cubit.tabComments[index].ownerUsername}: ',
-                      style: TextStyle(
-                        color: AppColors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
+                    child: GestureDetector(
+                      onTap:
+                          () {}, // TODO adiconar navegação para o user module -> página de perfil do usuário
+                      child: Container(
+                        height: 20.h,
+                        decoration: BoxDecoration(
+                          color: AppColors.blue.withAlpha(60),
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: Text(
+                          ' ${widget.cubit.tabComments[index].ownerUsername}:',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: AppColors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                          ),
+                        ),
                       ),
                     ),
                   ),

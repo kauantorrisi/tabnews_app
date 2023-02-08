@@ -24,7 +24,7 @@ class TabEntity extends Equatable {
   final String ownerId;
   final dynamic parentId;
   final String slug;
-  final dynamic title;
+  final String title;
   final dynamic body;
   final String status;
   final dynamic sourceUrl;

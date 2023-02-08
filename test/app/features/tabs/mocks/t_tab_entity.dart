@@ -6,7 +6,7 @@ final TabEntity tTabEntity = TabEntity(
   parentId: 'parentId',
   slug: 'slug',
   title: 'title',
-  body: null,
+  body: 'body',
   status: 'status',
   children: const [],
   sourceUrl: 'sourceUrl',

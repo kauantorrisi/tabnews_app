@@ -39,7 +39,7 @@ class TNMenuFAB extends StatelessWidget {
         ),
         HawkFabMenuItem(
           label: 'Publicar novo conteúdo',
-          ontap: () {},
+          ontap: () => Modular.to.pushNamed('/tabs-module/post-tab-page'),
           icon: const Icon(Icons.article),
           color: AppColors.darkGrey,
           labelColor: AppColors.black,

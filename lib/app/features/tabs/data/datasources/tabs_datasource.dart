@@ -10,6 +10,7 @@ abstract class ITabsDatasource {
   Future<List<TabModel>> getAllTabs(int page, int perPage, String strategy);
   Future<TabModel> getTab(String ownerUsername, String slug);
   Future<List<TabModel>> getTabComments(String ownerUsername, String slug);
+  Future<TabModel> postTab(String title, String body, String status);
 }
 
 class TabsDatasource implements ITabsDatasource {
@@ -20,7 +21,7 @@ class TabsDatasource implements ITabsDatasource {
       int page, int perPage, String strategy) async {
     List<TabModel> tabsList = [];
     Response result = await dio
-        .get('$getContentsUrl?page=$page&per_page=$perPage&strategy=$strategy');
+        .get(getContentsUrl(page: page, perPage: perPage, strategy: strategy));
     List<dynamic> response = result.data;
     if (result.statusCode == 200) {
       for (var tab in response) {
@@ -34,7 +35,8 @@ class TabsDatasource implements ITabsDatasource {
 
   @override
   Future<TabModel> getTab(String ownerUsername, String slug) async {
-    Response result = await dio.get('$getContentsUrl/$ownerUsername/$slug');
+    Response result =
+        await dio.get(getTabUrl(ownerUsername: ownerUsername, slug: slug));
     if (result.statusCode == 200) {
       TabModel tabModel = TabModel.fromMap(result.data);
       return tabModel;
@@ -47,8 +49,8 @@ class TabsDatasource implements ITabsDatasource {
   Future<List<TabModel>> getTabComments(
       String ownerUsername, String slug) async {
     List<TabModel> tabsList = [];
-    Response results =
-        await dio.get('$getContentsUrl/$ownerUsername/$slug/children');
+    Response results = await dio
+        .get(getTabCommentsUrl(ownerUsername: ownerUsername, slug: slug));
     List<dynamic> response = results.data;
     if (results.statusCode == 200) {
       for (var content in response) {
@@ -58,5 +60,23 @@ class TabsDatasource implements ITabsDatasource {
       throw ServerException();
     }
     return tabsList;
+  }
+
+  @override
+  Future<TabModel> postTab(String title, String body, String status) async {
+    TabModel tabModel;
+    Response results = await dio.post(postContentUrl,
+        options: Options(contentType: 'application/json', headers: {
+          "title": title,
+          "body": body,
+          "status": status,
+        }));
+    final response = results.data;
+    if (results.statusCode == 201) {
+      tabModel = TabModel.fromJson(response);
+    } else {
+      throw ServerException();
+    }
+    return tabModel;
   }
 }
