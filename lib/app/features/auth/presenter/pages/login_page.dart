@@ -5,10 +5,10 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:tabnews_app/app/features/auth/presenter/cubit/auth_cubit.dart';
-import 'package:tabnews_app/app/features/auth/presenter/widgets/tn_appbar_widget.dart';
-import 'package:tabnews_app/app/features/auth/presenter/widgets/tn_button_widget.dart';
+import 'package:tabnews_app/app/widgets/tn_appbar_widget.dart';
+import 'package:tabnews_app/app/widgets/tn_button_widget.dart';
 import 'package:tabnews_app/app/features/auth/presenter/widgets/tn_error_message_widget.dart';
-import 'package:tabnews_app/app/features/auth/presenter/widgets/tn_textfield_widget.dart';
+import 'package:tabnews_app/app/features/auth/presenter/widgets/tn_textfield_of_auth_module_widget.dart';
 import 'package:tabnews_app/libraries/common/design/app_colors.dart';
 
 class LoginPage extends StatelessWidget {
@@ -67,7 +67,7 @@ class LoginPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 30),
-            TNTextField(
+            TNTextfieldOfAuthModuleWidget(
               enabledBorderColor:
                   state is LoginEmailException || state is LoginError
                       ? AppColors.red
@@ -83,7 +83,7 @@ class LoginPage extends StatelessWidget {
               textInputAction: TextInputAction.next,
             ),
             const SizedBox(height: 10),
-            TNTextField(
+            TNTextfieldOfAuthModuleWidget(
               enabledBorderColor:
                   state is LoginPasswordException || state is LoginError
                       ? AppColors.red

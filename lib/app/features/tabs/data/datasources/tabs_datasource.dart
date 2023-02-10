@@ -10,7 +10,8 @@ abstract class ITabsDatasource {
   Future<List<TabModel>> getAllTabs(int page, int perPage, String strategy);
   Future<TabModel> getTab(String ownerUsername, String slug);
   Future<List<TabModel>> getTabComments(String ownerUsername, String slug);
-  Future<TabModel> postTab(String title, String body, String status);
+  Future<TabModel> postTab(String title, String body, String status,
+      String sourceUrl, String slug, String token);
 }
 
 class TabsDatasource implements ITabsDatasource {
@@ -63,14 +64,21 @@ class TabsDatasource implements ITabsDatasource {
   }
 
   @override
-  Future<TabModel> postTab(String title, String body, String status) async {
+  Future<TabModel> postTab(String title, String body, String status,
+      String sourceUrl, String slug, String token) async {
     TabModel tabModel;
     Response results = await dio.post(postContentUrl,
-        options: Options(contentType: 'application/json', headers: {
+        data: {
           "title": title,
           "body": body,
           "status": status,
-        }));
+          "source_url": sourceUrl,
+          "slug": slug
+        },
+        options: Options(
+          contentType: 'application/json',
+          headers: {"session_id": token},
+        ));
     final response = results.data;
     if (results.statusCode == 201) {
       tabModel = TabModel.fromJson(response);

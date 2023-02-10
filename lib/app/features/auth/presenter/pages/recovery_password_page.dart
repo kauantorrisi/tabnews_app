@@ -4,10 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:tabnews_app/app/features/auth/presenter/cubit/auth_cubit.dart';
-import 'package:tabnews_app/app/features/auth/presenter/widgets/tn_appbar_widget.dart';
-import 'package:tabnews_app/app/features/auth/presenter/widgets/tn_button_widget.dart';
+import 'package:tabnews_app/app/widgets/tn_appbar_widget.dart';
+import 'package:tabnews_app/app/widgets/tn_button_widget.dart';
 import 'package:tabnews_app/app/features/auth/presenter/widgets/tn_error_message_widget.dart';
-import 'package:tabnews_app/app/features/auth/presenter/widgets/tn_textfield_widget.dart';
+import 'package:tabnews_app/app/features/auth/presenter/widgets/tn_textfield_of_auth_module_widget.dart';
 import 'package:tabnews_app/libraries/common/design/app_colors.dart';
 
 class RecoveryPasswordPage extends StatelessWidget {
@@ -44,7 +44,7 @@ class RecoveryPasswordPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 50),
-              TNTextField(
+              TNTextfieldOfAuthModuleWidget(
                 enabledBorderColor: state is RecoveryPasswordEmailException ||
                         state is RecoveryPasswordEmailNotFoundException ||
                         state is RecoveryPasswordError

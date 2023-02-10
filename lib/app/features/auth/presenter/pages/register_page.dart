@@ -5,10 +5,10 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:tabnews_app/app/features/auth/presenter/cubit/auth_cubit.dart';
-import 'package:tabnews_app/app/features/auth/presenter/widgets/tn_appbar_widget.dart';
-import 'package:tabnews_app/app/features/auth/presenter/widgets/tn_button_widget.dart';
+import 'package:tabnews_app/app/widgets/tn_appbar_widget.dart';
+import 'package:tabnews_app/app/widgets/tn_button_widget.dart';
 import 'package:tabnews_app/app/features/auth/presenter/widgets/tn_error_message_widget.dart';
-import 'package:tabnews_app/app/features/auth/presenter/widgets/tn_textfield_widget.dart';
+import 'package:tabnews_app/app/features/auth/presenter/widgets/tn_textfield_of_auth_module_widget.dart';
 import 'package:tabnews_app/libraries/common/design/app_colors.dart';
 
 class RegisterPage extends StatelessWidget {
@@ -63,7 +63,7 @@ class RegisterPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 30),
-            TNTextField(
+            TNTextfieldOfAuthModuleWidget(
               controller: cubit.registerUsernameController,
               prefixIcon: Icons.person,
               enabledBorderColor: state is RegisterEmptyUsernameException ||
@@ -79,7 +79,7 @@ class RegisterPage extends StatelessWidget {
               textInputAction: TextInputAction.next,
             ),
             const SizedBox(height: 10),
-            TNTextField(
+            TNTextfieldOfAuthModuleWidget(
               controller: cubit.registerEmailController,
               prefixIcon: Icons.email,
               enabledBorderColor: state is RegisterEmailException ||
@@ -95,7 +95,7 @@ class RegisterPage extends StatelessWidget {
               textInputAction: TextInputAction.next,
             ),
             const SizedBox(height: 10),
-            TNTextField(
+            TNTextfieldOfAuthModuleWidget(
               controller: cubit.registerPasswordController,
               prefixIcon: Icons.lock,
               suffixIcon:

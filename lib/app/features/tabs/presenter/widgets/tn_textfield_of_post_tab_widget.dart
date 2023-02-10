@@ -4,31 +4,33 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:tabnews_app/libraries/common/design/app_colors.dart';
 
-class TNTextField extends StatelessWidget {
-  const TNTextField({
+class TNTextfieldOfPostTabWidget extends StatelessWidget {
+  const TNTextfieldOfPostTabWidget({
     super.key,
     required this.controller,
-    required this.prefixIcon,
+    this.prefixIcon,
     this.suffixIcon,
     required this.enabledBorderColor,
     required this.obscureText,
     this.onPressedInVisibilityButton,
-    required this.hintText,
-    required this.textInputAction,
+    this.hintText,
+    this.textInputAction,
     this.onEditingComplete,
     required this.focusedBorderColor,
+    this.isExtended,
   });
 
   final TextEditingController controller;
-  final IconData prefixIcon;
+  final IconData? prefixIcon;
   final IconData? suffixIcon;
   final Color enabledBorderColor;
   final Color focusedBorderColor;
   final bool obscureText;
+  final bool? isExtended;
   final Function()? onPressedInVisibilityButton;
   final Function()? onEditingComplete;
-  final String hintText;
-  final TextInputAction textInputAction;
+  final String? hintText;
+  final TextInputAction? textInputAction;
 
   @override
   Widget build(BuildContext context) {
@@ -39,18 +41,18 @@ class TNTextField extends StatelessWidget {
         controller: controller,
         obscureText: obscureText,
         textInputAction: textInputAction,
-        maxLines: 1,
+        maxLines: isExtended == true ? 20 : 1,
         onEditingComplete: onEditingComplete,
         decoration: InputDecoration(
           filled: true,
           fillColor: AppColors.white,
           enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: enabledBorderColor, width: 2),
-            borderRadius: BorderRadius.circular(50.0),
+            borderSide: BorderSide(color: enabledBorderColor, width: 1),
+            borderRadius: BorderRadius.circular(15),
           ),
           focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: focusedBorderColor, width: 2),
-            borderRadius: BorderRadius.circular(50.0),
+            borderSide: BorderSide(color: focusedBorderColor, width: 1),
+            borderRadius: BorderRadius.circular(15),
           ),
           prefixIcon: Icon(
             prefixIcon,
@@ -67,13 +69,13 @@ class TNTextField extends StatelessWidget {
           hintText: hintText,
           hintStyle: TextStyle(
             color: AppColors.black,
-            fontSize: 18.r,
+            fontSize: 16.r,
             fontWeight: FontWeight.w500,
           ),
         ),
         style: TextStyle(
           color: AppColors.black,
-          fontSize: 18.r,
+          fontSize: 16.r,
           fontWeight: FontWeight.w400,
         ),
       ),

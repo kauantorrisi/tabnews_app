@@ -6,7 +6,9 @@ import 'package:tabnews_app/app/features/tabs/data/repositories/tabs_repository.
 import 'package:tabnews_app/app/features/tabs/domain/usecases/get_all_tabs_usecase.dart';
 import 'package:tabnews_app/app/features/tabs/domain/usecases/get_tab_comments_usecase.dart';
 import 'package:tabnews_app/app/features/tabs/domain/usecases/get_tab_usecase.dart';
-import 'package:tabnews_app/app/features/tabs/presenter/cubit/tabs_cubit.dart';
+import 'package:tabnews_app/app/features/tabs/domain/usecases/post_tab_usecase.dart';
+import 'package:tabnews_app/app/features/tabs/presenter/cubits/postTabPage/post_tab_cubit.dart';
+import 'package:tabnews_app/app/features/tabs/presenter/cubits/tabsPage/tabs_cubit.dart';
 import 'package:tabnews_app/app/features/tabs/presenter/pages/post_tab_page.dart';
 import 'package:tabnews_app/app/features/tabs/presenter/pages/pressed_tab_page.dart';
 import 'package:tabnews_app/app/features/tabs/presenter/pages/tabs_page.dart';
@@ -18,11 +20,13 @@ class TabsModule extends Module {
     Bind.lazySingleton((i) => GetAllTabsUsecase(i())),
     Bind.lazySingleton((i) => GetTabUsecase(i())),
     Bind.lazySingleton((i) => GetTabCommentsUsecase(i())),
-    Bind.lazySingleton((i) => GetUserUsecase(i()))
+    Bind.lazySingleton((i) => GetUserUsecase(i())),
+    Bind.lazySingleton((i) => PostTabUsecase(i())),
   ];
 
   static List<Bind> cubits = [
     Bind.lazySingleton((i) => TabsCubit(i(), i(), i(), i())),
+    Bind.lazySingleton((i) => PostTabCubit(i()))
   ];
 
   @override
@@ -50,7 +54,14 @@ class TabsModule extends Module {
             isGuest: args.data['isGuest'],
           ),
         ),
-        ChildRoute('/post-tab-page',
-            child: (context, args) => const PostTabPage())
+        ChildRoute(
+          '/post-tab-page',
+          child: (context, args) => PostTabPage(
+            tabCash: args.data["tabCash"],
+            tabCoins: args.data["tabCoins"],
+            token: args.data["token"],
+            username: args.data["username"],
+          ),
+        )
       ];
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:hawk_fab_menu/hawk_fab_menu.dart';
 
 import 'package:tabnews_app/libraries/common/design/app_colors.dart';
@@ -13,6 +13,9 @@ class TNMenuFAB extends StatelessWidget {
     required this.hawkFabMenuController,
     this.iconColor,
     required this.username,
+    required this.tabCoins,
+    required this.tabCash,
+    required this.token,
   });
 
   final Function()? onPressed;
@@ -20,6 +23,9 @@ class TNMenuFAB extends StatelessWidget {
   final HawkFabMenuController hawkFabMenuController;
   final Color? iconColor;
   final String username;
+  final String token;
+  final int tabCoins;
+  final int tabCash;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +45,15 @@ class TNMenuFAB extends StatelessWidget {
         ),
         HawkFabMenuItem(
           label: 'Publicar novo conteúdo',
-          ontap: () => Modular.to.pushNamed('/tabs-module/post-tab-page'),
+          ontap: () => Modular.to.pushNamed(
+            '/tabs-module/post-tab-page',
+            arguments: {
+              "token": token,
+              "username": username,
+              "tabCoins": tabCoins,
+              "tabCash": tabCash,
+            },
+          ),
           icon: const Icon(Icons.article),
           color: AppColors.darkGrey,
           labelColor: AppColors.black,

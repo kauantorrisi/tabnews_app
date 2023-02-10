@@ -4,8 +4,8 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'package:tabnews_app/app/features/auth/presenter/widgets/tn_appbar_widget.dart';
-import 'package:tabnews_app/app/features/tabs/presenter/cubit/tabs_cubit.dart';
+import 'package:tabnews_app/app/widgets/tn_appbar_widget.dart';
+import 'package:tabnews_app/app/features/tabs/presenter/cubits/tabsPage/tabs_cubit.dart';
 import 'package:tabnews_app/libraries/common/design/app_colors.dart';
 
 class PressedTabPage extends StatefulWidget {

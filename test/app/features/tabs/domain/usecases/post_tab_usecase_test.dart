@@ -1,9 +1,6 @@
-import 'dart:math';
-
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:tabnews_app/app/core/errors/app_failures.dart';
 
 import 'package:tabnews_app/app/features/tabs/domain/repositories/i_tabs_repository.dart';
 import 'package:tabnews_app/app/features/tabs/domain/usecases/post_tab_usecase.dart';
@@ -23,15 +20,16 @@ void main() {
 
   test('should return a TabEntity when the call of repository is successful',
       () async {
-    when(() => mockTabsRepository.postTab(any(), any(), any()))
+    when(() => mockTabsRepository.postTab(any(), any(), any(), any()))
         .thenAnswer((invocation) async => Right(tTabEntity));
 
     final result =
-        await usecase(const PostTabParams('title', 'body', 'status'));
+        await usecase(const PostTabParams('title', 'body', 'status', ''));
 
     expect(result, isA<Right>());
     expect(result, equals(Right(tTabEntity)));
-    verify(() => mockTabsRepository.postTab(any(), any(), any())).called(1);
+    verify(() => mockTabsRepository.postTab(any(), any(), any(), any()))
+        .called(1);
     verifyNoMoreInteractions(mockTabsRepository);
   });
 }

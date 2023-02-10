@@ -5,9 +5,9 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 
-import 'package:tabnews_app/app/features/auth/presenter/widgets/tn_appbar_widget.dart';
+import 'package:tabnews_app/app/widgets/tn_appbar_widget.dart';
 import 'package:tabnews_app/app/features/tabs/domain/entities/tab_entity.dart';
-import 'package:tabnews_app/app/features/tabs/presenter/cubit/tabs_cubit.dart';
+import 'package:tabnews_app/app/features/tabs/presenter/cubits/tabsPage/tabs_cubit.dart';
 import 'package:tabnews_app/app/features/tabs/presenter/widgets/tn_bottom_navigation_bar.dart';
 import 'package:tabnews_app/app/features/tabs/presenter/widgets/tn_user_fab.dart';
 import 'package:tabnews_app/libraries/common/design/app_colors.dart';
@@ -91,10 +91,13 @@ class _TabsPageState extends State<TabsPage> {
                   floatingActionButton: widget.isGuest
                       ? null
                       : TNMenuFAB(
+                          token: widget.token,
                           username: widget.username,
                           icon: AnimatedIcons.list_view,
                           iconColor: AppColors.white,
                           hawkFabMenuController: cubit.hawkFabMenuController,
+                          tabCoins: widget.tabCoins,
+                          tabCash: widget.tabCash,
                           onPressed: () {
                             cubit.hawkFabMenuController.toggleMenu();
                           },

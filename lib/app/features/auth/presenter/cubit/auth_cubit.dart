@@ -13,7 +13,7 @@ import 'package:tabnews_app/app/domain/usecases/get_user_usecase.dart';
 import 'package:tabnews_app/app/features/auth/domain/usecases/login_usecase.dart';
 import 'package:tabnews_app/app/features/auth/domain/usecases/recovery_password_usecase.dart';
 import 'package:tabnews_app/app/features/auth/domain/usecases/register_usecase.dart';
-import 'package:tabnews_app/app/features/auth/presenter/widgets/tn_alert_dialog_widget.dart';
+import 'package:tabnews_app/app/features/auth/presenter/widgets/tn_register_and_recovery_password_alert_dialog_widget.dart';
 
 part 'auth_state.dart';
 

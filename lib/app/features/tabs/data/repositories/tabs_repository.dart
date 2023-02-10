@@ -51,10 +51,11 @@ class TabsRepository implements ITabsRepository {
   }
 
   @override
-  Future<Either<Failure, TabEntity>> postTab(
-      String title, String body, String status) async {
+  Future<Either<Failure, TabEntity>> postTab(String title, String body,
+      String status, String sourceUrl, String slug, String token) async {
     try {
-      final response = await datasource.postTab(title, body, status);
+      final response =
+          await datasource.postTab(title, body, status, sourceUrl, slug, token);
       return Right(response);
     } on ServerException {
       return Left(ServerFailure());

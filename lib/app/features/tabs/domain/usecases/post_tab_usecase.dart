@@ -13,7 +13,8 @@ class PostTabUsecase implements Usecase<TabEntity, PostTabParams> {
 
   @override
   Future<Either<Failure, TabEntity>> call(PostTabParams params) {
-    return repository.postTab(params.title, params.body, params.status);
+    return repository.postTab(params.title, params.body, params.status,
+        params.sourceUrl, params.slug, params.token);
   }
 }
 
@@ -21,8 +22,18 @@ class PostTabParams extends Equatable {
   final String title;
   final String body;
   final String status;
+  final String sourceUrl;
+  final String slug;
+  final String token;
 
-  const PostTabParams(this.title, this.body, this.status);
+  const PostTabParams({
+    required this.title,
+    required this.body,
+    required this.status,
+    required this.sourceUrl,
+    required this.slug,
+    required this.token,
+  });
 
   @override
   List<Object?> get props => [title, body, status];

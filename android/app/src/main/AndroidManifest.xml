@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.tabnews_app">
    <application
-        android:label="tabnews_app"
+        android:label="TabNews"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity

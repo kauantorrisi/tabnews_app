@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:tabnews_app/libraries/common/design/app_colors.dart';
 
@@ -28,11 +29,10 @@ class TNAppBarWidget extends StatelessWidget {
               icon: const Icon(Icons.arrow_back),
             ),
       title: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
             padding: haveCoins
-                ? const EdgeInsets.only(right: 70, left: 80)
+                ? EdgeInsets.only(right: 81.w, left: 81.w)
                 : const EdgeInsets.all(0),
             child: Text(
               'TabNews',
