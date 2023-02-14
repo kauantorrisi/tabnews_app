@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:tabnews_app/app/features/auth/services/auth_prefs_service.dart';
 
+import 'package:tabnews_app/app/features/auth/services/auth_prefs_service.dart';
 import 'package:tabnews_app/libraries/common/design/app_colors.dart';
 
 class SplashPage extends StatefulWidget {
@@ -21,9 +21,6 @@ class _SplashPageState extends State<SplashPage> {
     ]).then((value) => value[0]
         ? Modular.to.pushReplacementNamed('/tabs-module/', arguments: {
             "token": AuthPrefsService.token,
-            "username": AuthPrefsService.username,
-            "tabcoins": AuthPrefsService.tabCoins,
-            "tabcash": AuthPrefsService.tabCash,
             "isGuest": AuthPrefsService.isGuest,
           })
         : Modular.to.pushReplacementNamed('/auth-module/login-page'));

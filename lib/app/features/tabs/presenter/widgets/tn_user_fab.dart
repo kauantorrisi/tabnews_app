@@ -79,7 +79,7 @@ class TNMenuFAB extends StatelessWidget {
         HawkFabMenuItem(
           label: 'Deslogar',
           ontap: () async {
-            await TabsPrefsService.logout();
+            await LogoutPrefsService.logout();
             Modular.to.pushReplacementNamed('/auth-module/login-page');
           },
           icon: const Icon(Icons.exit_to_app),

@@ -4,12 +4,14 @@ import 'package:dio/dio.dart';
 
 import 'package:tabnews_app/app/core/errors/app_exceptions.dart';
 import 'package:tabnews_app/app/features/tabs/data/models/tab_model.dart';
+import 'package:tabnews_app/app/features/tabs/data/models/user_model.dart';
 import 'package:tabnews_app/libraries/common/constants.dart';
 
 abstract class ITabsDatasource {
   Future<List<TabModel>> getAllTabs(int page, int perPage, String strategy);
   Future<TabModel> getTab(String ownerUsername, String slug);
   Future<List<TabModel>> getTabComments(String ownerUsername, String slug);
+  Future<UserModel> getUser(String token);
   Future<TabModel> postTab(String title, String body, String status,
       String sourceUrl, String slug, String token);
 }
@@ -61,6 +63,22 @@ class TabsDatasource implements ITabsDatasource {
       throw ServerException();
     }
     return tabsList;
+  }
+
+  @override
+  Future<UserModel> getUser(String token) async {
+    final UserModel userModel;
+    Response results = await dio.get(getUserUrl,
+        options: Options(
+          headers: {
+            "cookie": "session_id=$token",
+          },
+        ));
+    if (results.statusCode == 200) {
+      return userModel = UserModel.fromJson(results.data);
+    } else {
+      throw ServerException();
+    }
   }
 
   @override

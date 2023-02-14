@@ -16,16 +16,10 @@ class TabsPage extends StatefulWidget {
   const TabsPage({
     super.key,
     required this.token,
-    required this.username,
-    required this.tabCoins,
-    required this.tabCash,
     required this.isGuest,
   });
 
   final String token;
-  final String username;
-  final int tabCoins;
-  final int tabCash;
   final bool isGuest;
 
   @override
@@ -38,6 +32,8 @@ class _TabsPageState extends State<TabsPage> {
   @override
   void initState() {
     cubit.getAllTabs();
+    cubit.getUser(widget.token);
+    setState(() {});
     super.initState();
   }
 
@@ -66,8 +62,8 @@ class _TabsPageState extends State<TabsPage> {
                     child: TNAppBarWidget(
                       haveImage: widget.isGuest ? false : true,
                       haveCoins: widget.isGuest ? false : true,
-                      tabCoins: widget.tabCoins,
-                      tabCash: widget.tabCash,
+                      tabCoins: cubit.userTabCoins ?? 0,
+                      tabCash: cubit.userTabCash ?? 0,
                     ),
                   ),
                   body: Column(
@@ -92,12 +88,12 @@ class _TabsPageState extends State<TabsPage> {
                       ? null
                       : TNMenuFAB(
                           token: widget.token,
-                          username: widget.username,
+                          username: cubit.userUsername ?? 'Username',
                           icon: AnimatedIcons.list_view,
                           iconColor: AppColors.white,
                           hawkFabMenuController: cubit.hawkFabMenuController,
-                          tabCoins: widget.tabCoins,
-                          tabCash: widget.tabCash,
+                          tabCoins: cubit.userTabCoins ?? 0,
+                          tabCash: cubit.userTabCash ?? 0,
                           onPressed: () {
                             cubit.hawkFabMenuController.toggleMenu();
                           },
@@ -150,8 +146,6 @@ class _TabsPageState extends State<TabsPage> {
             '/tabs-module/pressed-tab-page',
             arguments: {
               "cubit": cubit,
-              "tabCoins": widget.tabCoins,
-              "tabCash": widget.tabCash,
               "token": widget.token,
               "isGuest": widget.isGuest,
             },

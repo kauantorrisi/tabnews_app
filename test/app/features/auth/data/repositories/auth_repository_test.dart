@@ -7,7 +7,7 @@ import 'package:tabnews_app/app/core/errors/app_failures.dart';
 import 'package:tabnews_app/app/features/auth/data/datasources/auth_datasource.dart';
 import 'package:tabnews_app/app/features/auth/data/repositories/auth_repository.dart';
 
-import '../../../../mocks/t_recovery_password_model.dart';
+import '../../mocks/t_recovery_password_model.dart';
 import '../../mocks/t_login_model.dart';
 
 class MockAuthDatasource extends Mock implements IAuthDatasource {}

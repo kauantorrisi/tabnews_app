@@ -8,8 +8,8 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:tabnews_app/app/core/errors/app_failures.dart';
 import 'package:tabnews_app/app/features/auth/domain/entities/login_entity.dart';
 import 'package:tabnews_app/app/features/auth/domain/entities/recovery_password_entity.dart';
-import 'package:tabnews_app/app/domain/entities/user_entity.dart';
-import 'package:tabnews_app/app/domain/usecases/get_user_usecase.dart';
+import 'package:tabnews_app/app/features/tabs/domain/entities/user_entity.dart';
+import 'package:tabnews_app/app/features/tabs/domain/usecases/get_user_usecase.dart';
 import 'package:tabnews_app/app/features/auth/domain/usecases/login_usecase.dart';
 import 'package:tabnews_app/app/features/auth/domain/usecases/recovery_password_usecase.dart';
 import 'package:tabnews_app/app/features/auth/domain/usecases/register_usecase.dart';
@@ -78,20 +78,12 @@ class AuthCubit extends Cubit<AuthState> {
       },
       (r) async {
         loginEntity = r;
-        await getUser(loginEntity!.token);
         AuthPrefsService.save(
           token: loginEntity!.token,
-          username: userEntity!.username,
-          email: userEntity!.email,
-          tabCoins: userEntity!.tabcoins,
-          tabCash: userEntity!.tabcash,
           isGuest: isGuest,
         );
         Modular.to.pushReplacementNamed('/tabs-module/', arguments: {
           "token": loginEntity!.token,
-          "username": userEntity!.username,
-          "tabcoins": userEntity!.tabcoins,
-          "tabcash": userEntity!.tabcash,
           "isGuest": isGuest,
         });
         loginEmailController.text = '';
@@ -175,14 +167,6 @@ class AuthCubit extends Cubit<AuthState> {
       }
       recoveryPasswordEntity = r;
       recoveryPasswordController.text = '';
-    });
-  }
-
-  Future<void> getUser(String token) async {
-    emit(LoginLoading());
-    final result = await getUserUsecase(UserParams(token));
-    result.fold((l) => emit(LoginError()), (r) {
-      userEntity = r;
     });
   }
 }

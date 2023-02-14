@@ -1,6 +1,6 @@
 import 'package:flutter_modular/flutter_modular.dart';
 
-import 'package:tabnews_app/app/domain/usecases/get_user_usecase.dart';
+import 'package:tabnews_app/app/features/tabs/domain/usecases/get_user_usecase.dart';
 import 'package:tabnews_app/app/features/tabs/data/datasources/tabs_datasource.dart';
 import 'package:tabnews_app/app/features/tabs/data/repositories/tabs_repository.dart';
 import 'package:tabnews_app/app/features/tabs/domain/usecases/get_all_tabs_usecase.dart';
@@ -38,9 +38,6 @@ class TabsModule extends Module {
           Modular.initialRoute,
           child: (context, args) => TabsPage(
             token: args.data['token'],
-            username: args.data['username'],
-            tabCoins: args.data['tabcoins'],
-            tabCash: args.data['tabcash'],
             isGuest: args.data['isGuest'],
           ),
         ),
@@ -48,8 +45,6 @@ class TabsModule extends Module {
           '/pressed-tab-page',
           child: (context, args) => PressedTabPage(
             cubit: args.data['cubit'],
-            tabCoins: args.data['tabCoins'],
-            tabCash: args.data['tabCash'],
             token: args.data['token'],
             isGuest: args.data['isGuest'],
           ),

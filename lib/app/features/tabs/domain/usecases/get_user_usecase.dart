@@ -3,11 +3,11 @@ import 'package:equatable/equatable.dart';
 
 import 'package:tabnews_app/app/core/errors/app_failures.dart';
 import 'package:tabnews_app/app/core/usecases/usecase.dart';
-import 'package:tabnews_app/app/domain/entities/user_entity.dart';
-import 'package:tabnews_app/app/domain/repositories/i_app_repository.dart';
+import 'package:tabnews_app/app/features/tabs/data/repositories/tabs_repository.dart';
+import 'package:tabnews_app/app/features/tabs/domain/entities/user_entity.dart';
 
 class GetUserUsecase implements Usecase<UserEntity, UserParams> {
-  final IAppRepository repository;
+  final TabsRepository repository;
 
   GetUserUsecase(this.repository);
   @override

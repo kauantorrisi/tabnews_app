@@ -12,15 +12,11 @@ class PressedTabPage extends StatefulWidget {
   const PressedTabPage({
     super.key,
     required this.cubit,
-    this.tabCoins,
-    this.tabCash,
     required this.token,
     required this.isGuest,
   });
 
   final TabsCubit cubit;
-  final int? tabCoins;
-  final int? tabCash;
   final String token;
   final bool isGuest;
 
@@ -32,6 +28,7 @@ class _PressedTabPageState extends State<PressedTabPage> {
   @override
   void dispose() {
     widget.cubit.getAllTabs();
+    // TODO mover essa chamada getUser dentro do botão de enviar comentário, após realizar o comentário
     if (!widget.isGuest) {
       widget.cubit.getUser(widget.token);
     }
@@ -49,8 +46,8 @@ class _PressedTabPageState extends State<PressedTabPage> {
             TNAppBarWidget(
               haveImage: false,
               haveCoins: widget.isGuest ? false : true,
-              tabCoins: widget.tabCoins,
-              tabCash: widget.tabCash,
+              tabCoins: widget.cubit.userTabCoins!,
+              tabCash: widget.cubit.userTabCash!,
             ),
             _ownerOfTab(),
             Expanded(
@@ -200,6 +197,11 @@ class _PressedTabPageState extends State<PressedTabPage> {
               IconButton(
                 onPressed: () {},
                 icon: Icon(Icons.share, color: AppColors.white),
+              ),
+              const Spacer(flex: 2),
+              IconButton(
+                onPressed: () {},
+                icon: Icon(Icons.bookmark_add_outlined, color: AppColors.white),
               ),
               const Spacer(flex: 2),
             ],
