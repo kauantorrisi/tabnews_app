@@ -46,8 +46,8 @@ class _PressedTabPageState extends State<PressedTabPage> {
             TNAppBarWidget(
               haveImage: false,
               haveCoins: widget.isGuest ? false : true,
-              tabCoins: widget.cubit.userTabCoins!,
-              tabCash: widget.cubit.userTabCash!,
+              tabCoins: widget.cubit.userEntity!.tabcoins,
+              tabCash: widget.cubit.userEntity!.tabcash,
             ),
             _ownerOfTab(),
             Expanded(

@@ -5,11 +5,11 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 
-import 'package:tabnews_app/app/widgets/tn_appbar_widget.dart';
 import 'package:tabnews_app/app/features/tabs/domain/entities/tab_entity.dart';
 import 'package:tabnews_app/app/features/tabs/presenter/cubits/tabsPage/tabs_cubit.dart';
 import 'package:tabnews_app/app/features/tabs/presenter/widgets/tn_bottom_navigation_bar.dart';
 import 'package:tabnews_app/app/features/tabs/presenter/widgets/tn_user_fab.dart';
+import 'package:tabnews_app/app/widgets/tn_appbar_widget.dart';
 import 'package:tabnews_app/libraries/common/design/app_colors.dart';
 
 class TabsPage extends StatefulWidget {
@@ -31,9 +31,10 @@ class _TabsPageState extends State<TabsPage> {
 
   @override
   void initState() {
-    cubit.getAllTabs();
-    cubit.getUser(widget.token);
-    setState(() {});
+    setState(() {
+      cubit.getAllTabs();
+      cubit.getUser(widget.token);
+    });
     super.initState();
   }
 
@@ -43,10 +44,6 @@ class _TabsPageState extends State<TabsPage> {
       return BlocBuilder<TabsCubit, TabsState>(
         bloc: cubit,
         builder: (context, state) {
-          final List<TabEntity> tabList = cubit.isInRelevantPage == true
-              ? cubit.relevantTabsList
-              : cubit.recentTabsList;
-
           return LazyLoadScrollView(
             onEndOfPage: () async {
               await cubit.loadMoreTabs();
@@ -62,8 +59,8 @@ class _TabsPageState extends State<TabsPage> {
                     child: TNAppBarWidget(
                       haveImage: widget.isGuest ? false : true,
                       haveCoins: widget.isGuest ? false : true,
-                      tabCoins: cubit.userTabCoins ?? 0,
-                      tabCash: cubit.userTabCash ?? 0,
+                      tabCoins: cubit.userEntity?.tabcoins ?? 0,
+                      tabCash: cubit.userEntity?.tabcash ?? 0,
                     ),
                   ),
                   body: Column(
@@ -71,9 +68,9 @@ class _TabsPageState extends State<TabsPage> {
                       if (state is TabsLoaded)
                         Expanded(
                           child: ListView.builder(
-                            itemCount: tabList.length,
+                            itemCount: cubit.tabsList.length,
                             itemBuilder: (context, index) {
-                              return _tabCard(tabList, index);
+                              return _tabCard(cubit.tabsList, index);
                             },
                           ),
                         ),
@@ -88,12 +85,12 @@ class _TabsPageState extends State<TabsPage> {
                       ? null
                       : TNMenuFAB(
                           token: widget.token,
-                          username: cubit.userUsername ?? 'Username',
+                          username: cubit.userEntity?.username ?? 'Username',
                           icon: AnimatedIcons.list_view,
                           iconColor: AppColors.white,
                           hawkFabMenuController: cubit.hawkFabMenuController,
-                          tabCoins: cubit.userTabCoins ?? 0,
-                          tabCash: cubit.userTabCash ?? 0,
+                          tabCoins: cubit.userEntity?.tabcoins ?? 0,
+                          tabCash: cubit.userEntity?.tabcash ?? 0,
                           onPressed: () {
                             cubit.hawkFabMenuController.toggleMenu();
                           },

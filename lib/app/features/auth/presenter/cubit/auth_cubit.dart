@@ -23,7 +23,6 @@ class AuthCubit extends Cubit<AuthState> {
     this.loginUsecase,
     this.registerUsecase,
     this.recoveryPasswordUsecase,
-    this.getUserUsecase,
   ) : super(AuthInitial());
 
   final TextEditingController loginEmailController = TextEditingController();
@@ -40,7 +39,6 @@ class AuthCubit extends Cubit<AuthState> {
 
   final LoginUsecase loginUsecase;
   final RegisterUsecase registerUsecase;
-  final GetUserUsecase getUserUsecase;
   final RecoveryPasswordUsecase recoveryPasswordUsecase;
 
   LoginEntity? loginEntity;

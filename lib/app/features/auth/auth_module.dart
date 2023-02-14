@@ -19,11 +19,10 @@ class AuthModule extends Module {
         Bind.lazySingleton((i) => LoginUsecase(i())),
         Bind.lazySingleton((i) => RegisterUsecase(i())),
         Bind.lazySingleton((i) => RecoveryPasswordUsecase(i())),
-        Bind.lazySingleton((i) => GetUserUsecase(i()))
       ];
 
   List<Bind> get cubits => [
-        Bind.lazySingleton((i) => AuthCubit(i(), i(), i(), i())),
+        Bind.lazySingleton((i) => AuthCubit(i(), i(), i())),
       ];
 
   @override
