@@ -203,7 +203,7 @@ class LoginPage extends StatelessWidget {
             ),
             TextButton(
               onPressed: () =>
-                  Modular.to.pushReplacementNamed('/register-page'),
+                  Modular.to.pushReplacementNamed('/auth-module/register-page'),
               child: const Text('Registre-se aqui!'),
             )
           ],
@@ -216,8 +216,9 @@ class LoginPage extends StatelessWidget {
               style: TextStyle(color: AppColors.white),
             ),
             TextButton(
-              onPressed: () => Modular.to
-                  .pushNamed('/recovery-password-page', arguments: cubit),
+              onPressed: () => Modular.to.pushNamed(
+                  '/auth-module/recovery-password-page',
+                  arguments: cubit),
               child: const Text('Recupere-a aqui!'),
             )
           ],

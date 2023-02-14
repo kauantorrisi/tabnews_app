@@ -14,6 +14,7 @@ import 'package:tabnews_app/app/features/auth/domain/usecases/login_usecase.dart
 import 'package:tabnews_app/app/features/auth/domain/usecases/recovery_password_usecase.dart';
 import 'package:tabnews_app/app/features/auth/domain/usecases/register_usecase.dart';
 import 'package:tabnews_app/app/features/auth/presenter/widgets/tn_register_and_recovery_password_alert_dialog_widget.dart';
+import 'package:tabnews_app/app/features/auth/services/auth_prefs_service.dart';
 
 part 'auth_state.dart';
 
@@ -78,6 +79,14 @@ class AuthCubit extends Cubit<AuthState> {
       (r) async {
         loginEntity = r;
         await getUser(loginEntity!.token);
+        AuthPrefsService.save(
+          token: loginEntity!.token,
+          username: userEntity!.username,
+          email: userEntity!.email,
+          tabCoins: userEntity!.tabcoins,
+          tabCash: userEntity!.tabcash,
+          isGuest: isGuest,
+        );
         Modular.to.pushReplacementNamed('/tabs-module/', arguments: {
           "token": loginEntity!.token,
           "username": userEntity!.username,

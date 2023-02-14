@@ -4,6 +4,7 @@ import 'package:tabnews_app/app/data/repositories/app_repository.dart';
 import 'package:tabnews_app/app/domain/usecases/get_user_usecase.dart';
 
 import 'package:tabnews_app/app/features/auth/auth_module.dart';
+import 'package:tabnews_app/app/features/auth/presenter/pages/splash_page.dart';
 import 'package:tabnews_app/app/features/tabs/tabs_module.dart';
 
 class AppModule extends Module {
@@ -18,7 +19,9 @@ class AppModule extends Module {
 
   @override
   List<ModularRoute> get routes => [
-        ModuleRoute(Modular.initialRoute, module: AuthModule()),
+        ChildRoute(Modular.initialRoute,
+            child: (context, args) => const SplashPage()),
+        ModuleRoute('/auth-module/', module: AuthModule()),
         ModuleRoute('/tabs-module/', module: TabsModule()),
       ];
 }

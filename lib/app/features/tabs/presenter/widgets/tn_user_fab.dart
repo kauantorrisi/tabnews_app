@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:hawk_fab_menu/hawk_fab_menu.dart';
+import 'package:tabnews_app/app/features/tabs/services/tabs_prefs_service.dart';
 
 import 'package:tabnews_app/libraries/common/design/app_colors.dart';
 
@@ -77,8 +78,9 @@ class TNMenuFAB extends StatelessWidget {
         ),
         HawkFabMenuItem(
           label: 'Deslogar',
-          ontap: () {
-            Modular.to.pushReplacementNamed(Modular.initialRoute);
+          ontap: () async {
+            await TabsPrefsService.logout();
+            Modular.to.pushReplacementNamed('/auth-module/login-page');
           },
           icon: const Icon(Icons.exit_to_app),
           color: AppColors.red,

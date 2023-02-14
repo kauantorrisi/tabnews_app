@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tabnews_app/libraries/common/design/app_colors.dart';
 
 class TNTextButtonWidget extends StatelessWidget {
   const TNTextButtonWidget({

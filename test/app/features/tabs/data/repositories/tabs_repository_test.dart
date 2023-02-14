@@ -98,10 +98,12 @@ void main() {
   group('postTab', () {
     test('should return a TabModel when the call of datasource is successful',
         () async {
-      when(() => mockTabsDatasource.postTab(any(), any(), any(), any()))
+      when(() => mockTabsDatasource.postTab(
+              any(), any(), any(), any(), any(), any()))
           .thenAnswer((invocation) async => tTabModel);
 
-      final result = await repository.postTab('title', 'body', 'status', '');
+      final result =
+          await repository.postTab('title', 'body', 'status', '', '', '');
 
       expect(result, Right(tTabModel));
     });
@@ -109,10 +111,12 @@ void main() {
     test(
         'should return a ServerFailure when the call of datasource is unsuccessful',
         () async {
-      when(() => mockTabsDatasource.postTab(any(), any(), any(), any()))
+      when(() => mockTabsDatasource.postTab(
+              any(), any(), any(), any(), any(), any()))
           .thenThrow(ServerException());
 
-      final result = await repository.postTab('title', 'body', 'status', '');
+      final result =
+          await repository.postTab('title', 'body', 'status', '', '', '');
 
       expect(result, Left(ServerFailure()));
     });

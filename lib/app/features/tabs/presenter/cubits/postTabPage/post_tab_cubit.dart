@@ -1,6 +1,8 @@
+import 'package:flutter/material.dart';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
+
 import 'package:tabnews_app/app/features/tabs/domain/usecases/post_tab_usecase.dart';
 import 'package:tabnews_app/libraries/common/constants.dart';
 

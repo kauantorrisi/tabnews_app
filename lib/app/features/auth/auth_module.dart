@@ -10,6 +10,7 @@ import 'package:tabnews_app/app/features/auth/presenter/cubit/auth_cubit.dart';
 import 'package:tabnews_app/app/features/auth/presenter/pages/login_page.dart';
 import 'package:tabnews_app/app/features/auth/presenter/pages/recovery_password_page.dart';
 import 'package:tabnews_app/app/features/auth/presenter/pages/register_page.dart';
+import 'package:tabnews_app/app/features/auth/presenter/pages/splash_page.dart';
 
 class AuthModule extends Module {
   List<Bind> get services => [
@@ -30,7 +31,9 @@ class AuthModule extends Module {
 
   @override
   List<ModularRoute> get routes => [
-        ChildRoute(Modular.initialRoute, child: (context, args) => LoginPage()),
+        ChildRoute(Modular.initialRoute,
+            child: (context, args) => const SplashPage()),
+        ChildRoute('/login-page', child: (context, args) => LoginPage()),
         ChildRoute('/register-page', child: (context, args) => RegisterPage()),
         ChildRoute('/recovery-password-page',
             child: (context, args) => RecoveryPasswordPage(
