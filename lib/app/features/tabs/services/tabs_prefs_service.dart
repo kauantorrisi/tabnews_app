@@ -1,7 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LogoutPrefsService {
-  // LOGIN
   static const String _key = 'login';
 
   static Future logout() async {
@@ -9,5 +8,3 @@ class LogoutPrefsService {
     prefs.remove(_key);
   }
 }
-
-class TabsPrefsService {}

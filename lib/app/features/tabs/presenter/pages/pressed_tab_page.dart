@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,61 +13,67 @@ class PressedTabPage extends StatefulWidget {
   const PressedTabPage({
     super.key,
     required this.cubit,
-    required this.token,
     required this.isGuest,
   });
 
   final TabsCubit cubit;
-  final String token;
   final bool isGuest;
 
   @override
   State<PressedTabPage> createState() => _PressedTabPageState();
 }
 
+// TODO mover essa chamada getUser dentro do botão de enviar comentário, após realizar o comentário
+// if (!widget.isGuest) {
+//   widget.cubit.getUser(widget.token);
+// }
+
 class _PressedTabPageState extends State<PressedTabPage> {
   @override
-  void dispose() {
-    widget.cubit.getAllTabs();
-    // TODO mover essa chamada getUser dentro do botão de enviar comentário, após realizar o comentário
-    if (!widget.isGuest) {
-      widget.cubit.getUser(widget.token);
+  void initState() {
+    if (widget.cubit.savedTabsList.contains(widget.cubit.pressedTab)) {
+      widget.cubit.tabIsSaved = true;
+    } else {
+      widget.cubit.tabIsSaved = false;
     }
-    super.dispose();
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: AppColors.grey,
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TNAppBarWidget(
-              haveImage: false,
-              haveCoins: widget.isGuest ? false : true,
-              tabCoins: widget.cubit.userEntity!.tabcoins,
-              tabCash: widget.cubit.userEntity!.tabcash,
-            ),
-            _ownerOfTab(),
-            Expanded(
-              child: CustomScrollView(
-                slivers: [
-                  SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        return _body();
-                      },
-                      childCount: 1,
-                    ),
-                  ),
-                ],
+    return BlocBuilder<TabsCubit, TabsState>(
+      bloc: widget.cubit,
+      builder: (context, state) {
+        return Scaffold(
+          backgroundColor: AppColors.grey,
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TNAppBarWidget(
+                haveImage: false,
+                haveCoins: widget.isGuest ? false : true,
+                tabCoins: widget.cubit.userEntity!.tabcoins,
+                tabCash: widget.cubit.userEntity!.tabcash,
               ),
-            ),
-          ],
-        ),
-      ),
+              _ownerOfTab(),
+              Expanded(
+                child: CustomScrollView(
+                  slivers: [
+                    SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (context, index) {
+                          return _body();
+                        },
+                        childCount: 1,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -85,7 +92,7 @@ class _PressedTabPageState extends State<PressedTabPage> {
           ),
         ),
         _convertTabBodyToMarkdown(data: widget.cubit.pressedTab!.body),
-        _tabStatusBar(),
+        _tabActionsBar(),
         _commentsOfTab(),
       ],
     );
@@ -150,7 +157,7 @@ class _PressedTabPageState extends State<PressedTabPage> {
     );
   }
 
-  Widget _tabStatusBar() {
+  Widget _tabActionsBar() {
     return Column(
       children: [
         if (widget.isGuest == false)
@@ -200,8 +207,13 @@ class _PressedTabPageState extends State<PressedTabPage> {
               ),
               const Spacer(flex: 2),
               IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.bookmark_add_outlined, color: AppColors.white),
+                onPressed: () {
+                  widget.cubit.toggleTabIsSaved();
+                  setState(() {});
+                },
+                icon: widget.cubit.tabIsSaved
+                    ? Icon(Icons.bookmark_added, color: AppColors.white)
+                    : Icon(Icons.bookmark_add_outlined, color: AppColors.white),
               ),
               const Spacer(flex: 2),
             ],

@@ -8,13 +8,12 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:tabnews_app/app/core/errors/app_failures.dart';
 import 'package:tabnews_app/app/features/auth/domain/entities/login_entity.dart';
 import 'package:tabnews_app/app/features/auth/domain/entities/recovery_password_entity.dart';
-import 'package:tabnews_app/app/features/tabs/domain/entities/user_entity.dart';
-import 'package:tabnews_app/app/features/tabs/domain/usecases/get_user_usecase.dart';
 import 'package:tabnews_app/app/features/auth/domain/usecases/login_usecase.dart';
 import 'package:tabnews_app/app/features/auth/domain/usecases/recovery_password_usecase.dart';
 import 'package:tabnews_app/app/features/auth/domain/usecases/register_usecase.dart';
 import 'package:tabnews_app/app/features/auth/presenter/widgets/tn_register_and_recovery_password_alert_dialog_widget.dart';
 import 'package:tabnews_app/app/features/auth/services/auth_prefs_service.dart';
+import 'package:tabnews_app/app/features/tabs/domain/entities/user_entity.dart';
 
 part 'auth_state.dart';
 

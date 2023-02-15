@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:hawk_fab_menu/hawk_fab_menu.dart';
-import 'package:tabnews_app/app/features/tabs/services/tabs_prefs_service.dart';
 
+import 'package:tabnews_app/app/features/tabs/domain/entities/tab_entity.dart';
+import 'package:tabnews_app/app/features/tabs/services/tabs_prefs_service.dart';
 import 'package:tabnews_app/libraries/common/design/app_colors.dart';
 
 class TNMenuFAB extends StatelessWidget {
@@ -17,6 +18,7 @@ class TNMenuFAB extends StatelessWidget {
     required this.tabCoins,
     required this.tabCash,
     required this.token,
+    required this.savedTabsList,
   });
 
   final Function()? onPressed;
@@ -27,6 +29,7 @@ class TNMenuFAB extends StatelessWidget {
   final String token;
   final int tabCoins;
   final int tabCash;
+  final List<TabEntity> savedTabsList;
 
   @override
   Widget build(BuildContext context) {

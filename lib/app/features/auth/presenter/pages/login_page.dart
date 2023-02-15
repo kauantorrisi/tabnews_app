@@ -71,11 +71,11 @@ class LoginPage extends StatelessWidget {
               enabledBorderColor:
                   state is LoginEmailException || state is LoginError
                       ? AppColors.red
-                      : AppColors.black,
+                      : Colors.transparent,
               focusedBorderColor:
                   state is LoginEmailException || state is LoginError
                       ? AppColors.red
-                      : AppColors.black,
+                      : Colors.transparent,
               prefixIcon: Icons.email,
               controller: cubit.loginEmailController,
               obscureText: false,
@@ -87,11 +87,11 @@ class LoginPage extends StatelessWidget {
               enabledBorderColor:
                   state is LoginPasswordException || state is LoginError
                       ? AppColors.red
-                      : AppColors.black,
+                      : Colors.transparent,
               focusedBorderColor:
                   state is LoginPasswordException || state is LoginError
                       ? AppColors.red
-                      : AppColors.black,
+                      : Colors.transparent,
               prefixIcon: Icons.lock,
               suffixIcon:
                   cubit.obscureText ? Icons.visibility : Icons.visibility_off,

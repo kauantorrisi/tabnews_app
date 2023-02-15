@@ -45,7 +45,6 @@ class TabsModule extends Module {
           '/pressed-tab-page',
           child: (context, args) => PressedTabPage(
             cubit: args.data['cubit'],
-            token: args.data['token'],
             isGuest: args.data['isGuest'],
           ),
         ),

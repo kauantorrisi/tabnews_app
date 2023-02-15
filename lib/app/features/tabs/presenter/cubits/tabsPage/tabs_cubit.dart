@@ -26,7 +26,10 @@ class TabsCubit extends Cubit<TabsState> {
   final GetTabUsecase getTabUsecase;
   final GetUserUsecase getUserUsecase;
 
+  HawkFabMenuController hawkFabMenuController = HawkFabMenuController();
+
   List<TabEntity> tabsList = [];
+  List<TabEntity> savedTabsList = [];
   List<TabEntity> tabComments = [];
   List<TabEntity> commentsOfTabComments = [];
   int? relevantPage = 1;
@@ -34,12 +37,24 @@ class TabsCubit extends Cubit<TabsState> {
   int page = 1;
 
   bool isInRelevantPage = false;
+  bool isInSavedTabsPage = false;
+  bool tabIsSaved = false;
   TabEntity? pressedTab;
   UserEntity? userEntity;
 
   bool toggleIsInRelevantPage(bool value) => isInRelevantPage = value;
 
-  HawkFabMenuController hawkFabMenuController = HawkFabMenuController();
+  bool toggleIsInSavedTabsPage(bool value) => isInSavedTabsPage = value;
+
+  void toggleTabIsSaved() {
+    if (tabIsSaved == true) {
+      tabIsSaved = false;
+      savedTabsList.remove(pressedTab);
+    } else {
+      tabIsSaved = true;
+      savedTabsList.add(pressedTab!);
+    }
+  }
 
   Future<void> loadMoreTabs() async {
     page += 1;
@@ -51,7 +66,7 @@ class TabsCubit extends Cubit<TabsState> {
     results.forEach((tabList) {
       tabsList.addAll(tabList);
     });
-    results.fold((l) => emit(TabsError()), (r) => emit(TabsLoaded()));
+    results.fold((l) => emit(TabsError()), (r) => emit(TabsInitial()));
   }
 
   Future<void> getAllTabs() async {
@@ -65,22 +80,28 @@ class TabsCubit extends Cubit<TabsState> {
     results.forEach((tabList) {
       tabsList.addAll(tabList);
     });
-    results.fold((l) => emit(TabsError()), (r) => emit(TabsLoaded()));
+    results.fold((l) => emit(TabsError()), (r) => emit(TabsInitial()));
   }
 
   Future<void> getTab({required int index}) async {
     emit(TabsLoading());
-    final result = await getTabUsecase(GetTabParams(
-        ownerUsername: tabsList[index].ownerUsername,
-        slug: tabsList[index].slug));
+    final result = await getTabUsecase(
+      GetTabParams(
+        ownerUsername: isInSavedTabsPage
+            ? savedTabsList[index].ownerUsername
+            : tabsList[index].ownerUsername,
+        slug: isInSavedTabsPage
+            ? savedTabsList[index].slug
+            : tabsList[index].slug,
+      ),
+    );
     result.fold((l) => emit(TabsError()), (r) {
-      emit(TabLoaded());
       pressedTab = r;
+      emit(TabsInitial());
     });
   }
 
   Future<void> getTabComments() async {
-    emit(TabsLoading());
     tabComments = [];
     final results = await getTabCommentsUsecase(GetTabCommentsParams(
         ownerUsername: pressedTab!.ownerUsername, slug: pressedTab!.slug));
@@ -90,10 +111,10 @@ class TabsCubit extends Cubit<TabsState> {
   }
 
   Future<void> getUser(String token) async {
-    emit(TabsLoading());
     final result = await getUserUsecase(UserParams(token));
     result.fold((l) => emit(TabsError()), (r) {
       userEntity = r;
+      emit(TabsInitial());
     });
   }
 }

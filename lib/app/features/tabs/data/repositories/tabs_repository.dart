@@ -22,6 +22,9 @@ class TabsRepository implements ITabsRepository {
     } on ServerException {
       return Left(ServerFailure());
     } catch (e) {
+      if (e is DioError) {
+        return Left(ServerFailure(e.response?.data["message"]));
+      }
       rethrow;
     }
   }
@@ -35,6 +38,9 @@ class TabsRepository implements ITabsRepository {
     } on ServerException {
       return Left(ServerFailure());
     } catch (e) {
+      if (e is DioError) {
+        return Left(ServerFailure(e.response?.data["message"]));
+      }
       rethrow;
     }
   }

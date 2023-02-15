@@ -7,10 +7,6 @@ abstract class TabsState extends Equatable {
 
 class TabsInitial extends TabsState {}
 
-class TabsLoaded extends TabsState {}
-
 class TabsError extends TabsState {}
 
 class TabsLoading extends TabsState {}
-
-class TabLoaded extends TabsState {}

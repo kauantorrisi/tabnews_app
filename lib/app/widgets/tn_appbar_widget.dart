@@ -23,7 +23,7 @@ class TNAppBarWidget extends StatelessWidget {
     return AppBar(
       backgroundColor: AppColors.darkGrey,
       leading: haveImage
-          ? Image.asset('lib/assets/images/TabNewsIcon.png', height: 24)
+          ? Image.asset('lib/assets/images/TabNewsIcon.png')
           : IconButton(
               onPressed: () => Modular.to.pop(),
               icon: const Icon(Icons.arrow_back),
@@ -59,7 +59,7 @@ class TNAppBarWidget extends StatelessWidget {
     return Row(
       children: [
         Container(
-          margin: const EdgeInsets.only(right: 5),
+          margin: EdgeInsets.only(right: 3.9.w),
           height: 10,
           width: 10,
           decoration: BoxDecoration(
@@ -68,7 +68,7 @@ class TNAppBarWidget extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(right: 8),
+          padding: EdgeInsets.only(right: 8.w),
           child: Text(
             tabCoinsOrTabCash.toString(),
             style: const TextStyle(fontSize: 14),

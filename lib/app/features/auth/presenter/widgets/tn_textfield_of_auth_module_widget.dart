@@ -47,12 +47,12 @@ class TNTextfieldOfAuthModuleWidget extends StatelessWidget {
           filled: true,
           fillColor: AppColors.white,
           enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: enabledBorderColor, width: 2),
-            borderRadius: BorderRadius.circular(50.0),
+            borderSide: BorderSide(color: enabledBorderColor, width: 1),
+            borderRadius: BorderRadius.circular(16),
           ),
           focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: focusedBorderColor, width: 2),
-            borderRadius: BorderRadius.circular(50.0),
+            borderSide: BorderSide(color: focusedBorderColor, width: 1),
+            borderRadius: BorderRadius.circular(16),
           ),
           prefixIcon: Icon(
             prefixIcon,

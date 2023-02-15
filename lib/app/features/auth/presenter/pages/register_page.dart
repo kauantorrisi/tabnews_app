@@ -173,9 +173,9 @@ class RegisterPage extends StatelessWidget {
             FocusScope.of(context).unfocus();
             await cubit.register(context);
           },
-          color: state is RegisterLoading
+          color: textfieldsIsEmpty
               ? AppColors.grey
-              : textfieldsIsEmpty
+              : state is RegisterLoading
                   ? AppColors.darkGreen
                   : AppColors.green,
           widget: state is RegisterLoading
