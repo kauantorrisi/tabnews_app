@@ -13,11 +13,10 @@ __(Vou adicionar assim que eu terminar o app, ainda falta bastante coisas hahaha
 - [x] Pull to refresh;
 - [x] Visualizar publicações (Recentes e relevantes);
 - [x] Visualizar todos os comentários de um post/tab;
-- [ ] Login;
-- [ ] Cadastro;
+- [x] Login;
+- [x] Cadastro;
 - [ ] Perfil;
 - [ ] Configurações;
-- [ ] Poder alterar o tamanho das fontes, caso queira aumentar ou diminuir.
 - [ ] Criar uma barra de pesquisa para você poder pesquisar por tópicos ou pelos nomes dos posts/tabs.
 - [ ] Visualizar perfis de outras pessoas;
 - [ ] Comentar nas publicações;
@@ -27,4 +26,4 @@ __(Vou adicionar assim que eu terminar o app, ainda falta bastante coisas hahaha
 - [ ] Criar, editar e apagar as suas próprias publicações;
 - [x] Tema escuro;
 - [ ] Tema claro;
-- [ ] Poder salvar os posts/tabs.
+- [x] Poder salvar os posts/tabs.
